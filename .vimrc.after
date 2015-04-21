@@ -1,0 +1,211 @@
+let g:javascript_conceal_function   = "ƒ"
+
+" Include user's local pre .vimrc config
+if filereadable(expand("~/.vimrc.pre"))
+  source ~/.vimrc.pre
+endif
+
+let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
+
+set nocompatible
+set noswapfile
+
+set number
+set ruler
+syntax on
+
+"shut the fuck up
+set vb
+
+" Set encoding
+set encoding=utf-8
+
+" Whitespace stuff
+set nowrap
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+set list listchars=tab:\ \ ,trail:·
+
+autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
+
+" Searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" Tab completion
+set wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
+
+" Status bar
+set laststatus=2
+
+" Without setting this, ZoomWin restores windows in a way that causes
+" equalalways behavior to be triggered the next time CommandT is used.
+" This is likely a bludgeon to solve some other issue, but it works
+set noequalalways
+
+" NERDTree configuration
+let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
+map <Leader>n :NERDTreeToggle<CR>
+
+" Command-T configuration
+let g:CommandTMaxHeight=20
+
+" CTags
+map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
+map <C-\> :tnext<CR>
+
+" Gundo configuration
+nmap <F5> :GundoToggle<CR>
+imap <F5> <ESC>:GundoToggle<CR>
+
+" Remember last location in file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal g'\"" | endif
+endif
+
+function s:setupWrapping()
+  set wrap
+  set wrapmargin=2
+  set textwidth=72
+endfunction
+
+function s:setupMarkup()
+  call s:setupWrapping()
+  map <buffer> <Leader>p :Hammer<CR>
+endfunction
+
+" Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
+au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
+
+" md, markdown, and mk are markdown and define buffer-local preview
+au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
+
+" add json syntax highlighting
+au BufNewFile,BufRead *.json set ft=javascript
+
+au BufRead,BufNewFile *.txt call s:setupWrapping()
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+" load the plugin and indent settings for the detected filetype
+filetype plugin indent on
+
+" Opens an edit command with the path of the currently edited file filled in
+" Normal mode: <Leader>e
+map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+
+" Opens a tab edit command with the path of the currently edited file filled in
+" Normal mode: <Leader>t
+map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
+
+" Inserts the path of the currently edited file into a command
+" Command mode: Ctrl+P
+cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+
+" Unimpaired configuration
+" Bubble single lines
+nmap <C-Up> [e
+nmap <C-Down> ]e
+nmap <C-k> [e
+nmap <C-j> ]e
+
+" Bubble multiple lines
+vmap <C-Up> [egv
+vmap <C-Down> ]egv
+
+vmap <C-l> <D-]>
+vmap <C-h> <D-[>
+
+" Bubble multiple lines with j & k
+vmap <C-k> [egv
+vmap <C-j> ]egv
+
+" Bubble left and right with h & l
+nmap <C-l> v <D-]>
+nmap <C-h> v <D-[>
+
+" Enable syntastic syntax checking
+let g:syntastic_enable_signs=1
+let g:syntastic_quiet_warnings=1
+
+" gist-vim defaults
+if has("mac")
+  let g:gist_clip_command = 'pbcopy'
+elseif has("unix")
+  let g:gist_clip_command = 'xclip -selection clipboard'
+endif
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
+
+" Use modeline overrides
+set modeline
+set modelines=10
+
+" Default color scheme
+color solarized
+set background=dark
+
+ "Turn on jslint errors by default
+let g:JSLintHighlightErrorLine = 1
+
+" MacVIM shift+arrow-keys behavior (required in .vimrc)
+let macvim_hig_shift_movement = 1
+
+" % to bounce from do to end etc.
+runtime! macros/matchit.vim
+
+" Show (partial) command in the status line
+set showcmd
+
+if has("gui_running")
+  " Automatically resize splits when resizing MacVim window
+  autocmd VimResized * wincmd =
+endif
+
+" Include user's local vim config
+if filereadable(expand("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
+
+" autocomplete brackets for scss
+inoremap {      {}<Left>
+
+" shift + control + t reopens last closed window
+nmap <c-s-t> :vs<bar>:b#<CR>
+
+inoremap jj <ESC>
+
+nnoremap <tab> :BufExplorer<CR>
+nnoremap <S-tab> :ZoomWin<CR>
+
+"shows relative numbers on rail
+set relativenumber
+
+"space bar unhighlights search
+nmap <space> :noh<CR>
+
+" Gif config
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+
+let g:javascript_conceal_function   = "ƒ"
+
+"Turning off Gdiff off while multiple windows are open
+"" Simple way to turn off Gdiff splitscreen
+" works only when diff buffer is focused
+if !exists(":Gdiffoff")
+  command Gdiffoff diffoff | q | Gedit
+endif
