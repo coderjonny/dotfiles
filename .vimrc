@@ -18,6 +18,7 @@ Plugin 'Lokaltog/vim-easymotion'
 Plugin 'thoughtbot/vim-rspec'
 Plugin 'rizzatti/dash.vim'
 Plugin 'mileszs/ack.vim'
+Plugin 'mxw/vim-jsx'
 Bundle "wookiehangover/jshint.vim"
 Bundle 'marijnh/tern_for_vim'
 
