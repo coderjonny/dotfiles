@@ -1,4 +1,4 @@
-# .bash_profile
+#.bash_profile
 # source .bashrc if exists
 if [ -f ~/.bashrc ]; then
   source ~/.bashrc
@@ -52,7 +52,6 @@ alias ga='git add '
 alias gb='git branch -v'
 alias gc='git commit -m'
 alias gd='git diff'
-alias go='git checkout '
 alias gk='gitk --all&'
 alias gx='gitx --all'
 alias grmall='git rm $(git ls-files -d)'
