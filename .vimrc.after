@@ -222,3 +222,6 @@ let g:javascript_conceal_function   = "ƒ"
 if !exists(":Gdiffoff")
   command Gdiffoff diffoff | q | Gedit
 endif
+
+" make ctrlP load 100x faster
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
