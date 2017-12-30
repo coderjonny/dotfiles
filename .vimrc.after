@@ -14,7 +14,7 @@
     " Enable completion where available.
     let g:ale_completion_enabled = 1
     " customize signs
-    let g:ale_sign_error = '✗'
+    let g:ale_sign_error = '☠️'
     let g:ale_sign_warning = '☃︎'
     " display ale in Airline
     let g:airline#extensions#ale#enabled = 1
@@ -223,8 +223,6 @@ endif
 nmap <c-s-t> :vs<bar>:b#<CR>
 " escape out of i mode
 inoremap jj <ESC>
-inoremap jk <ESC>
-inoremap kk <ESC>
 inoremap <C>kk <ESC>
 
 " Shift tab will open current window in a new tab
