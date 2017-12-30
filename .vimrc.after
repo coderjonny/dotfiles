@@ -93,6 +93,7 @@ syntax on
 
 " Map <leader> key to comma key too
 :nmap , \
+:vmap , \
 
 "shut the fuck up
 set vb
@@ -132,19 +133,16 @@ if has("autocmd")
     \| exe "normal g'\"" | endif
 endif
 
-if !exists("*s:setupWrapping")
-    function s:setupWrapping()
-      set wrap
-      set wrapmargin=2
-      set textwidth=72
-    endfunction
-endif
-if !exists("*s:setupWrapping")
-    function s:setupMarkup()
-      call s:setupWrapping()
-      map <buffer> <Leader>p :Hammer<CR>
-    endfunction
-endif
+function s:setupWrapping()
+    set wrap
+    set wrapmargin=2
+    set textwidth=72
+endfunction
+
+function s:setupMarkup()
+    call s:setupWrapping()
+    map <buffer> <Leader>p :Hammer<CR>
+endfunction
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 " au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
@@ -272,3 +270,6 @@ let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclu
 set updatetime=250
 
 nmap <Leader>b :Gblame<CR>
+
+" save and quit out of vim quickly
+map Q :xa<CR>
