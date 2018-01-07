@@ -1,69 +1,69 @@
-let g:javascript_conceal_function   = "ƒ"
+" ===================================
+" Jonny's vimrc :)
+" - customized after installing janus
+" ===================================
 
-" Include user's local pre .vimrc config
-if filereadable(expand("~/.vimrc.pre"))
-  source ~/.vimrc.pre
-endif
+" ===================================
+" Extra plugins added to ~/.janus/***
+" ===================================
+" - ALE <3 ( async linter for es6, flow, js, swift, etc.. )
+    " fix lint errors
+    let g:ale_fixers = { 'javascript': ['eslint'] }
+    " fix automatically on save
+    let g:ale_fix_on_save = 1
+    " Enable completion where available.
+    let g:ale_completion_enabled = 1
+    " customize signs
+    let g:ale_sign_error = '☠️'
+    let g:ale_sign_warning = '☃︎'
+    " display ale in Airline
+    let g:airline#extensions#ale#enabled = 1
 
-let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
+" - BufExplorer - quickkly change buffers
+    " make tab open BufExplorer
+    nnoremap <tab> :BufExplorer<CR>
 
-set nocompatible
-set noswapfile
+" - emmet-vim - quickly create html tags (i -> ul -> ctrl + y)
+" - vim-airline - sexier statusline
+" - vim-flow - jump to flow errors
+    " fucking close that window
+    let g:flow#autoclose = 1
+    " and don't even show it cuz I'm using ale
+    let g:flow#showquickfix = 0
+    " jump to that error
+    let g:flow#errjmp = 1
+    "Use locally installed flow
+    let local_flow = finddir('node_modules', '.;') . '/.bin/flow'
+    if matchstr(local_flow, "^\/\\w") == ''
+        let local_flow= getcwd() . "/" . local_flow
+    endif
+    if executable(local_flow)
+      let g:flow#flowpath = local_flow
+    endif
 
-set number
-set ruler
-syntax on
+
+" ================================================
+" Janus Plugins that I DISABLED..
+" ================================================
+" - syntastic - cuz ALE is faster and async
+" - Vroom - cuz I hardly write ruby anymore
+" - buffergator - cuz it's slow and sucks ass
+
+
+" =======
+" NOTES
+" =======
+" to temporarily disable a plugin
+" - set runtimepath-=~/.janus/{my extra plugin}
 "
-" Enable syntastic syntax checking
-let g:syntastic_enable_signs=1
-let g:syntastic_quiet_warnings=1
-let g:syntastic_javascript_checkers = ['eslint']
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" how to benchmark startup time with --startuptime
+" - nvim -O packages/app/index.js ~/.vimrc.after --startuptime vim.log
+" - vim -O packages/app/index.js ~/.vimrc.after --startuptime vim.log
+"
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-"some more syntax hightlighting
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
-
-"shut the fuck up
-set vb
-
-" Set encoding
-set encoding=utf-8
-
-" Whitespace stuff
-set nowrap
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-set list listchars=tab:\ \ ,trail:·
-
-autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
-
-" Searching
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-
-" Tab completion
-set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
-
-" Status bar
-set laststatus=2
-
-" Without setting this, ZoomWin restores windows in a way that causes
-" equalalways behavior to be triggered the next time CommandT is used.
-" This is likely a bludgeon to solve some other issue, but it works
-set noequalalways
-
+" NerdCommenter
+let NERDSpaceDelims=1
+"
 " NERDTree configuration
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
 map <Leader>n :NERDTreeToggle<CR>
@@ -79,6 +79,54 @@ map <C-\> :tnext<CR>
 nmap <F5> :GundoToggle<CR>
 imap <F5> <ESC>:GundoToggle<CR>
 
+
+" ==========================
+" extra rules and mappings
+" ==========================
+
+let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
+set nocompatible
+set noswapfile
+set number
+set ruler
+syntax on
+
+" Map <leader> key to comma key too
+:nmap , \
+:vmap , \
+
+"shut the fuck up
+set vb
+
+" Set encoding
+set encoding=utf-8
+
+" Whitespaces, tabs, spaces, nowrap
+set nowrap
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set list listchars=tab:\ \ ,trail:·
+
+" autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
+
+" load the plugin and indent settings for the detected filetype
+filetype plugin indent on
+
+" Searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" Tab completion
+set wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
+
+" Status bar
+set laststatus=2
+
 " Remember last location in file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
@@ -86,32 +134,45 @@ if has("autocmd")
 endif
 
 function s:setupWrapping()
-  set wrap
-  set wrapmargin=2
-  set textwidth=72
+    set wrap
+    set wrapmargin=2
+    set textwidth=72
 endfunction
 
 function s:setupMarkup()
-  call s:setupWrapping()
-  map <buffer> <Leader>p :Hammer<CR>
+    call s:setupWrapping()
+    map <buffer> <Leader>p :Hammer<CR>
 endfunction
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
-au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
+" au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
 
 " md, markdown, and mk are markdown and define buffer-local preview
 au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
-
-" add json syntax highlighting
-au BufNewFile,BufRead *.json set ft=javascript
-
 au BufRead,BufNewFile *.txt call s:setupWrapping()
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-" load the plugin and indent settings for the detected filetype
-filetype plugin indent on
+" ==========================
+" Bubbling configuration using unimpaired mapping
+" ==========================
+" Bubble single lines UP and DOWN
+nmap <C-k> [e
+nmap <C-j> ]e
+" Bubble multiple lines with j & k
+vmap <C-k> [egv
+vmap <C-j> ]egv
+
+" Bubble left and right with h & l
+nmap <C-l> >>
+nmap <C-h> <<
+" Bubble multiple lines
+vmap <C-l> > gv
+vmap <C-h> < gv
+
+" unindent in insert mode with shift-tab
+inoremap <S-Tab> <C-D>
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
@@ -124,29 +185,6 @@ map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 " Inserts the path of the currently edited file into a command
 " Command mode: Ctrl+P
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-
-" Unimpaired configuration
-" Bubble single lines
-nmap <C-Up> [e
-nmap <C-Down> ]e
-nmap <C-k> [e
-nmap <C-j> ]e
-
-" Bubble multiple lines
-vmap <C-Up> [egv
-vmap <C-Down> ]egv
-
-vmap <C-l> <D-]>
-vmap <C-h> <D-[>
-
-" Bubble multiple lines with j & k
-vmap <C-k> [egv
-vmap <C-j> ]egv
-
-" Bubble left and right with h & l
-nmap <C-l> v <D-]>
-nmap <C-h> v <D-[>
-
 
 " gist-vim defaults
 if has("mac")
@@ -177,29 +215,33 @@ runtime! macros/matchit.vim
 " Show (partial) command in the status line
 set showcmd
 
-if has("gui_running")
-  " Automatically resize splits when resizing MacVim window
-  autocmd VimResized * wincmd =
-endif
-
 " Include user's local vim config
 if filereadable(expand("~/.vimrc.local"))
-  source ~/.vimrc.local
+source ~/.vimrc.local
 endif
-
-" autocomplete brackets for scss
-inoremap {      {}<Left>
 
 " shift + control + t reopens last closed window
 nmap <c-s-t> :vs<bar>:b#<CR>
-
+" escape out of i mode
 inoremap jj <ESC>
+inoremap <C>kk <ESC>
 
-nnoremap <tab> :BufExplorer<CR>
-nnoremap <S-tab> :ZoomWin<CR>
+" Shift tab will open current window in a new tab
+nnoremap <S-tab> :tab split<CR>
+" then ZZ to close out
+" or
+" c-w-| to have window take over (if using vsplits).
+" c-w-= to restore.
+" c-w-_ for horizontal splits
 
-"shows relative numbers on rail
-"set relativenumber
+"shows RELATIVENUMBER on side rail
+set relativenumber
+" but set other windows to default
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
 
 "space bar unhighlights search
 nmap <space> :noh<CR>
@@ -214,11 +256,20 @@ omap / <Plug>(easymotion-tn)
 map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 
-let g:javascript_conceal_function   = "ƒ"
-
 "Turning off Gdiff off while multiple windows are open
 "" Simple way to turn off Gdiff splitscreen
 " works only when diff buffer is focused
 if !exists(":Gdiffoff")
   command Gdiffoff diffoff | q | Gedit
 endif
+
+" make ctrlP load 100x faster
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+
+" for git-gutter file change refresh
+set updatetime=250
+
+nmap <Leader>b :Gblame<CR>
+
+" save and quit out of vim quickly
+map Q :xa<CR>
