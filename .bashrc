@@ -8,7 +8,7 @@ export EDITOR=/usr/local/bin/vim
 function path(){
     old=$IFS
     IFS=:
-    printf "%s\n" $PATH
+    printf "%s\\n" $PATH
     IFS=$old
 }
 
@@ -22,7 +22,6 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 export NVM_DIR="/Users/jonny/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
 
 #colorful manuals!
 man() {
@@ -44,13 +43,10 @@ export PATH=~/bin:$PATH
 #aws tab completion
 complete -C '~/.local/lib/aws/bin/aws_completer' aws
 
-#docker on macs
-#eval $(docker-machine env default)
-export PATH=/usr/local/bin:$PATH
-
 alias myip='curl https://wtfismyip.com/json | jq'
+
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-# Adding lines for internal arcanist.
-export PATH=$PATH:/Users/jonnykang/apps/nfl-phabricator/arcanist/bin
