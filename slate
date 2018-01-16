@@ -21,6 +21,9 @@ bind h:ctrl;cmd   push left  bar-resize:screenSizeX/2
 bind k:ctrl;cmd     push up    bar-resize:screenSizeY/2
 bind j:ctrl;cmd   push down  bar-resize:screenSizeY/2
 
+# Centering
+bind c:ctrl,cmd move screenOriginX+((screenSizeX-windowSizeX)/2);screenOriginY+((screenSizeY-windowSizeY)/2) windowSizeX;windowSizeY
+
 # Nudge Bindings
 bind l:shift;alt nudge +10% +0
 bind h:shift;alt  nudge -10% +0
