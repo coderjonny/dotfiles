@@ -14,8 +14,8 @@
     " Enable completion where available.
     let g:ale_completion_enabled = 1
     " customize signs
-    let g:ale_sign_error = '☠️'
-    let g:ale_sign_warning = '☃︎'
+    let g:ale_sign_error = '☃️'
+    let g:ale_sign_warning = '❄️'
     " display ale in Airline
     let g:airline#extensions#ale#enabled = 1
 
@@ -67,6 +67,9 @@ let NERDSpaceDelims=1
 " NERDTree configuration
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
 map <Leader>n :NERDTreeToggle<CR>
+
+" set working dir to open file
+autocmd BufEnter * lcd %:p:h
 
 " Command-T configuration
 let g:CommandTMaxHeight=20
@@ -234,14 +237,14 @@ nnoremap <S-tab> :tab split<CR>
 " c-w-= to restore.
 " c-w-_ for horizontal splits
 
-"shows RELATIVENUMBER on side rail
-set relativenumber
+" shows RELATIVENUMBER on side rail
+" set relativenumber
 " but set other windows to default
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
+" augroup numbertoggle
+  " autocmd!
+  " autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  " autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+" augroup END
 
 "space bar unhighlights search
 nmap <space> :noh<CR>
