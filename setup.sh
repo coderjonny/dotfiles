@@ -1,11 +1,23 @@
 #!/bin/bash
 
+function install_shellcheck {
+    brew install shellcheck
+}
+
 function install_nvim {
     brew install neovim
 }
 
 function install_ccat {
     brew install ccat
+}
+
+function link_dotfiles {
+    printf "hi !!!!!! \\n !!!!"
+    echo "$( pwd ) nope"
+    ln -sfv "$(pwd)/.bash_profile" "$HOME/.bash_profile"
+    # shellcheck source=/dev/null
+    . ~/.bash_profile
 }
 
 if brew ls --versions neovim > /dev/null; then
@@ -16,6 +28,8 @@ else
 fi
 
 command -v ccat >/dev/null 2>&1 || { echo >&2 "Pretty ccat colors are missing. Installing..🎨"; install_ccat;}
+command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Installing.."; install_shellcheck;}
+command -v most >/dev/null 2>&1 || { echo >&2 "aliases are missing. linking bash_profile.."; link_dotfiles;}
 
 NEO_DIR=~/.config/nvim/
 INIT=~/.config/nvim/init.vim
@@ -35,7 +49,7 @@ if [ ! -f $INIT ]
     then
         mkdir $NEO_DIR;
         insert_init_contents;
-        echo "Created neo init fil..  -> '$INIT' \n"
+        printf "Created neo init file..  -> %s\\n" "$INIT"
         ccat $INIT
     else
         echo "init file already exists.. you're good to go!"
