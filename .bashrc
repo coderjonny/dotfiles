@@ -35,5 +35,5 @@ load-nvmrc() {
 }
 cd() { builtin cd "$@"; 'load-nvmrc'; }
 
-#aws tab completion
-complete -C "$HOME/.local/lib/aws/bin/aws_completer" aws
+# load up the completions
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion

@@ -51,9 +51,13 @@ function install_diff-so-fancy {
   git config --global color.diff.new        "green bold"
   git config --global color.diff.whitespace "red reverse"
 }
+function install_completions {
+  brew install bash-completion
+}
 
 
 link_dotfiles;
+install_completions;
 
 # update brew, udpate alias from ./bash_profile
 
