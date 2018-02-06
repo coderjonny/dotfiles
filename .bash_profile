@@ -1,38 +1,69 @@
-# .bash_profile
+#! /bin/bash
+
+#  _____  _____  __   _ __   _ __   __ . _______
+#    |   |     | | \  | | \  |   \_/   ' |______
+#  __|   |_____| |  \_| |  \_|    |      ______|
+#  ______  _______ _______ _     _
+#  |_____] |_____| |______ |_____|
+#  |_____] |     | ______| |     |
+#   _____   ______  _____  _______ _____        _______
+#  |_____] |_____/ |     | |______   |   |      |______
+#  |       |    \_ |_____| |       __|__ |_____ |______
+#######################################################
 
 # source .bashrc if exists
 # shellcheck source=/dev/null
 [ -r ~/.bashrc ] && . ~/.bashrc
 
-#show happy face
+#  ___  ____ ____ _  _ ___  ___
+#  |__] |__/ |  | |\/| |__]  |
+#  |    |  \ |__| |  | |     |
+###############################
+NO_COLOR="\\[\\033[0m\\]"
+LIGHT_GREY="\\[\\033[37m\\]"
+YELLOW="\\[\\033[33m\\]"
+BLUE="\\[\\033[34m\\]"
+RED="\\[\\033[31m\\]"
+
+function FACE {
+  local OUT=$?
+  #show happy face
+  if [ $OUT -eq 0 ]; then
+    echo "$BLUE"^_^ "$NO_COLOR"
+  else
+    echo "$RED"O_O "$NO_COLOR"
+  fi
+}
+
+MY_PATH="$YELLOW\\w"
+
 function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'
 }
-
-#time_prompt='\D{%F %T}\n\$ '
-#now=$(date +"%I:%M%p")" "
-
-FACE="\`if [ \$? = 0 ]; then
-        echo \\[\\e[33m\\]^_^\\[\\e[0m\\];
-    else
-        echo \\[\\e[31m\\]O_O\\[\\e[0m\\];
-    fi\` "
-
-CURRENT_PATH="\\[\\033[32m\\]\\w \\[\\033[0m\\]"
+GITBRANCH="$LIGHT_GREY $(parse_git_branch)"
 
 emojis=(🐶 🐺 🐱 🐭 🐹 🐰 🐸 🐯 🐨 🐻 🐷 🐮 🐵 🐼 🐧 🐍 🐢 🐙 🐠 🐳 🐬 🐥)
 emoji_rand=${emojis[$RANDOM % 22]}
+EMOJI="$NO_COLOR$emoji_rand -> "
 
-GITBRANCH="\$(parse_git_branch)"
-EMOJI="$emoji_rand -> \\[\\033[0m\\]"
+PS1=$(FACE)$MY_PATH$GITBRANCH$EMOJI
 
-PS1=$FACE$CURRENT_PATH$GITBRANCH$EMOJI
+
+#  ____ _    _ ____ ____
+#  |__| |    | |__| [__
+#  |  | |___ | |  | ___]
+########################
 
 # Commands
 alias startpostgres='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 alias stoppostgres='pg_ctl -D /usr/local/var/postgres stop -s -m fast'
 alias startredis='redis-server /usr/local/etc/redis.conf'
-
+alias update='
+    sudo softwareupdate -i -a;
+    brew update;
+    brew upgrade;
+    brew cleanup;
+'
 # git stuff
 alias gs='git status '
 alias ga='git add '
@@ -52,23 +83,33 @@ alias g='git '
 alias gi='git '
 alias got='git '
 alias get='git '
-alias grd='git rebase -i development'
-alias gback='git checkout -'
-alias gdev='git pull o development'
+alias gre='git rebase -i'
+alias g-='git checkout -'
 
-#testing stuff
-alias cuke='bundle exec cucumber'
-alias rspec='bundle exec spring rspec'
+# shellcheck source=/dev/null
+[ -r ~/git-completion ] && . ~/git-completion.bash
 
-export CC=gcc
+
+# file navigation
+alias l='ls -logGFh'
+alias la='ls -logGFrah'
+alias c='ccat'
+alias ..='cd ..'
+alias mkdir='mkdir -pv'
+alias rm='rm -v'
+
+# Less Colors for Man Pages
+export LESS_TERMCAP_mb=$'\e[01;31m'       # begin blinking
+export LESS_TERMCAP_md=$'\e[01;38;5;74m'  # begin bold
+export LESS_TERMCAP_me=$'\e[0m'           # end mode
+export LESS_TERMCAP_se=$'\e[0m'           # end standout-mode
+export LESS_TERMCAP_so=$'\e[38;5;246m'    # begin standout-mode - info box
+export LESS_TERMCAP_ue=$'\e[0m'           # end underline
+export LESS_TERMCAP_us=$'\e[04;38;5;146m' # begin underline
 
 #other commands
-function path(){
-    old=$IFS
-    IFS=:
-    printf "%s\\n" "$PATH"
-    IFS=$old
-}
+alias myip='curl https://wtfismyip.com/json | jq'
+
 
 function s(){
     local port="${1:-8000}"
@@ -95,75 +136,7 @@ function cdb
 
 #rbenv stuff
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
 export PATH="$HOME/.rbenv/bin:$PATH"
-
-export PATH=${PATH}:$HOME/gsutil
-
-# file navigation
-alias l='ls -logGFh'
-alias la='ls -logGFrah'
-alias c='ccat'
-alias ..='cd ..'
-alias mkdir='mkdir -pv'
-alias rm='rm -v'
-
-export NVM_DIR="$HOME/.nvm"
-
-# shellcheck source=$HOME/.nvm/nvm.sh
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-#source "$HOME/imgcat"
-alias crontab="VIM_CRONTAB=true crontab"
-
-load-nvmrc() {
-    if [[ -f .nvmrc && -r .nvmrc ]]; then
-        nvm use
-    elif [[ $(nvm version) != $(nvm version default)  ]]; then
-        echo "Reverting to nvm default version"
-        nvm use default
-    fi
-}
-
-cd() { builtin cd "$@"; 'load-nvmrc'; }
-###-begin-graphql-completions-###
-#
-# yargs command completion script
-#
-# Installation: graphql completion >> ~/.bashrc
-#    or graphql completion >> ~/.bash_profile on OSX.
-#
-_yargs_completions()
-{
-    local cur_word args type_list
-
-    cur_word="${COMP_WORDS[COMP_CWORD]}"
-    args=("${COMP_WORDS[@]}")
-
-    # ask yargs to generate completions.
-    type_list=$(graphql --get-yargs-completions "${args[@]}")
-
-    COMPREPLY=( $(compgen -W "${type_list}" -- ${cur_word}) )
-
-    # if no match was found, fall back to filename completion
-    if [ ${#COMPREPLY[@]} -eq 0 ]; then
-        COMPREPLY=( $(compgen -f -- "${cur_word}" ) )
-    fi
-
-    return 0
-}
-complete -F _yargs_completions graphql
-###-end-graphql-completions-###
-
-alias update='
-    sudo softwareupdate -i -a;
-    brew update;
-    brew upgrade;
-    brew cleanup;
-    # npm install npm -g;
-    # npm update -g;
-'
 
 most_used_commands() {
     history |
@@ -174,17 +147,19 @@ most_used_commands() {
     nl |
     head -n10
 }
-
 alias most=most_used_commands
 
-export ANDROID_HOME=~/Library/Android/sdk
+alias crontab="VIM_CRONTAB=true crontab"
+
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
-# Adding lines for internal arcanist.
-export PATH=$PATH:/Users/jonny/apps/nfl-phabricator/arcanist/bin
+export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
 # Uncomment the line below for bash completion.
-source /Users/jonny/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
+# shellcheck source=/dev/null
+source $HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
 
+# shellcheck source=/dev/null
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 # Load RVM into a shell session *as a function*
+
