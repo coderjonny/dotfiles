@@ -27,8 +27,13 @@ function link_dotfiles {
   . $HOME/.bash_profile;
   printf "\\n done symlinking...";
 }
+
 function install_zscript {
   cd "$HOME" && curl -O https://raw.githubusercontent.com/rupa/z/master/z.sh
+}
+
+function install_git {
+  brew install git
 }
 function install_diff-so-fancy {
   brew install diff-so-fancy
@@ -45,7 +50,6 @@ function install_diff-so-fancy {
   git config --global color.diff.old        "red bold"
   git config --global color.diff.new        "green bold"
   git config --global color.diff.whitespace "red reverse"
-
 }
 
 
@@ -57,6 +61,7 @@ command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Install
 command -v nvim >/dev/null 2>&1 || { echo >&2 "Neovim missing. Installing.."; install_nvim;}
 command -v ccat >/dev/null 2>&1 || { echo >&2 "Pretty ccat colors are missing. Installing..🎨"; install_ccat;}
 unalias z 2>/dev/null || { echo >&2 "z script is missing. downloading.."; install_zscript;}
+install_git;
 command -v diff-so-fancy >/dev/null 2>&1 || { echo >&2 "diff-so-fancy missing. Installing.."; install_diff-so-fancy;}
 
 #  __   _ _______  _____  _    _ _____ _______
