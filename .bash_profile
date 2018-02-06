@@ -64,6 +64,8 @@ alias update='
     brew upgrade;
     brew cleanup;
 '
+alias saver='open -a ScreenSaverEngine'
+
 # git stuff
 alias gs='git status '
 alias ga='git add '
@@ -89,7 +91,6 @@ alias g-='git checkout -'
 # shellcheck source=/dev/null
 [ -r ~/git-completion ] && . ~/git-completion.bash
 
-
 # file navigation
 alias l='ls -logGFh'
 alias la='ls -logGFrah'
@@ -107,31 +108,13 @@ export LESS_TERMCAP_so=$'\e[38;5;246m'    # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\e[0m'           # end underline
 export LESS_TERMCAP_us=$'\e[04;38;5;146m' # begin underline
 
-#other commands
+# what is my ip
 alias myip='curl https://wtfismyip.com/json | jq'
 
-
+# open up localhost -p
 function s(){
     local port="${1:-8000}"
     open "http://localhost:${port}/"
-}
-
-function cdb
-{
-    local TIMES=$1
-    local INITIAL=1
-    local BACK_DIR='../'
-    local DIRS
-
-    if [ $# -eq 0 ]; then
-        DIRS[0]="${BACK_DIR}"
-    fi
-
-    for ((i=INITIAL;i<=TIMES;i++)); do
-        DIRS=("${DIRS[@]}" "${BACK_DIR}")
-    done
-
-    cd "$(printf "%s" "${DIRS[@]}")" || return
 }
 
 #rbenv stuff
@@ -155,11 +138,9 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
-# Uncomment the line below for bash completion.
 # shellcheck source=/dev/null
 source $HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
 
 # shellcheck source=/dev/null
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 # Load RVM into a shell session *as a function*
-

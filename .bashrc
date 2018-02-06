@@ -7,10 +7,19 @@ function paths(){
   tr ':' '\n' <<< "$PATH"
 }
 
+#            _
+#  ____  ___| |__
+# |_  / / __| '_ \
+#  / / _\__ \ | | |
+# /___(_)___/_| |_|
+###################
 #z script!!!!!!!!!!!!
 # shellcheck source=/dev/null
-. ~/dev/z/z.sh
+[ -r ~/z.sh ] && . ~/z.sh
 
+#  __ _ _  _ _  _
+#  | \|  \/  |\/|
+#################
 export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
