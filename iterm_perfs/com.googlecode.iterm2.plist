@@ -43831,9 +43831,9 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>873 229 606 469 0 0 2560 1417 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>990 757 796 473 0 0 2560 1417 </string>
+	<string>894 560 796 473 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>247 132 650 479 0 0 1920 1177 </string>
+	<string>1280 24 1274 1393 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>840 0 834 1027 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -44546,13 +44546,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-02-03T23:11:46Z</date>
+	<date>2018-02-07T02:27:21Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>Secure Input</key>
 	<true/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>ShowPaneTitles</key>
 	<false/>
 	<key>UseLionStyleFullscreen</key>

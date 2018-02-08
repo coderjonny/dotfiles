@@ -22,32 +22,34 @@
 NO_COLOR="\\[\\033[0m\\]"
 LIGHT_GREY="\\[\\033[37m\\]"
 YELLOW="\\[\\033[33m\\]"
-BLUE="\\[\\033[34m\\]"
-RED="\\[\\033[31m\\]"
 
-function FACE {
+function print_mood {
   local OUT=$?
-  #show happy face
+  local BLUE="\\033[34m"
+  local RED="\\033[31m"
+  local NC="\\033[0m"
+  local HAPPY_FACE="$BLUE""^_^ $NC"
+  local OOPS_FACE="$RED""O_O $NC"
+
   if [ $OUT -eq 0 ]; then
-    echo "$BLUE"^_^ "$NO_COLOR"
+      printf "$HAPPY_FACE"
   else
-    echo "$RED"O_O "$NO_COLOR"
+      printf "$OOPS_FACE"
   fi
 }
 
 MY_PATH="$YELLOW\\w"
 
 function parse_git_branch {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
-GITBRANCH="$LIGHT_GREY $(parse_git_branch)"
+GITBRANCH="$LIGHT_GREY\$(parse_git_branch)"
 
 emojis=(🐶 🐺 🐱 🐭 🐹 🐰 🐸 🐯 🐨 🐻 🐷 🐮 🐵 🐼 🐧 🐍 🐢 🐙 🐠 🐳 🐬 🐥)
 emoji_rand=${emojis[$RANDOM % 22]}
-EMOJI="$NO_COLOR$emoji_rand -> "
+EMOJI="$NO_COLOR $emoji_rand -> "
 
-PS1=$(FACE)$MY_PATH$GITBRANCH$EMOJI
-
+PS1="\$(print_mood)$MY_PATH$GITBRANCH$EMOJI"
 
 #  ____ _    _ ____ ____
 #  |__| |    | |__| [__
