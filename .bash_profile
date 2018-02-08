@@ -57,9 +57,6 @@ PS1="\$(print_mood)$MY_PATH$GITBRANCH$EMOJI"
 ########################
 
 # Commands
-alias startpostgres='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
-alias stoppostgres='pg_ctl -D /usr/local/var/postgres stop -s -m fast'
-alias startredis='redis-server /usr/local/etc/redis.conf'
 alias update='
     sudo softwareupdate -i -a;
     brew update;
@@ -98,8 +95,16 @@ alias l='ls -logGFh'
 alias la='ls -logGFrah'
 alias c='ccat'
 alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
 alias mkdir='mkdir -pv'
 alias rm='rm -v'
+
+alias ~='cd ~'
+alias home='cd ~'
+
+# Open the current directory in Finder
+alias f='open -a Finder ./'
 
 # Less Colors for Man Pages
 export LESS_TERMCAP_mb=$'\e[01;31m'       # begin blinking
@@ -119,10 +124,6 @@ function s(){
     open "http://localhost:${port}/"
 }
 
-#rbenv stuff
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-export PATH="$HOME/.rbenv/bin:$PATH"
-
 most_used_commands() {
     history |
     awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' |
@@ -136,13 +137,57 @@ alias most=most_used_commands
 
 alias crontab="VIM_CRONTAB=true crontab"
 
+#rbenv stuff
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+export PATH="$HOME/.rbenv/bin:$PATH"
+
+# ____ _  _ _  _
+# |--<  \/  |\/|
+#---------------
+# shellcheck source=/dev/null
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+# Load RVM into a shell session *as a function*
+
+#  __ _ _  _ _  _
+#  | \|  \/  |\/|
+#################
+export NVM_DIR="$HOME/.nvm"
+# shellcheck source=/dev/null
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# shellcheck source=/dev/null
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+load-nvmrc() {
+    if [[ -f .nvmrc && -r .nvmrc ]]; then
+        nvm use
+    elif [[ $(nvm version) != $(nvm version default)  ]]; then
+        echo "Reverting to nvm default version"
+        nvm use default
+    fi
+}
+
+# Automatically calls ls after you cd into a directory
+cd() { builtin cd "$@"; 'load-nvmrc'; l; }
+
+#            _
+#  ____  ___| |__
+# |_  / / __| '_ \
+#  / / _\__ \ | | |
+# /___(_)___/_| |_|
+###################
+#z script!!!!!!!!!!!!
+# shellcheck source=/dev/null
+[ -r ~/z.sh ] && . ~/z.sh
+function z() {
+    z "$@";
+    tree -L 2;
+    printf "\\n";
+    gs;
+}
+alias z=z
+
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
 # shellcheck source=/dev/null
 source $HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
-
-# shellcheck source=/dev/null
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-# Load RVM into a shell session *as a function*
