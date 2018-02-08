@@ -179,7 +179,7 @@ cd() { builtin cd "$@"; 'load-nvmrc'; l; }
 [ -r ~/z.sh ] && . ~/z.sh
 function z() {
     z "$@";
-    tree -L 2;
+    l;
     printf "\\n";
     gs;
 }
