@@ -102,6 +102,11 @@ alias rm='rm -v'
 
 alias ~='cd ~'
 alias home='cd ~'
+alias tree='tree -C'
+alias t='tree -L 2 --filelimit 30 -F --dirsfirst'
+tree_example() {
+    echo "t -I 'node_modules|coverage' -L 4 -P 'package.*'"
+}
 
 # Open the current directory in Finder
 alias f='open -a Finder ./'

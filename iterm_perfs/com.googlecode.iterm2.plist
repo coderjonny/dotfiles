@@ -43679,6 +43679,10 @@
 	<false/>
 	<key>DimOnlyText</key>
 	<false/>
+	<key>DisableFullscreenTransparency</key>
+	<false/>
+	<key>FlashTabBarInFullscreen</key>
+	<true/>
 	<key>GlobalKeyMap</key>
 	<dict>
 		<key>0x19-0x60000</key>
@@ -43780,8 +43784,10 @@
 			<string></string>
 		</dict>
 	</dict>
+	<key>HideScrollbar</key>
+	<false/>
 	<key>HideTab</key>
-	<true/>
+	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
 	<key>LoadPrefsFromCustomFolder</key>
@@ -43831,9 +43837,9 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>873 229 606 469 0 0 2560 1417 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>894 560 796 473 0 0 2560 1417 </string>
+	<string>501 497 770 429 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1280 24 1274 1393 0 0 2560 1417 </string>
+	<string>0 0 1920 1177 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>840 0 834 1027 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -44546,7 +44552,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-02-07T02:27:21Z</date>
+	<date>2018-02-09T04:27:43Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>Secure Input</key>
@@ -44554,6 +44560,12 @@
 	<key>ShowFullScreenTabBar</key>
 	<false/>
 	<key>ShowPaneTitles</key>
+	<false/>
+	<key>SmartPlacement</key>
+	<false/>
+	<key>StretchTabsToFillBar</key>
+	<true/>
+	<key>UseBorder</key>
 	<false/>
 	<key>UseLionStyleFullscreen</key>
 	<false/>
