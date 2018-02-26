@@ -9,7 +9,7 @@
 #   _____   ______  _____  _______ _____        _______
 #  |_____] |_____/ |     | |______   |   |      |______
 #  |       |    \_ |_____| |       __|__ |_____ |______
-#######################################################
+#  ====================================================
 
 # source .bashrc if exists
 # shellcheck source=/dev/null
@@ -18,7 +18,8 @@
 #  ___  ____ ____ _  _ ___  ___
 #  |__] |__/ |  | |\/| |__]  |
 #  |    |  \ |__| |  | |     |
-###############################
+# ==============================
+
 NO_COLOR="\\[\\033[0m\\]"
 LIGHT_GREY="\\[\\033[37m\\]"
 YELLOW="\\[\\033[33m\\]"
@@ -51,10 +52,11 @@ EMOJI="$NO_COLOR $emoji_rand -> "
 
 PS1="\$(print_mood)$MY_PATH$GITBRANCH$EMOJI"
 
-#  ____ _    _ ____ ____
-#  |__| |    | |__| [__
-#  |  | |___ | |  | ___]
-########################
+#       _ _
+#  __ _| (_)__ _ ___ ___ ___
+# / _` | | / _` (_-</ -_|_-<
+# \__,_|_|_\__,_/__/\___/__/
+# ==========================
 
 # Commands
 alias update='
@@ -182,6 +184,7 @@ cd() { builtin cd "$@"; 'load-nvmrc'; l; }
 #z script!!!!!!!!!!!!
 # shellcheck source=/dev/null
 [ -r ~/z.sh ] && . ~/z.sh
+# print info when z.shing into a dir
 function z() {
     z "$@";
     l;
@@ -191,8 +194,21 @@ function z() {
 alias z=z
 
 export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/tools
+
+# Android SDK Tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin/
+
+# Android SDK Platform Tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+
 export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
 # shellcheck source=/dev/null
 source $HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
+
+#               _         _    _
+#  __ _ _ _  __| |_ _ ___(_)__| |
+# / _` | ' \/ _` | '_/ _ \ / _` |
+# \__,_|_||_\__,_|_| \___/_\__,_|
+#################################
+
+alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
