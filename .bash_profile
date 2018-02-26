@@ -59,12 +59,13 @@ PS1="\$(print_mood)$MY_PATH$GITBRANCH$EMOJI"
 # ==========================
 
 # Commands
-alias update='
+function update() {
     sudo softwareupdate -i -a;
     brew update;
     brew upgrade;
     brew cleanup;
-'
+}
+
 alias saver='open -a ScreenSaverEngine'
 
 # git stuff

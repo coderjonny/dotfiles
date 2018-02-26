@@ -44,6 +44,16 @@
       let g:flow#flowpath = local_flow
     endif
 
+" l ~/.janus
+    " drwxr-xr-x  26    832B Dec 29 21:15 ale/
+    " drwxr-xr-x   8    256B Dec 19 11:43 bufexplorer/
+    " drwxr-xr-x  16    512B Dec 19 11:47 emmet-vim/
+    " drwxr-xr-x   5    160B Feb 22 12:53 nerdtree-git-plugin/
+    " drwxr-xr-x  16    512B Dec 30 00:03 vim-airline/
+    " drwxr-xr-x  10    320B Jan 30 15:14 vim-bufferline/
+    " drwxr-xr-x  11    352B Dec 28 17:14 vim-flow/
+    " drwxr-xr-x  13    416B Feb 23 17:07 vim-localvimrc/
+
 
 " ================================================
 " Janus Plugins that I DISABLED..

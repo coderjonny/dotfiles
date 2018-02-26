@@ -71,9 +71,15 @@ function link_dotfiles {
   cd "$HOME" && cd "$(pwd)/dev/dotfiles" || return;
   ln -sfv "$(pwd)/.bash_profile" "$HOME/.bash_profile";
   ln -sfv "$(pwd)/.bashrc" "$HOME/.bashrc";
+  ln -sfv "$(pwd)/.vimrc.after" "$HOME/.vimrc.after";
   # shellcheck source=/dev/null
   . $HOME/.bash_profile;
-  printf "\\n done symlinking...";
+  printf "\\n done symlinking...\\n";
+  printf "\\n ♻️ ♻️ ♻️ \\n";
+
+  #update system & homebrew
+  # shellcheck source=/dev/null
+  . $HOME/.bash_profile && update;
 }
 link_dotfiles;
 
