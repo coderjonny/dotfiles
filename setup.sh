@@ -65,6 +65,7 @@ command -v jq >/dev/null 2>&1 || { echo >&2 "jq missing. Installing.."; install_
 install_completions;
 
 # link bashrc && bash_profile
+# =============================
 function link_dotfiles {
   echo 'attempting to symlink files in /dev/dotfiles/* ...';
   printf "\\n ♻️ ♻️ ♻️ \\n";
@@ -72,6 +73,7 @@ function link_dotfiles {
   ln -sfv "$(pwd)/.bash_profile" "$HOME/.bash_profile";
   ln -sfv "$(pwd)/.bashrc" "$HOME/.bashrc";
   ln -sfv "$(pwd)/.vimrc.after" "$HOME/.vimrc.after";
+  ln -sfv "$(pwd)/init.vim" "$HOME/.config/nvim/init.vim";
 
   # shellcheck source=/dev/null
   . $HOME/.bash_profile;
@@ -84,40 +86,3 @@ function link_dotfiles {
   update;
 }
 link_dotfiles;
-
-#  __   _ _______  _____  _    _ _____ _______
-#  | \  | |______ |     |  \  /    |   |  |  |
-#  |  \_| |______ |_____|   \/   __|__ |  |  |
-#
-#  _______ _______ _______ _     _  _____
-#  |______ |______    |    |     | |_____]
-#  ______| |______    |    |_____| |
-###############################################
-NEO_DIR=~/.config/nvim/
-INIT=~/.config/nvim/init.vim
-CONTENTS=$( cat <<EOF
-    set runtimepath^=~/.vim runtimepath+=~/.vim/after
-    let &packpath = &runtimepath
-    source ~/.vimrc
-EOF
-)
-function insert_init_contents {
-    echo "$CONTENTS" >> $INIT;
-}
-# if the init file doesn't exist then create it and add contents
-if [ ! -f $INIT ]
-    then
-        mkdir $NEO_DIR;
-        insert_init_contents;
-        printf "Created neo init file..  -> %s\\n" "$INIT"
-        ccat $INIT
-    else
-        echo "init file already exists.. you're good to go!"
-fi
-# echo "Do you wanna check it nvim? (1 or 2)"
-# select yn in "yes" "no"; do
-#     case $yn in
-#         yes ) nvim .; break;;
-#         no ) break;;
-#     esac
-# done

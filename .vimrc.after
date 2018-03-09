@@ -3,9 +3,15 @@
 " - customized after installing janus
 " ===================================
 
+" Automatically install missing plugins on startup
+autocmd VimEnter *
+  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \|   PlugInstall --sync | q
+  \| endif
 " ===================================
-" Extra plugins added to ~/.janus/***
+" Plugin configurations
 " ===================================
+
 " - ALE <3 ( async linter for es6, flow, js, swift, etc.. )
     " fix lint errors
     let g:ale_fixers = { 'javascript': ['eslint'] }
@@ -44,15 +50,17 @@
       let g:flow#flowpath = local_flow
     endif
 
-" l ~/.janus
-    " drwxr-xr-x  26    832B Dec 29 21:15 ale/
-    " drwxr-xr-x   8    256B Dec 19 11:43 bufexplorer/
-    " drwxr-xr-x  16    512B Dec 19 11:47 emmet-vim/
-    " drwxr-xr-x   5    160B Feb 22 12:53 nerdtree-git-plugin/
-    " drwxr-xr-x  16    512B Dec 30 00:03 vim-airline/
-    " drwxr-xr-x  10    320B Jan 30 15:14 vim-bufferline/
-    " drwxr-xr-x  11    352B Dec 28 17:14 vim-flow/
-    " drwxr-xr-x  13    416B Feb 23 17:07 vim-localvimrc/
+" rip-grep - in vim
+    let g:rg_highlight = 1
+
+    " shift + control + f
+    nmap <c-s-f> :Rg<space>
+
+" deocomplete
+let g:deoplete#enable_at_startup = 1
+
+" neosnippet
+let g:neosnippet#enable_completed_snippet = 1
 
 
 " ================================================
@@ -316,5 +324,7 @@ set updatetime=250
 
 nmap <Leader>b :Gblame<CR>
 
-" save and quit out of vim quickly
-map Q :xa<CR>
+" type 'QQ' to save and quit out of vim quickly
+"
+map QQ :conf xa<CR>
+map Q :conf q<CR>
