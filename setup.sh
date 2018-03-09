@@ -72,6 +72,7 @@ function link_dotfiles {
   cd "$HOME" && cd "$(pwd)/dev/dotfiles" || return;
   ln -sfv "$(pwd)/.bash_profile" "$HOME/.bash_profile";
   ln -sfv "$(pwd)/.bashrc" "$HOME/.bashrc";
+  ln -sfv "$(pwd)/.vimrc.before" "$HOME/.vimrc.before";
   ln -sfv "$(pwd)/.vimrc.after" "$HOME/.vimrc.after";
   ln -sfv "$(pwd)/init.vim" "$HOME/.config/nvim/init.vim";
 
