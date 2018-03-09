@@ -60,7 +60,7 @@ PS1="\$(print_mood)$MY_PATH$GITBRANCH$EMOJI"
 
 # Commands
 function update() {
-    sudo softwareupdate -i -a;
+    softwareupdate -i -a;
     brew update;
     brew upgrade;
     brew cleanup;
