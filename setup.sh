@@ -25,6 +25,7 @@ function install_zscript {
 function install_git {
   brew install git
 }
+
 function install_diff-so-fancy {
   brew install diff-so-fancy
   git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
@@ -82,8 +83,8 @@ function link_dotfiles {
   unalias z 2>/dev/null || { echo >&2 "z script is missing. downloading.."; install_zscript;}
 
   printf "\\n done symlinking...\\n";
-
-  #update system & homebrew
-  update;
 }
 link_dotfiles;
+
+#update system & homebrew
+update;
