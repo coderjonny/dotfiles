@@ -208,8 +208,10 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin/
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
+
+ARC=$HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
 # shellcheck source=/dev/null
-source $HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
+[ -r $ARC ] && . $ARC
 
 #               _         _    _
 #  __ _ _ _  __| |_ _ ___(_)__| |
