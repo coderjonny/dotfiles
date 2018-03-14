@@ -55,5 +55,8 @@ Plug 'Shougo/neosnippet-snippets'
 " vim-startify
 Plug 'mhinz/vim-startify'
 
+Plug 'ntpeters/vim-better-whitespace'
+" Plug 'janko-m/vim-test'
+
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()

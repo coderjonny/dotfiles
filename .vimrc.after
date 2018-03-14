@@ -3,13 +3,6 @@
 " - customized after installing janus
 " ===================================
 
-" ================================================
-" Janus Plugins that I DISABLED..
-" ================================================
-" - syntastic - cuz ALE is faster and async
-" - Vroom - cuz I hardly write ruby anymore
-" - buffergator - cuz it's slow and sucks ass
-
 " =======
 " NOTES
 " =======
@@ -96,23 +89,37 @@ endif
     autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
     " show dotfiles
     let NERDTreeShowHidden=1
+    " Automatically delete the buffer of the file you just deleted with NerdTree:
+    let NERDTreeAutoDeleteBuffer = 1
+
+" vim-better-whitespace
+    let g:better_whitespace_enabled=1
+    let g:strip_whitespace_on_save=1
+
+
+" ================================================
+" Janus Plugins that I DISABLED..
+" ================================================
+" - syntastic - cuz ALE is faster and async
+" - Vroom - cuz I hardly write ruby anymore
+" - buffergator - cuz it's slow and sucks ass
 
 " NerdCommenter
-let NERDSpaceDelims=1
+    let NERDSpaceDelims=1
 
+" Command-T configuration
+    let g:CommandTMaxHeight=20
+
+" CTags
+    map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
+    map <C-\> :tnext<CR>
+
+" Gundo configuration
+    nmap <F5> :GundoToggle<CR>
+    imap <F5> <ESC>:GundoToggle<CR>
 " set working dir to open file
 autocmd BufEnter * lcd %:p:h
 
-" Command-T configuration
-let g:CommandTMaxHeight=20
-
-" CTags
-map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
-map <C-\> :tnext<CR>
-
-" Gundo configuration
-nmap <F5> :GundoToggle<CR>
-imap <F5> <ESC>:GundoToggle<CR>
 
 
 " ==========================
