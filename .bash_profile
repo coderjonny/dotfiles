@@ -16,7 +16,8 @@
 [ -r ~/.bashrc ] && . ~/.bashrc
 
 # use NVIM as default
-export EDITOR=/usr/local/bin/nvim
+export VISUAL=/usr/local/bin/nvim
+export EDITOR="$VISUAL"
 
 #  ___  ____ ____ _  _ ___  ___
 #  |__] |__/ |  | |\/| |__]  |
