@@ -185,6 +185,7 @@ cd() { builtin cd "$@"; 'load-nvmrc'; l; }
 #z script!!!!!!!!!!!!
 # shellcheck source=/dev/null
 [ -r ~/z.sh ] && . ~/z.sh
+[ -r ~/z/z.sh ] && . ~/z/z.sh
 # print info when z.shing into a dir
 function z() {
     z "$@";
