@@ -3,11 +3,32 @@
 " - customized after installing janus
 " ===================================
 
+" ================================================
+" Janus Plugins that I DISABLED..
+" ================================================
+" - syntastic - cuz ALE is faster and async
+" - Vroom - cuz I hardly write ruby anymore
+" - buffergator - cuz it's slow and sucks ass
+
+" =======
+" NOTES
+" =======
+" to temporarily disable a plugin
+" - set runtimepath-=~/.janus/{my extra plugin}
+"
+" how to benchmark startup time with --startuptime
+" - nvim -O ~/.bash_profile ~/.vimrc.after --startuptime vim.log
+" - vim -O ~/.bash_profile ~/.vimrc.after --startuptime vim.log
+"
+
 " Automatically install missing plugins on startup
-autocmd VimEnter *
-  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-  \|   PlugInstall --sync | q
-  \| endif
+if has('nvim')
+    autocmd VimEnter *
+      \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+      \|   PlugInstall --sync | q
+      \| endif
+endif
+
 " ===================================
 " Plugin configurations
 " ===================================
@@ -57,62 +78,27 @@ autocmd VimEnter *
     nmap <c-s-f> :Rg<space>
 
 " deocomplete
-let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_at_startup = 1
 
 " neosnippet
-let g:neosnippet#enable_completed_snippet = 1
+    let g:neosnippet#enable_completed_snippet = 1
 
-
-" ================================================
-" Janus Plugins that I DISABLED..
-" ================================================
-" - syntastic - cuz ALE is faster and async
-" - Vroom - cuz I hardly write ruby anymore
-" - buffergator - cuz it's slow and sucks ass
-
-
-" =======
-" NOTES
-" =======
-" to temporarily disable a plugin
-" - set runtimepath-=~/.janus/{my extra plugin}
-"
-" how to benchmark startup time with --startuptime
-" - nvim -O packages/app/index.js ~/.vimrc.after --startuptime vim.log
-" - vim -O packages/app/index.js ~/.vimrc.after --startuptime vim.log
-"
+" NERDTree configuration
+    let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
+    " Toggle nerdtree with leader key + n
+    map <Leader>n :NERDTreeToggle<CR>
+    " close vim if the only window left open is NERDTree
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+    " open up nerdTree whenever vim opens
+    autocmd vimenter * NERDTree
+    " opening directory
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+    " show dotfiles
+    let NERDTreeShowHidden=1
 
 " NerdCommenter
 let NERDSpaceDelims=1
-"
-" NERDTree configuration
-let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
-map <Leader>n :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" open up nerdTree whenever vim opens
-autocmd vimenter * NERDTree
-
-" TODO
-" NERDTress File highlighting
-" function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- " exec 'autocmd fileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
- " exec 'autocmd fileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-" endfunction
-
-" call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-" call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-" call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-" call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-" call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-" call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-" call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 
 " set working dir to open file
 autocmd BufEnter * lcd %:p:h
@@ -148,7 +134,8 @@ syntax on
 set vb
 
 " Set encoding
-set encoding=utf-8
+set encoding=utf8
+" set guifont=DroidSansMono_Nerd_Font:h11
 
 " Whitespaces, tabs, spaces, nowrap
 set nowrap
