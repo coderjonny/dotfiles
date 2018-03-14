@@ -1,6 +1,6 @@
 #! /bin/bash
 
-export EDITOR=/usr/local/bin/vim
+export EDITOR=/usr/local/bin/nvim
 
 # show me the paths
 function paths(){
