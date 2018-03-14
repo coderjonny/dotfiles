@@ -18,8 +18,13 @@ Plug 'w0rp/ale'
 Plug 'jlanzarotta/bufexplorer'
 " emmet-vim
 Plug 'mattn/emmet-vim'
-" nerdtree-git-plugin
+" nerdtree & nerdtree-git-plugin
+Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'ryanoasis/vim-devicons'
+
 " vim-airline
 Plug 'vim-airline/vim-airline'
 " vim-bufferline
@@ -49,6 +54,9 @@ Plug 'Shougo/neosnippet-snippets'
 
 " vim-startify
 Plug 'mhinz/vim-startify'
+
+Plug 'ntpeters/vim-better-whitespace'
+" Plug 'janko-m/vim-test'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()

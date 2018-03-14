@@ -15,6 +15,10 @@
 # shellcheck source=/dev/null
 [ -r ~/.bashrc ] && . ~/.bashrc
 
+# use NVIM as default
+export VISUAL=/usr/local/bin/nvim
+export EDITOR="$VISUAL"
+
 #  ___  ____ ____ _  _ ___  ___
 #  |__] |__/ |  | |\/| |__]  |
 #  |    |  \ |__| |  | |     |
@@ -185,6 +189,7 @@ cd() { builtin cd "$@"; 'load-nvmrc'; l; }
 #z script!!!!!!!!!!!!
 # shellcheck source=/dev/null
 [ -r ~/z.sh ] && . ~/z.sh
+[ -r ~/z/z.sh ] && . ~/z/z.sh
 # print info when z.shing into a dir
 function z() {
     z "$@";
@@ -203,8 +208,10 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin/
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
+
+ARC=$HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
 # shellcheck source=/dev/null
-source $HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
+[ -r $ARC ] && . $ARC
 
 #               _         _    _
 #  __ _ _ _  __| |_ _ ___(_)__| |
@@ -213,3 +220,4 @@ source $HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
 #################################
 
 alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
+

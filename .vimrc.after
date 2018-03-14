@@ -3,11 +3,25 @@
 " - customized after installing janus
 " ===================================
 
+" =======
+" NOTES
+" =======
+" to temporarily disable a plugin
+" - set runtimepath-=~/.janus/{my extra plugin}
+"
+" how to benchmark startup time with --startuptime
+" - nvim -O ~/.bash_profile ~/.vimrc.after --startuptime vim.log
+" - vim -O ~/.bash_profile ~/.vimrc.after --startuptime vim.log
+"
+
 " Automatically install missing plugins on startup
-autocmd VimEnter *
-  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-  \|   PlugInstall --sync | q
-  \| endif
+if has('nvim')
+    autocmd VimEnter *
+      \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+      \|   PlugInstall --sync | q
+      \| endif
+endif
+
 " ===================================
 " Plugin configurations
 " ===================================
@@ -57,10 +71,30 @@ autocmd VimEnter *
     nmap <c-s-f> :Rg<space>
 
 " deocomplete
-let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_at_startup = 1
 
 " neosnippet
-let g:neosnippet#enable_completed_snippet = 1
+    let g:neosnippet#enable_completed_snippet = 1
+
+" NERDTree configuration
+    let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
+    " Toggle nerdtree with leader key + n
+    map <Leader>n :NERDTreeToggle<CR>
+    " close vim if the only window left open is NERDTree
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+    " open up nerdTree whenever vim opens
+    autocmd vimenter * NERDTree
+    " opening directory
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+    " show dotfiles
+    let NERDTreeShowHidden=1
+    " Automatically delete the buffer of the file you just deleted with NerdTree:
+    let NERDTreeAutoDeleteBuffer = 1
+
+" vim-better-whitespace
+    let g:better_whitespace_enabled=1
+    let g:strip_whitespace_on_save=1
 
 " startify
 let g:startify_change_to_dir = 1
@@ -77,63 +111,21 @@ let g:startify_session_before_save = [
 " - Vroom - cuz I hardly write ruby anymore
 " - buffergator - cuz it's slow and sucks ass
 
-
-" =======
-" NOTES
-" =======
-" to temporarily disable a plugin
-" - set runtimepath-=~/.janus/{my extra plugin}
-"
-" how to benchmark startup time with --startuptime
-" - nvim -O packages/app/index.js ~/.vimrc.after --startuptime vim.log
-" - vim -O packages/app/index.js ~/.vimrc.after --startuptime vim.log
-"
-
 " NerdCommenter
-let NERDSpaceDelims=1
-"
-" NERDTree configuration
-let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
-map <Leader>n :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" open up nerdTree whenever vim opens
-autocmd vimenter * NERDTree
-
-" TODO
-" NERDTress File highlighting
-" function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- " exec 'autocmd fileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
- " exec 'autocmd fileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-" endfunction
-
-" call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-" call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-" call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-" call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-" call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-" call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-" call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-" call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
-
-" set working dir to open file
-autocmd BufEnter * lcd %:p:h
+    let NERDSpaceDelims=1
 
 " Command-T configuration
-let g:CommandTMaxHeight=20
+    let g:CommandTMaxHeight=20
 
 " CTags
-map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
-map <C-\> :tnext<CR>
+    map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
+    map <C-\> :tnext<CR>
 
 " Gundo configuration
-nmap <F5> :GundoToggle<CR>
-imap <F5> <ESC>:GundoToggle<CR>
+    nmap <F5> :GundoToggle<CR>
+    imap <F5> <ESC>:GundoToggle<CR>
+" set working dir to open file
+autocmd BufEnter * lcd %:p:h
 
 
 " ==========================
@@ -155,15 +147,22 @@ syntax on
 set vb
 
 " Set encoding
-set encoding=utf-8
+set encoding=utf8
+" set guifont=DroidSansMono_Nerd_Font:h11
 
-" Whitespaces, tabs, spaces, nowrap
-set nowrap
+" Whitespaces, tabs, spaces
+set nowrap           " Don't wrap lines
+set linebreak        " Wrap lines at convenient points
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 set list listchars=tab:\ \ ,trail:·
+
+set scrolloff=5 " Keep 5 lines below and above the cursor
+set cursorline
+
+autocmd FocusLost * silent! wa " Automatically save file
 
 " use per-project .vimrc files
 set exrc
