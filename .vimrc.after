@@ -121,7 +121,6 @@ endif
 autocmd BufEnter * lcd %:p:h
 
 
-
 " ==========================
 " extra rules and mappings
 " ==========================
@@ -144,13 +143,19 @@ set vb
 set encoding=utf8
 " set guifont=DroidSansMono_Nerd_Font:h11
 
-" Whitespaces, tabs, spaces, nowrap
-set nowrap
+" Whitespaces, tabs, spaces
+set nowrap           " Don't wrap lines
+set linebreak        " Wrap lines at convenient points
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 set list listchars=tab:\ \ ,trail:·
+
+set scrolloff=5 " Keep 5 lines below and above the cursor
+set cursorline
+
+autocmd FocusLost * silent! wa " Automatically save file
 
 " use per-project .vimrc files
 set exrc
