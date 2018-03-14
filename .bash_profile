@@ -15,6 +15,9 @@
 # shellcheck source=/dev/null
 [ -r ~/.bashrc ] && . ~/.bashrc
 
+# use NVIM as default
+export EDITOR=/usr/local/bin/nvim
+
 #  ___  ____ ____ _  _ ___  ___
 #  |__] |__/ |  | |\/| |__]  |
 #  |    |  \ |__| |  | |     |
@@ -214,3 +217,4 @@ source $HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
 #################################
 
 alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
+
