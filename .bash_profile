@@ -202,7 +202,7 @@ alias z=z
 export ANDROID_HOME=$HOME/Library/Android/sdk
 
 # Android SDK Tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin/
+export PATH=$PATH:$ANDROID_HOME/tools/bin
 
 # Android SDK Platform Tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
