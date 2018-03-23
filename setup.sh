@@ -55,6 +55,19 @@ function install_jq {
     brew install jq
 }
 
+function install_imgcat {
+    brew tap eddieantonio/eddieantonio
+    brew install imgcat
+}
+
+function test_imgcat {
+    imgcat nyan-cat.png
+}
+
+function install_figlet {
+    brew install figlet
+}
+
 # check packages ..
 command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Installing.."; install_shellcheck;}
 command -v nvim >/dev/null 2>&1 || { echo >&2 "Neovim missing. Installing.."; install_nvim;}
@@ -63,6 +76,8 @@ command -v git --version >/dev/null 2>&1 || { echo >&2 "Git missing. Installing.
 command -v diff-so-fancy >/dev/null 2>&1 || { echo >&2 "diff-so-fancy missing. Installing.."; install_diff-so-fancy;}
 command -v tree >/dev/null 2>&1 || { echo >&2 "tree missing. Installing.."; install_tree;}
 command -v jq >/dev/null 2>&1 || { echo >&2 "jq missing. Installing.."; install_jq;}
+command -v imgcat >/dev/null 2>&1 || { echo >&2 "imgcat missing. Installing.."; install_imgcat; test_imgcat;}
+command -v figlet >/dev/null 2>&1 || { echo >&2 "figlet missing. Installing.."; install_figlet; test_figlet;}
 install_completions;
 
 # link bashrc && bash_profile
@@ -88,3 +103,9 @@ link_dotfiles;
 
 #update system & homebrew
 update;
+
+test_imgcat;
+
+
+
+figlet -f starwars -c Setup successful!

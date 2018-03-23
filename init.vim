@@ -59,5 +59,15 @@ Plug 'mhinz/vim-startify'
 Plug 'ntpeters/vim-better-whitespace'
 " Plug 'janko-m/vim-test'
 
+
+" Highlight HEX and RGB color codes and names in their background
+Plug 'chrisbra/Colorizer'
+
+" Jump to any location specified by two characters
+Plug 'justinmk/vim-sneak'
+
+" Show Git diff in the sign column
+" Plug 'airblade/vim-gitgutter'
+
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
