@@ -14,6 +14,7 @@ call plug#begin('~/.vim/plugged')
 " Declare the list of plugins.
 " ale
 Plug 'w0rp/ale'
+Plug 'keith/swift.vim'
 " bufexplorer
 Plug 'jlanzarotta/bufexplorer'
 " emmet-vim
