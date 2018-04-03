@@ -11,9 +11,6 @@
 #  |       |    \_ |_____| |       __|__ |_____ |______
 #  ====================================================
 
-# source .bashrc if exists
-# shellcheck source=/dev/null
-[ -r ~/.bashrc ] && . ~/.bashrc
 
 # use NVIM as default
 export VISUAL=/usr/local/bin/nvim
@@ -221,3 +218,9 @@ ARC=$HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
 
 alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
 
+# Add Visual Studio Code (code)
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+# source .bashrc if exists
+# shellcheck source=/dev/null
+[ -r ~/.bashrc ] && . ~/.bashrc
