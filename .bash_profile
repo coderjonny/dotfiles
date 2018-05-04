@@ -102,7 +102,6 @@ alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 alias mkdir='mkdir -pv'
-alias rm='rm -v'
 
 alias ~='cd ~'
 alias home='cd ~'
