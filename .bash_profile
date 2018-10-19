@@ -223,3 +223,5 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 # source .bashrc if exists
 # shellcheck source=/dev/null
 [ -r ~/.bashrc ] && . ~/.bashrc
+# Add Visual Studio Code (code)
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
