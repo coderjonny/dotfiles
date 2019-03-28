@@ -21,6 +21,12 @@ bind h:ctrl;cmd   push left  bar-resize:screenSizeX/2
 bind k:ctrl;cmd     push up    bar-resize:screenSizeY/2
 bind j:ctrl;cmd   push down  bar-resize:screenSizeY/2
 
+# Push Bindings / 3
+bind l:ctrl;cmd;shift  push right bar-resize:screenSizeX/3
+bind h:ctrl;cmd;shift   push left  bar-resize:screenSizeX/3
+bind k:ctrl;cmd;shift     push up    bar-resize:screenSizeY/3
+bind j:ctrl;cmd;shift   push down  bar-resize:screenSizeY/3
+
 # Centering
 bind c:ctrl,cmd move screenOriginX+((screenSizeX-windowSizeX)/2);screenOriginY+((screenSizeY-windowSizeY)/2) windowSizeX;windowSizeY
 

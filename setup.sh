@@ -83,7 +83,7 @@ install_completions;
 # link bashrc && bash_profile
 # =============================
 function link_dotfiles {
-  echo 'attempting to symlink files in /dev/dotfiles/* ...';
+  printf '\n\n Attempting to symlink files in /dev/dotfiles/* ...';
   printf "\\n ♻️ ♻️ ♻️ \\n";
   cd "$HOME" && cd "$(pwd)/dev/dotfiles" || return;
   ln -sfv "$(pwd)/.bash_profile" "$HOME/.bash_profile";

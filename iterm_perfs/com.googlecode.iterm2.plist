@@ -43844,12 +43844,16 @@
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>1168 110 445 103 0 0 1680 1027 </string>
+	<key>NSWindow Frame SUUpdateAlert</key>
+	<string>650 588 620 392 0 0 1920 1177 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
-	<string>873 229 606 469 0 0 2560 1417 </string>
+	<string>587 171 606 469 0 0 1920 1177 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>501 567 1018 447 0 0 2560 1417 </string>
+	<string>319 361 796 473 0 0 1920 1177 </string>
+	<key>NSWindow Frame UKCrashReporter</key>
+	<string>155 593 592 584 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 2560 1417 0 0 2560 1417 </string>
+	<string>312 -1200 1920 1200 312 -1200 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>840 0 834 1027 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -44479,7 +44483,7 @@
 			<key>Transparency</key>
 			<real>0.029570510786802031</real>
 			<key>Unlimited Scrollback</key>
-			<false/>
+			<true/>
 			<key>Use Bold Font</key>
 			<true/>
 			<key>Use Bright Bold</key>
@@ -44498,6 +44502,8 @@
 			<string>/Users/jonny</string>
 		</dict>
 	</array>
+	<key>NoSyncHaveRequestedFullDiskAccess</key>
+	<true/>
 	<key>NoSyncHaveUsedCopyMode</key>
 	<true/>
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
@@ -44562,7 +44568,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-02-17T04:15:33Z</date>
+	<date>2018-12-15T10:46:22Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>Secure Input</key>
@@ -44570,13 +44576,15 @@
 	<key>SensitiveScrollWheel</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>ShowPaneTitles</key>
 	<false/>
 	<key>SmartPlacement</key>
 	<false/>
 	<key>StretchTabsToFillBar</key>
 	<true/>
+	<key>UKCrashReporterLastCrashReportDate</key>
+	<real>1528136960</real>
 	<key>UseBorder</key>
 	<false/>
 	<key>UseLionStyleFullscreen</key>
@@ -44586,6 +44594,6 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.1.5</string>
+	<string>3.2.6</string>
 </dict>
 </plist>
