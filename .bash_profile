@@ -15,6 +15,7 @@
 # use NVIM as default
 export VISUAL=/usr/local/bin/nvim
 export EDITOR="$VISUAL"
+export POSTGREST_HOST=35.203.146.107
 
 #  ___  ____ ____ _  _ ___  ___
 #  |__] |__/ |  | |\/| |__]  |
@@ -26,7 +27,7 @@ LIGHT_GREY="\\[\\033[37m\\]"
 YELLOW="\\[\\033[33m\\]"
 
 function print_mood {
-  local OUT=$?
+  local OUT="$?"
   local BLUE="\\033[34m"
   local RED="\\033[31m"
   local NC="\\033[0m"
@@ -53,6 +54,9 @@ EMOJI="$NO_COLOR $emoji_rand -> "
 
 PS1="\$(print_mood)$MY_PATH$GITBRANCH$EMOJI"
 
+# bash-completion
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
 #       _ _
 #  __ _| (_)__ _ ___ ___ ___
 # / _` | | / _` (_-</ -_|_-<
@@ -72,7 +76,7 @@ alias saver='open -a ScreenSaverEngine'
 # git stuff
 alias gs='git status '
 alias ga='git add '
-alias gb='git branch -v'
+alias gb='git branch -v -v'
 alias gc='git commit -m'
 alias gd='git diff'
 alias gco='git checkout '
@@ -102,6 +106,7 @@ alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 alias mkdir='mkdir -pv'
+alias rm='rm'
 
 alias ~='cd ~'
 alias home='cd ~'
@@ -174,7 +179,11 @@ load-nvmrc() {
 }
 
 # Automatically calls ls after you cd into a directory
-cd() { builtin cd "$@"; 'load-nvmrc'; l; }
+cd() {
+    builtin cd "$@" || return;
+    'load-nvmrc';
+    l;
+}
 
 #            _
 #  ____  ___| |__
@@ -195,6 +204,11 @@ function z() {
 }
 alias z=z
 
+#               _         _    _
+#  __ _ _ _  __| |_ _ ___(_)__| |
+# / _` | ' \/ _` | '_/ _ \ / _` |
+# \__,_|_||_\__,_|_| \___/_\__,_|
+#################################
 export ANDROID_HOME=$HOME/Library/Android/sdk
 
 # Android SDK Tools
@@ -202,20 +216,18 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 
 # Android SDK Platform Tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/emulator
 
 export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
+alias emulator="\$ANDROID_HOME/tools/emulator"
+alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
+
 
 ARC=$HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
 # shellcheck source=/dev/null
 [ -r $ARC ] && . $ARC
-
-#               _         _    _
-#  __ _ _ _  __| |_ _ ___(_)__| |
-# / _` | ' \/ _` | '_/ _ \ / _` |
-# \__,_|_||_\__,_|_| \___/_\__,_|
-#################################
-
-alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
@@ -223,3 +235,28 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 # source .bashrc if exists
 # shellcheck source=/dev/null
 [ -r ~/.bashrc ] && . ~/.bashrc
+
+# ____    ____  ___      .______      .__   __.
+# \   \  /   / /   \     |   _  \     |  \ |  |
+#  \   \/   / /  ^  \    |  |_)  |    |   \|  |
+#   \_    _/ /  /_\  \   |      /     |  . `  |
+#     |  |  /  _____  \  |  |\  \----.|  |\   |
+#     |__| /__/     \__\ | _| `._____||__| \__|
+################################################
+alias   yy='yarn && yarn bootstrap'
+alias  yyy='yarn reset && yarn && yarn bootstrap'
+
+alias yyi='yarn && yarn bootstrap && yarn ios'
+alias yyo='yarn && yarn bootstrap && yarn ios --app NFLMobile --simulator="iPhone 7 Plus"'
+alias yyof='yarn && yarn bootstrap && yarn ios --app FacemaskReference'
+
+alias  yya='yarn && yarn bootstrap && yarn android'
+alias yya='yarn && yarn bootstrap && yarn android --app NFLMobile'
+alias yyaf='yarn && yarn bootstrap && yarn android --app FacemaskReference'
+
+# DEEPLINKING
+alias deeplink='xcrun simctl openurl booted '
+
+# Add Visual Studio Code (code)
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+

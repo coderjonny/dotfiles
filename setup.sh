@@ -26,6 +26,10 @@ function install_git {
   brew install git
 }
 
+function install_hub {
+  brew install hub
+}
+
 function install_diff-so-fancy {
   brew install diff-so-fancy
   git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
@@ -78,12 +82,13 @@ command -v tree >/dev/null 2>&1 || { echo >&2 "tree missing. Installing.."; inst
 command -v jq >/dev/null 2>&1 || { echo >&2 "jq missing. Installing.."; install_jq;}
 command -v imgcat >/dev/null 2>&1 || { echo >&2 "imgcat missing. Installing.."; install_imgcat; test_imgcat;}
 command -v figlet >/dev/null 2>&1 || { echo >&2 "figlet missing. Installing.."; install_figlet; test_figlet;}
+command -v hub >/dev/null 2>&1 || { echo >&2 "hub missing. Installing.."; install_hub;}
 install_completions;
 
 # link bashrc && bash_profile
 # =============================
 function link_dotfiles {
-  echo 'attempting to symlink files in /dev/dotfiles/* ...';
+  printf '\n\n Attempting to symlink files in /dev/dotfiles/* ...';
   printf "\\n ♻️ ♻️ ♻️ \\n";
   cd "$HOME" && cd "$(pwd)/dev/dotfiles" || return;
   ln -sfv "$(pwd)/.bash_profile" "$HOME/.bash_profile";
