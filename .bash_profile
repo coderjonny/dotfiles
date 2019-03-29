@@ -153,7 +153,7 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 # |--<  \/  |\/|
 #---------------
 # shellcheck source=/dev/null
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 # Load RVM into a shell session *as a function*
 
 #  __ _ _  _ _  _
