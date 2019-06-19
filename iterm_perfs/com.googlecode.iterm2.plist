@@ -43821,7 +43821,7 @@
 	gAKACoAN0xAJChEVGVdOUy5rZXlzoxITFIADgASABaMWFxiABoAHgAiACVpJZGVudGlm
 	aWVyVVdpZHRoVkhpZGRlblEwI0BowAAAAAAACNIhIiMkWiRjbGFzc25hbWVYJGNsYXNz
 	ZXNcTlNEaWN0aW9uYXJ5oiMlWE5TT2JqZWN00xAJCicrGaMSExSAA4AEgAWjLC0YgAuA
-	DIAIgAlRMSNAdKAAAAAAANIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
+	DIAIgAlRMSNAc7AAAAAAANIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
 	TlNLZXllZEFyY2hpdmVy0Tg5VUFycmF5gAEACAARABoAIwAtADIANwBGAEwAUQBcAGMA
 	ZgBoAGoAbABzAHsAfwCBAIMAhQCJAIsAjQCPAJEAnACiAKkAqwC0ALUAugDFAM4A2wDe
 	AOcA7gDyAPQA9gD4APwA/gEAAQIBBAEGAQ8BFAEjAScBLwFBAUQBSgAAAAAAAAIBAAAA
@@ -43843,21 +43843,25 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>1168 110 445 103 0 0 1680 1027 </string>
+	<string>1585 221 445 103 0 0 2560 1417 </string>
+	<key>NSWindow Frame Preferences</key>
+	<string>269 310 606 456 0 0 2560 1417 </string>
+	<key>NSWindow Frame SUAutomaticUpdateAlert</key>
+	<string>972 932 616 174 0 0 2560 1417 </string>
+	<key>NSWindow Frame SUStatusFrame</key>
+	<string>1330 1289 400 129 0 0 2560 1418 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>650 588 620 392 0 0 1920 1177 </string>
+	<string>930 597 700 622 0 0 2560 1418 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
-	<string>587 171 606 469 0 0 1920 1177 </string>
+	<string>269 139 606 469 0 0 2560 1417 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>319 361 796 473 0 0 1920 1177 </string>
-	<key>NSWindow Frame UKCrashReporter</key>
-	<string>155 593 592 584 0 0 1920 1177 </string>
+	<string>427 738 796 486 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>312 -1200 1920 1200 312 -1200 1920 1177 </string>
+	<string>1280 0 1273 1417 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>720 400 652 478 0 0 1440 878 </string>
+	<string>1280 0 1276 1418 0 0 2560 1418 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>4 21 1434 856 0 0 1440 877 </string>
+	<string>1280 948 572 453 0 0 2560 1417 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -44449,7 +44453,7 @@
 			<key>Screen</key>
 			<integer>-2</integer>
 			<key>Scrollback Lines</key>
-			<integer>1000</integer>
+			<integer>0</integer>
 			<key>Selected Text Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -44509,26 +44513,18 @@
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
-	<string>9A651C4A-B674-4A28-8B39-691D8926D78B</string>
+	<string>E38234C8-EBC1-41AE-81E6-581F0FC39466</string>
 	<key>NoSyncLastTipTime</key>
-	<real>485985528.46985298</real>
+	<real>491117617.93586802</real>
 	<key>NoSyncPermissionToShowTip</key>
 	<true/>
-	<key>NoSyncSuppressAnnyoingBellOffer</key>
-	<true/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
-	<real>485464254.986121</real>
-	<key>NoSyncTimeOfLastPromo</key>
-	<real>484817635.43120998</real>
-	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>485554009.50028402</real>
+	<real>489794559.35724801</real>
 	<key>NoSyncTipsDisabled</key>
 	<true/>
 	<key>NoSyncTipsToNotShow</key>
 	<array>
 		<string>000</string>
-		<string>0000</string>
-		<string>0001</string>
 	</array>
 	<key>OpenBookmark</key>
 	<false/>
@@ -44568,7 +44564,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/jonnykang/dev/dotfiles/iterm_perfs</string>
+	<string>/Users/jonny/dev/dotfiles/iterm_perfs</string>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>SUAutomaticallyUpdate</key>
@@ -44578,15 +44574,13 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/final.xml?shard=3</string>
+	<string>https://iterm2.com/appcasts/final.xml?shard=90</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-12-15T10:46:22Z</date>
+	<date>2019-05-16T02:41:54Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
-	<key>Secure Input</key>
-	<true/>
 	<key>SensitiveScrollWheel</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
@@ -44597,8 +44591,6 @@
 	<false/>
 	<key>StretchTabsToFillBar</key>
 	<true/>
-	<key>UKCrashReporterLastCrashReportDate</key>
-	<real>1528136960</real>
 	<key>UseBorder</key>
 	<false/>
 	<key>UseLionStyleFullscreen</key>
@@ -44608,6 +44600,6 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.2.6</string>
+	<string>3.2.9</string>
 </dict>
 </plist>

@@ -28,16 +28,14 @@ YELLOW="\\[\\033[33m\\]"
 
 function print_mood {
   local OUT="$?"
-  local BLUE="\\033[34m"
-  local RED="\\033[31m"
-  local NC="\\033[0m"
-  local HAPPY_FACE="$BLUE""^_^ $NC"
-  local OOPS_FACE="$RED""O_O $NC"
+  local BLUE="\\[\\033[34m\\]"
+  local RED="\\[\\033[31m\\]"
+  local NC="\\[\\033[0m\\]"
 
   if [ $OUT -eq 0 ]; then
-      printf "$HAPPY_FACE"
+      printf "%s\n" "$BLUE ^.^ $NC"
   else
-      printf "$OOPS_FACE"
+      printf "%s\n" "$RED O.O $NC"
   fi
 }
 
@@ -52,7 +50,11 @@ emojis=(🐶 🐺 🐱 🐭 🐹 🐰 🐸 🐯 🐨 🐻 🐷 🐮 🐵 🐼 �
 emoji_rand=${emojis[$RANDOM % 22]}
 EMOJI="$NO_COLOR $emoji_rand -> "
 
-PS1="\$(print_mood)$MY_PATH$GITBRANCH$EMOJI"
+set_bash_prompt(){
+    PS1="$(print_mood)$MY_PATH$GITBRANCH$EMOJI"
+}
+
+PROMPT_COMMAND=set_bash_prompt
 
 # bash-completion
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
