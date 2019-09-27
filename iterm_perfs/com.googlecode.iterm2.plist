@@ -76,7 +76,7 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 588 620 392 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>960 23 955 1154 0 0 1920 1177 </string>
+	<string>-960 -120 955 1177 -1920 -120 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>212 279 570 452 0 0 1680 1027 </string>
 	<key>New Bookmarks</key>
@@ -685,7 +685,7 @@
 			<key>Show Status Bar</key>
 			<true/>
 			<key>Silence Bell</key>
-			<false/>
+			<true/>
 			<key>Status Bar Layout</key>
 			<dict>
 				<key>advanced configuration</key>
@@ -1468,16 +1468,16 @@
 	<key>NoSyncFrame_SharedPreferences</key>
 	<dict>
 		<key>screenFrame</key>
-		<string>{{0, 0}, {1920, 1200}}</string>
+		<string>{{-1920, -120}, {1920, 1200}}</string>
 		<key>topLeft</key>
-		<string>{116, 813}</string>
+		<string>{-1678, 675}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
 	<string>4B142B4C-66A0-49E9-AAE7-B272069C0966</string>
 	<key>NoSyncLastTipTime</key>
-	<real>590519123.98783004</real>
+	<real>591225966.46268702</real>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>8</integer>
+	<integer>13</integer>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -1836,6 +1836,14 @@
 			</dict>
 			<dict>
 				<key>isTerminal</key>
+				<true/>
+				<key>name</key>
+				<string>currentTab.currentSession.terminalIconName</string>
+				<key>nonterminalContext</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>isTerminal</key>
 				<false/>
 				<key>name</key>
 				<string>currentTab</string>
@@ -2164,22 +2172,28 @@
 	</dict>
 	<key>NoSyncSearchHistory2</key>
 	<array>
+		<string>svg</string>
+		<string>async</string>
+		<string>native</string>
+		<string>analytics</string>
 		<string>andriod</string>
 		<string>andoir</string>
 		<string>match</string>
 		<string>matfh</string>
 		<string>reduc</string>
 		<string>jobslist</string>
-		<string>jobslistre</string>
-		<string>test</string>
-		<string>segment</string>
-		<string>unimod</string>
 	</array>
 	<key>NoSyncTipOfTheDayEligibilityBeganTime</key>
 	<real>589755121.458691</real>
 	<key>NoSyncTipsToNotShow</key>
 	<array>
 		<string>000</string>
+		<string>0000</string>
+		<string>0001</string>
+		<string>0002</string>
+		<string>0003</string>
+		<string>0004</string>
+		<string>0005</string>
 	</array>
 	<key>PMPrintingExpandedStateForPrint2</key>
 	<false/>
@@ -2235,7 +2249,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2019-09-18T17:05:23Z</date>
+	<date>2019-09-26T23:21:29Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SUUpdateRelaunchingMarker</key>

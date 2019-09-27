@@ -12,6 +12,7 @@
 #  ====================================================
 
 
+
 # use NVIM as default
 export VISUAL=/usr/local/bin/nvim
 export EDITOR="$VISUAL"
@@ -96,6 +97,7 @@ alias got='git '
 alias get='git '
 alias gre='git rebase -i'
 alias g-='git checkout -'
+alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 # shellcheck source=/dev/null
 [ -r ~/git-completion ] && . ~/git-completion.bash
@@ -152,6 +154,7 @@ alias most=most_used_commands
 
 alias crontab="VIM_CRONTAB=true crontab"
 
+export PATH="/usr/local/opt/ruby/bin:$PATH"
 #rbenv stuff
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PATH="$HOME/.rbenv/bin:$PATH"
@@ -256,9 +259,10 @@ alias  yya='yarn && yarn bootstrap && yarn android'
 alias yya='yarn && yarn bootstrap && yarn android --app NFLMobile'
 alias yyaf='yarn && yarn bootstrap && yarn android --app FacemaskReference'
 
+alias yi='yarn ios --simulator="iPhone 8"'
+
 # DEEPLINKING
 alias deeplink='xcrun simctl openurl booted '
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-
