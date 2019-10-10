@@ -228,6 +228,7 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
 alias emulator="\$ANDROID_HOME/tools/emulator"
 alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
+alias run-emulator="emulator @$(emulators)"
 
 
 ARC=$HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
@@ -260,6 +261,8 @@ alias yya='yarn && yarn bootstrap && yarn android --app NFLMobile'
 alias yyaf='yarn && yarn bootstrap && yarn android --app FacemaskReference'
 
 alias yi='yarn ios --simulator="iPhone 8"'
+
+alias yready='yarn && cd ios && pod install && pod update'
 
 # DEEPLINKING
 alias deeplink='xcrun simctl openurl booted '
