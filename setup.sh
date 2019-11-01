@@ -83,6 +83,9 @@ function install_lua {
   brew install lua
 }
 
+function install_exa {
+  brew install exa
+}
 
 # check packages ..
 command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Installing.."; install_shellcheck;}
@@ -98,6 +101,7 @@ command -v hub >/dev/null 2>&1 || { echo >&2 "hub missing. Installing.."; instal
 command -v fzf >/dev/null 2>&1 || { echo >&2 "fzf missing. Installing.."; install_fzf;}
 command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; install_lua;}
 command -v z >/dev/null 2>&1 || { echo >&2 "z.lua script is missing. downloading.."; install_zlua; }
+command -v exa >/dev/null 2>&1 || { echo >&2 "exa is missing. downloading.."; install_exa; }
 install_completions;
 
 # link bashrc && bash_profile

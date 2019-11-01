@@ -112,6 +112,7 @@ alias ...='cd ../../'
 alias ....='cd ../../../'
 alias mkdir='mkdir -pv'
 alias rm='rm'
+alias e='exa -lh --git'
 
 alias ~='cd ~'
 alias home='cd ~'
@@ -197,7 +198,7 @@ export _ZL_ECHO=1
 function zo() {
     z "$@";
     printf "\\n";
-    l;
+    exa -lh --git;
     printf "\\n";
     gs;
 }
