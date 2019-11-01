@@ -90,6 +90,7 @@ alias gr='git remote -v'
 alias gps='git push'
 alias gpso='git push o'
 alias gpl='git pull'
+alias gcp='git cherry-pick'
 
 alias g='git '
 alias gi='git '
@@ -190,24 +191,21 @@ cd() {
     l;
 }
 
-#            _
-#  ____  ___| |__
-# |_  / / __| '_ \
-#  / / _\__ \ | | |
-# /___(_)___/_| |_|
-###################
-#z script!!!!!!!!!!!!
-# shellcheck source=/dev/null
-[ -r ~/z.sh ] && . ~/z.sh
-[ -r ~/z/z.sh ] && . ~/z/z.sh
-# print info when z.shing into a dir
-function z() {
+eval "$(lua ~/z.lua --init bash enhanced once fzf)"
+export _ZL_ECHO=1
+
+function zo() {
     z "$@";
+    printf "\\n";
     l;
     printf "\\n";
     gs;
 }
-alias z=z
+alias zz='z -c'      # restrict matches to subdirs of $PWD
+alias zi='z -i'      # cd with interactive selection
+alias zf='z -I'      # use fzf to select in multiple matches
+alias zb='z -b'      # quickly cd to the parent directory
+
 
 #               _         _    _
 #  __ _ _ _  __| |_ _ ___(_)__| |
@@ -228,12 +226,12 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
 alias emulator="\$ANDROID_HOME/tools/emulator"
 alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
-alias run-emulator="emulator @$(emulators)"
+alias run-emulator='emulator @$(emulators)'
 
 
 ARC=$HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
 # shellcheck source=/dev/null
-[ -r $ARC ] && . $ARC
+[ -r "$2ARC" ] && . "$ARC"
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
@@ -249,7 +247,7 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 #     |  |  /  _____  \  |  |\  \----.|  |\   |
 #     |__| /__/     \__\ | _| `._____||__| \__|
 ################################################
-alias   yy='yarn && yarn bootstrap'
+## alias   yy='yarn && yarn bootstrap'
 alias  yyy='yarn reset && yarn && yarn bootstrap'
 
 alias yyi='yarn && yarn bootstrap && yarn ios'
@@ -262,7 +260,7 @@ alias yyaf='yarn && yarn bootstrap && yarn android --app FacemaskReference'
 
 alias yi='yarn ios --simulator="iPhone 8"'
 
-alias yready='yarn && cd ios && pod install && pod update'
+alias yy='yarn && cd ios && pod install && ..'
 
 # DEEPLINKING
 alias deeplink='xcrun simctl openurl booted '

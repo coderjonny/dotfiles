@@ -183,9 +183,9 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 588 620 392 0 0 1920 1177 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
-	<string>155 593 592 584 0 0 1920 1177 </string>
+	<string>366 -607 592 584 366 -1200 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 141 1920 1036 0 0 1920 1177 </string>
+	<string>960 0 957 1177 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>212 279 570 452 0 0 1680 1027 </string>
 	<key>New Bookmarks</key>
@@ -783,7 +783,9 @@
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
-			<integer>1000</integer>
+			<integer>0</integer>
+			<key>Scrollback With Status Bar</key>
+			<true/>
 			<key>Selected Text Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -972,7 +974,7 @@
 			<key>Transparency</key>
 			<real>0.29186825824873097</real>
 			<key>Unlimited Scrollback</key>
-			<false/>
+			<true/>
 			<key>Use Bold Font</key>
 			<true/>
 			<key>Use Bright Bold</key>
@@ -1671,22 +1673,24 @@
 	</array>
 	<key>NoSyncAllAppVersions</key>
 	<array>
-		<string>3.3.3</string>
+		<string>3.3.5</string>
 		<string>3.3.4</string>
+		<string>3.3.3</string>
+		<string>3.3.6</string>
 	</array>
 	<key>NoSyncFrame_SharedPreferences</key>
 	<dict>
 		<key>screenFrame</key>
-		<string>{{1920, 120}, {1920, 1080}}</string>
+		<string>{{1680, -30}, {1920, 1080}}</string>
 		<key>topLeft</key>
-		<string>{2508, 904}</string>
+		<string>{1853, 809}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
 	<string>4B142B4C-66A0-49E9-AAE7-B272069C0966</string>
 	<key>NoSyncLastTipTime</key>
 	<real>591466322.66759205</real>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>21</integer>
+	<integer>25</integer>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -2184,6 +2188,22 @@
 			</dict>
 			<dict>
 				<key>isTerminal</key>
+				<false/>
+				<key>name</key>
+				<string>title</string>
+				<key>nonterminalContext</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>isTerminal</key>
+				<true/>
+				<key>name</key>
+				<string>title</string>
+				<key>nonterminalContext</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>isTerminal</key>
 				<true/>
 				<key>name</key>
 				<string>tmuxWindowTitle</string>
@@ -2381,16 +2401,16 @@
 	</dict>
 	<key>NoSyncSearchHistory2</key>
 	<array>
+		<string>core</string>
+		<string>javasc</string>
+		<string>jaba</string>
+		<string>javascript</string>
+		<string>javjasc</string>
+		<string>version</string>
+		<string>a55</string>
+		<string>a55b41ff81d72c2ef6c7956d8c0ecc31182e052</string>
+		<string>type</string>
 		<string>bundle</string>
-		<string>image</string>
-		<string>react-native</string>
-		<string>svg</string>
-		<string>async</string>
-		<string>native</string>
-		<string>analytics</string>
-		<string>andriod</string>
-		<string>andoir</string>
-		<string>match</string>
 	</array>
 	<key>NoSyncTipOfTheDayEligibilityBeganTime</key>
 	<real>589755121.458691</real>
@@ -2462,7 +2482,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2019-10-08T18:36:21Z</date>
+	<date>2019-11-01T07:56:21Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SUUpdateRelaunchingMarker</key>
@@ -2482,9 +2502,11 @@
 	<key>TabViewType</key>
 	<integer>0</integer>
 	<key>UKCrashReporterLastCrashReportDate</key>
-	<real>1569604480</real>
+	<real>1571938688</real>
 	<key>UseBorder</key>
 	<true/>
+	<key>UseLionStyleFullscreen</key>
+	<false/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 	<key>WindowNumber</key>
@@ -2492,6 +2514,6 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.3.4</string>
+	<string>3.3.6</string>
 </dict>
 </plist>

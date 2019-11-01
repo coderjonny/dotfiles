@@ -2,24 +2,27 @@
 
 # Check for Homebrew, install if we don't have it
 if test ! "$(which brew)"; then
-    echo "Installing homebrew..."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  echo "Installing homebrew..."
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
 function install_shellcheck {
-    brew install shellcheck
+  brew install shellcheck
 }
 
 function install_nvim {
-    brew install neovim
+  brew install neovim
 }
 
 function install_ccat {
-    brew install ccat
+  brew install ccat
 }
 
-function install_zscript {
-  cd "$HOME" && curl -O https://raw.githubusercontent.com/rupa/z/master/z.sh
+function install_zlua {
+  cd "$HOME" && curl -O https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua
+  FILE=$HOME/z.lua
+  [ -f "$FILE" ] && echo "$FILE downloaded."
+  printf "\\n"
 }
 
 function install_git {
@@ -52,25 +55,34 @@ function install_completions {
 }
 
 function install_tree {
-    brew install tree
+  brew install tree
 }
 
 function install_jq {
-    brew install jq
+  brew install jq
 }
 
 function install_imgcat {
-    brew tap eddieantonio/eddieantonio
-    brew install imgcat
+  brew tap eddieantonio/eddieantonio
+  brew install imgcat
 }
 
 function test_imgcat {
-    imgcat nyan-cat.png
+  imgcat nyan-cat.png
 }
 
 function install_figlet {
-    brew install figlet
+  brew install figlet
 }
+
+function install_fzf {
+  brew install fzf
+}
+
+function install_lua {
+  brew install lua
+}
+
 
 # check packages ..
 command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Installing.."; install_shellcheck;}
@@ -83,6 +95,9 @@ command -v jq >/dev/null 2>&1 || { echo >&2 "jq missing. Installing.."; install_
 command -v imgcat >/dev/null 2>&1 || { echo >&2 "imgcat missing. Installing.."; install_imgcat; test_imgcat;}
 command -v figlet >/dev/null 2>&1 || { echo >&2 "figlet missing. Installing.."; install_figlet; test_figlet;}
 command -v hub >/dev/null 2>&1 || { echo >&2 "hub missing. Installing.."; install_hub;}
+command -v fzf >/dev/null 2>&1 || { echo >&2 "fzf missing. Installing.."; install_fzf;}
+command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; install_lua;}
+command -v z >/dev/null 2>&1 || { echo >&2 "z.lua script is missing. downloading.."; install_zlua; }
 install_completions;
 
 # link bashrc && bash_profile
@@ -95,22 +110,31 @@ function link_dotfiles {
   ln -sfv "$(pwd)/.bashrc" "$HOME/.bashrc";
   ln -sfv "$(pwd)/.vimrc.before" "$HOME/.vimrc.before";
   ln -sfv "$(pwd)/.vimrc.after" "$HOME/.vimrc.after";
-  ln -sfv "$(pwd)/init.vim" "$HOME/.config/nvim/init.vim";
 
-  # shellcheck source=/dev/null
-  . $HOME/.bash_profile;
+  FILE=$HOME/.config/nvim/init.vim
+  if [ -f "$FILE" ]
+  then
+    echo "$FILE exist"
+  else
+    mkdir $HOME/.config/nvim/;
+    echo "$FILE does not exist, created dir";
+    ln -sfv "$(pwd)/init.vim" "$HOME/.config/nvim/init.vim";
+  fi
 
-  unalias z 2>/dev/null || { echo >&2 "z script is missing. downloading.."; install_zscript;}
-
-  printf "\\n done symlinking...\\n";
+  printf " done symlinking...";
+  printf " ..................";
+  printf "\\n ♻️ ♻️ ♻️ \\n\\n";
 }
+
 link_dotfiles;
+
+# Load up new bash profile
+# shellcheck source=/dev/null
+. $HOME/.bash_profile;
 
 #update system & homebrew
 update;
 
 test_imgcat;
-
-
 
 figlet -f starwars -c Setup successful!
