@@ -86,6 +86,10 @@ function install_exa {
   brew install exa
 }
 
+function install_python {
+  brew install python
+}
+
 # check packages ..
 command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Installing.."; install_shellcheck;}
 command -v nvim >/dev/null 2>&1 || { echo >&2 "Neovim missing. Installing.."; install_nvim;}
@@ -101,6 +105,7 @@ command -v fzf >/dev/null 2>&1 || { echo >&2 "fzf missing. Installing.."; instal
 command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; install_lua;}
 command -v z >/dev/null 2>&1 || { echo >&2 "z.lua script is missing. downloading.."; install_zlua; }
 command -v exa >/dev/null 2>&1 || { echo >&2 "exa is missing. downloading.."; install_exa; }
+command -v python >/dev/null 2>&1 || { echo >&2 "python is missing. downloading.."; install_python; }
 install_completions;
 
 # link bashrc && bash_profile
