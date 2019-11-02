@@ -1,6 +1,5 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
-source ~/.vimrc
 
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -72,5 +71,6 @@ call plug#begin('~/.vim/plugged')
 " Plug 'airblade/vim-gitgutter'
 " vim-startify
   Plug 'mhinz/vim-startify'
-
 call plug#end()
+
+source ~/.vimrc
