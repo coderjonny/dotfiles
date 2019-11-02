@@ -18,7 +18,7 @@ call plug#begin('~/.vim/plugged')
 " vim-easy-align
   Plug 'junegunn/vim-easy-align'
 " ale
-  Plug 'w0rp/ale' | Plug 'keith/swift.vim'
+  Plug 'dense-analysis/ale'
 " bufexplorer
   Plug 'jlanzarotta/bufexplorer'
 " fzf fuzzy finder
@@ -48,13 +48,16 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
+" vim-surround
+  Plug 'tpope/vim-surround'
+" vim-fugitive
+  Plug 'tpope/vim-fugitive'
+
 " plugins for deocomplete
   Plug 'wokalski/autocomplete-flow'
 " For func argument completion
   Plug 'Shougo/neosnippet'
   Plug 'Shougo/neosnippet-snippets'
-" vim-startify
-  Plug 'mhinz/vim-startify'
   Plug 'ntpeters/vim-better-whitespace'
 " Plug 'janko-m/vim-test'
 " Highlight HEX and RGB color codes and names in their background
@@ -63,5 +66,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'justinmk/vim-sneak'
 " Show Git diff in the sign column
 " Plug 'airblade/vim-gitgutter'
+" vim-startify
+  Plug 'mhinz/vim-startify'
 
 call plug#end()
