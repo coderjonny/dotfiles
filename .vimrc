@@ -204,8 +204,8 @@
   map gd :GitGutterLineHighlightsToggle<CR>
   nmap ]c <Plug>GitGutterNextHunk
   nmap [c <Plug>GitGutterPrevHunk
-  nmap <Leader>hs <Plug>GitGutterStageHunk
-  nmap <Leader>hu <Plug>GitGutterUndoHunk
+  nmap <Leader>hs <Plug>(GitGutterStageHunk)
+  nmap <Leader>hu <Plug>(GitGutterUndoHunk)
 
 " control + t: ctrlT pops up FZF
   let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'

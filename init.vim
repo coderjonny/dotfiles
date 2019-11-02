@@ -48,6 +48,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
+" For func argument completion
+  Plug 'Shougo/neosnippet'
+  Plug 'Shougo/neosnippet-snippets'
+  Plug 'ntpeters/vim-better-whitespace'
 " plugins for deocomplete
   Plug 'wokalski/autocomplete-flow'
 " vim-surround
@@ -58,10 +62,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'flazz/vim-colorschemes'
 " vim-easymotion
   Plug 'easymotion/vim-easymotion'
-" For func argument completion
-  Plug 'Shougo/neosnippet'
-  Plug 'Shougo/neosnippet-snippets'
-  Plug 'ntpeters/vim-better-whitespace'
 " Highlight HEX and RGB color codes and names in their background
   Plug 'chrisbra/Colorizer'
 " Jump to any location specified by two characters
