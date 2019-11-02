@@ -12,6 +12,7 @@
 #  ====================================================
 
 
+
 # use NVIM as default
 export VISUAL=/usr/local/bin/nvim
 export EDITOR="$VISUAL"
@@ -89,6 +90,7 @@ alias gr='git remote -v'
 alias gps='git push'
 alias gpso='git push o'
 alias gpl='git pull'
+alias gcp='git cherry-pick'
 
 alias g='git '
 alias gi='git '
@@ -96,6 +98,7 @@ alias got='git '
 alias get='git '
 alias gre='git rebase -i'
 alias g-='git checkout -'
+alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 # shellcheck source=/dev/null
 [ -r ~/git-completion ] && . ~/git-completion.bash
@@ -104,11 +107,14 @@ alias g-='git checkout -'
 alias l='ls -logGFh'
 alias la='ls -logGFrah'
 alias c='ccat'
+alias b='bat'
+alias cat='bat'
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 alias mkdir='mkdir -pv'
 alias rm='rm'
+alias e='exa -lh --git'
 
 alias ~='cd ~'
 alias home='cd ~'
@@ -152,8 +158,13 @@ alias most=most_used_commands
 
 alias crontab="VIM_CRONTAB=true crontab"
 
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+if which ruby >/dev/null && which gem >/dev/null; then
+    PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+fi
+
 #rbenv stuff
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if command -v rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PATH="$HOME/.rbenv/bin:$PATH"
 
 # ____ _  _ _  _
@@ -187,24 +198,21 @@ cd() {
     l;
 }
 
-#            _
-#  ____  ___| |__
-# |_  / / __| '_ \
-#  / / _\__ \ | | |
-# /___(_)___/_| |_|
-###################
-#z script!!!!!!!!!!!!
-# shellcheck source=/dev/null
-[ -r ~/z.sh ] && . ~/z.sh
-[ -r ~/z/z.sh ] && . ~/z/z.sh
-# print info when z.shing into a dir
-function z() {
+eval "$(lua ~/z.lua --init bash enhanced once fzf)"
+export _ZL_ECHO=1
+
+function zo() {
     z "$@";
-    l;
+    printf "\\n";
+    exa -lh --git;
     printf "\\n";
     gs;
 }
-alias z=z
+alias zz='z -c'      # restrict matches to subdirs of $PWD
+alias zi='z -i'      # cd with interactive selection
+alias zf='z -I'      # use fzf to select in multiple matches
+alias zb='z -b'      # quickly cd to the parent directory
+
 
 #               _         _    _
 #  __ _ _ _  __| |_ _ ___(_)__| |
@@ -225,11 +233,12 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
 alias emulator="\$ANDROID_HOME/tools/emulator"
 alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
+alias run-emulator='emulator @$(emulators)'
 
 
 ARC=$HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
 # shellcheck source=/dev/null
-[ -r $ARC ] && . $ARC
+[ -r "$2ARC" ] && . "$ARC"
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
@@ -245,7 +254,7 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 #     |  |  /  _____  \  |  |\  \----.|  |\   |
 #     |__| /__/     \__\ | _| `._____||__| \__|
 ################################################
-alias   yy='yarn && yarn bootstrap'
+## alias   yy='yarn && yarn bootstrap'
 alias  yyy='yarn reset && yarn && yarn bootstrap'
 
 alias yyi='yarn && yarn bootstrap && yarn ios'
@@ -256,6 +265,10 @@ alias  yya='yarn && yarn bootstrap && yarn android'
 alias yya='yarn && yarn bootstrap && yarn android --app NFLMobile'
 alias yyaf='yarn && yarn bootstrap && yarn android --app FacemaskReference'
 
+alias yi='yarn ios --simulator="iPhone 8"'
+
+alias yy='yarn && cd ios && pod install && ..'
+
 # DEEPLINKING
 alias deeplink='xcrun simctl openurl booted '
 
@@ -263,4 +276,3 @@ alias deeplink='xcrun simctl openurl booted '
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 export PATH="/usr/local/sbin:$PATH"
-

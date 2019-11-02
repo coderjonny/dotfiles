@@ -1,6 +1,0 @@
-call janus#disable_plugin('syntastic')
-call janus#disable_plugin('vim-vroom')
-call janus#disable_plugin('Vroom')
-call janus#disable_plugin('BufferGator')
-call janus#disable_plugin('vim-buffergator')
-call janus#disable_plugin('buffergator')
