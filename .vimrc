@@ -16,7 +16,6 @@
         \| endif
   endif
 
-
 " ===================================
 " Plugin configurations
 " ===================================
@@ -73,6 +72,13 @@
 
 " deocomplete
   let g:deoplete#enable_at_startup      = 1
+  " Enable completion where available.
+  " This setting must be set before ALE is loaded.
+  "
+  " You should not turn this setting on if you wish to use ALE as a completion
+  " source for other completion plugins, like Deoplete.
+  let g:ale_completion_enabled = 1
+  let g:ale_completion_tsserver_autoimport = 1
 
 " nerdcommenter
   " Add spaces after comment delimiters by default
@@ -91,6 +97,31 @@
   let g:NERDTrimTrailingWhitespace      = 1
   " Enable NERDCommenterToggle to check all selected lines is commented or not
   let g:NERDToggleCheckAllLines         = 1
+
+" git-gutter
+  let g:gitgutter_sign_allow_clobber = 1
+
+" ale syntax highlighting and linting
+  let g:ale_fixers = {
+      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \   'javascript': ['eslint'],
+      \   'typescript': ['prettier', 'eslint']
+      \}
+
+  " let g:ale_linter_aliases = {'tsx': ['css', 'ale-javascript-eslint']}
+  " let g:ale_linters = {'tsx': ['stylelint', 'ale-javascript-eslint']}
+
+" Make sure typescript files are set as tsx files
+  augroup FiletypeGroup
+    autocmd!
+    au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
+  augroup END
+
+" startify
+:set sessionoptions-=blank " don't save empt buffer window like NerdTree
+" au BufEnter *.* :Startify <C-R>
+
+
 
 
 "           _   _   _
@@ -177,81 +208,103 @@ map gd :GitGutterLineHighlightsToggle<CR>
 
 let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'
 map <c-t> :FZF<CR>
+map <c-p> :FZF<CR>
 
-
-"
-"" CTags
-"    map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
-"    map <C-\> :tnext<CR>
-"
 "" Gundo configuration
 "    nmap <F5> :GundoToggle<CR>
 "    imap <F5> <ESC>:GundoToggle<CR>
-"" set working dir to open file
-"autocmd BufEnter * lcd %:p:h
 "
-"
+" set working dir to open file
+" autocmd BufEnter * lcd %:p:h
+
 "" ==========================
 "" extra rules and mappings
 "" ==========================
-"
-"let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
-"set nocompatible
-"set noswapfile
-"set number
-"set ruler
-"syntax on
-"
-"" Map <leader> key to comma key too
-":nmap , <Leader>
-":vmap , <Leader>
-"
-""shut the fuck up
-"set vb
-"
-"" Set encoding
-"set encoding=utf8
-"" set guifont=DroidSansMono_Nerd_Font:h11
-"
+set noswapfile
+set number
+set ruler
+syntax on
+
+
+" Saving sessions to F2 and F3
+  map <F2> :mksession! ~/vim_session <cr> " Quick write session with F2
+  map <F3> :source ~/vim_session <cr>     " And load session with F3
+
+function s:load_session()
+  :source ~/vim_session <cr>
+endfunction
+
+function s:save_session()
+  :mksession! ~/vim_session <cr>
+endfunction
+
+function s:before_quit()
+  call s:save_session()
+  :conf xa<CR>
+endfunction
+
+" type 'QQ' to save and quit out of vim quickly
+  map QQ :mksession! ~/vim_session <cr> :conf xa<CR>
+  map Q :conf q<CR>
+
+" Map <leader> key to comma key too
+  :nmap , <Leader>
+  :vmap , <Leader>
+
+set guifont=DroidSansMono_Nerd_Font:h11
+
 "" Searching
-"set hlsearch
-"set incsearch
-"set ignorecase
-"set smartcase
-"
+  set hlsearch
+  set incsearch
+  set ignorecase
+  set smartcase
+
 "" Tab completion
-"set wildmode=list:longest,list:full
-"set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
-"
+set wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
+
 "" Status bar
-"set laststatus=2
-"
-"" Remember last location in file
-"if has("autocmd")
-"  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-"    \| exe "normal g'\"" | endif
-"endif
-"
-"function s:setupWrapping()
-"    set wrap
-"    set wrapmargin=2
-"    set textwidth=72
-"endfunction
-"
-"function s:setupMarkup()
-"    call s:setupWrapping()
-"    map <buffer> <Leader>p :Hammer<CR>
-"endfunction
-"
-"" Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
-"" au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
-"
-"" md, markdown, and mk are markdown and define buffer-local preview
-"au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
-"au BufRead,BufNewFile *.txt call s:setupWrapping()
-"
+  set laststatus=2
+
+" Remember last location in file
+  if has("autocmd")
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+      \| exe "normal g'\"" | endif
+  endif
+
+function s:setupWrapping()
+    set wrap
+    set wrapmargin=2
+    set textwidth=72
+endfunction
+
+function s:setupMarkup()
+    call s:setupWrapping()
+    map <buffer> <Leader>p :Hammer<CR>
+endfunction
+
+" Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
+  au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
+" md, markdown, and mk are markdown and define buffer-local preview
+  au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
+  au BufRead,BufNewFile *.txt call s:setupWrapping()
+
 "" allow backspacing over everything in insert mode
-"set backspace=indent,eol,start
+  set backspace=indent,eol,start
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 "
 "" ==========================
 "" Bubbling configuration using unimpaired mapping
@@ -366,8 +419,3 @@ map <c-t> :FZF<CR>
 "set updatetime=100
 "
 "nmap <Leader>b :Gblame<CR>
-"
-"" type 'QQ' to save and quit out of vim quickly
-""
-"map QQ :conf xa<CR>
-"map Q :conf q<CR>
