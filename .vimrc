@@ -116,7 +116,7 @@
   augroup END
 
 " startify
-:set sessionoptions-=blank " don't save empt buffer window like NerdTree
+  :set sessionoptions-=blank " don't save empt buffer window like NerdTree
 " au BufEnter *.* :Startify <C-R>
 
 
@@ -193,35 +193,31 @@
 "    let g:strip_whitespace_on_save=1
 "
 "" startify
-let g:startify_change_to_dir = 1
-let g:startify_session_before_save = [
-        \ 'echo "Cleaning up before saving.."',
-        \ 'silent! NERDTreeTabsClose'
-        \ ]
+  let g:startify_change_to_dir = 1
+  let g:startify_session_before_save = [
+      \ 'echo "Cleaning up before saving.."',
+      \ 'silent! NERDTreeTabsClose'
+      \ ]
 
 
-"" git diff toggle with ()
-map gd :GitGutterLineHighlightsToggle<CR>
+"" git diff toggle with (g + d keys)
+  map gd :GitGutterLineHighlightsToggle<CR>
+  nmap ]c <Plug>GitGutterNextHunk
+  nmap [c <Plug>GitGutterPrevHunk
+  nmap <Leader>hs <Plug>GitGutterStageHunk
+  nmap <Leader>hu <Plug>GitGutterUndoHunk
 
-
-let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'
-map <c-t> :FZF<CR>
-map <c-p> :FZF<CR>
-
-"" Gundo configuration
-"    nmap <F5> :GundoToggle<CR>
-"    imap <F5> <ESC>:GundoToggle<CR>
-"
-" set working dir to open file
-" autocmd BufEnter * lcd %:p:h
+" control + t: ctrlT pops up FZF
+  let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'
+  map <c-t> :FZF<CR>
 
 "" ==========================
 "" extra rules and mappings
 "" ==========================
-set noswapfile
-set number
-set ruler
-syntax on
+  set noswapfile
+  set number
+  set ruler
+  syntax on
 
 
 " Saving sessions to F2 and F3
@@ -340,14 +336,6 @@ endfunction
 " Show (partial) command in the status line
   set showcmd
 
-"" Shift tab will open current window in a new tab
-  nnoremap <S-tab> :tab split<CR>
-"" then ZZ to close out
-"" or
-"" c-w-| to have window take over (if using vsplits).
-"" c-w-= to restore.
-"" c-w-_ for horizontal splits
-
 " shows RELATIVENUMBER on side rail
   set relativenumber
 
@@ -387,6 +375,12 @@ endfunction
 
 
 
+"" Gundo configuration
+"    nmap <F5> :GundoToggle<CR>
+"    imap <F5> <ESC>:GundoToggle<CR>
+"
+" set working dir to open file
+" autocmd BufEnter * lcd %:p:h
 " % to bounce from do to end etc.
 " runtime! macros/matchit.vim
 
@@ -401,3 +395,12 @@ endfunction
 " Inserts the path of the currently edited file into a command
 " Command mode: Ctrl+P
 "  cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+
+
+"" Shift tab will open current window in a new tab
+"   nnoremap <S-tab> :tab split<CR>
+"" then ZZ to close out
+"" or
+"" c-w-| to have window take over (if using vsplits).
+"" c-w-= to restore.
+"" c-w-_ for horizontal splits
