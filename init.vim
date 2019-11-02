@@ -12,32 +12,32 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
-" ale
-Plug 'w0rp/ale'
-Plug 'keith/swift.vim'
-" bufexplorer
-Plug 'jlanzarotta/bufexplorer'
-" emmet-vim
-Plug 'mattn/emmet-vim'
+"""""""""""""""""""""""""""""""""
 " nerdtree & nerdtree-git-plugin
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Plug 'ryanoasis/vim-devicons'
-
+  Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+" vim-easy-align
+  Plug 'junegunn/vim-easy-align'
+" ale
+  Plug 'w0rp/ale' | Plug 'keith/swift.vim'
+" bufexplorer
+  Plug 'jlanzarotta/bufexplorer'
+" emmet-vim
+  Plug 'mattn/emmet-vim'
 " vim-airline
-Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline'
 " vim-bufferline
-Plug 'bling/vim-bufferline'
+  Plug 'bling/vim-bufferline'
 " vim-localvimrc
-Plug 'embear/vim-localvimrc'
+  Plug 'embear/vim-localvimrc'
 " vim-sensible
-Plug 'tpope/vim-sensible'
+  Plug 'tpope/vim-sensible'
 " vim-flow
-Plug 'flowtype/vim-flow'
+  Plug 'flowtype/vim-flow'
 " vim-ripgrep
-Plug 'jremmen/vim-ripgrep'
+  Plug 'jremmen/vim-ripgrep'
+" nerdcommenter
+  Plug 'scrooloose/nerdcommenter'
+
 " deoplete
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -58,7 +58,6 @@ Plug 'mhinz/vim-startify'
 
 Plug 'ntpeters/vim-better-whitespace'
 " Plug 'janko-m/vim-test'
-
 
 " Highlight HEX and RGB color codes and names in their background
 Plug 'chrisbra/Colorizer'

@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # Check for Homebrew, install if we don't have it
-if test ! "$(which brew)"; then
+if test ! "$(command -v brew)"; then
   echo "Installing homebrew..."
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
@@ -9,7 +9,6 @@ fi
 function install_shellcheck {
   brew install shellcheck
 }
-
 function install_nvim {
   brew install neovim
 }
@@ -114,6 +113,7 @@ function link_dotfiles {
   ln -sfv "$(pwd)/.bashrc" "$HOME/.bashrc";
   ln -sfv "$(pwd)/.vimrc.before" "$HOME/.vimrc.before";
   ln -sfv "$(pwd)/.vimrc.after" "$HOME/.vimrc.after";
+  ln -sfv "$(pwd)/.vimrc" "$HOME/.vimrc";
 
   FILE=$HOME/.config/nvim/init.vim
   if [ -f "$FILE" ]

@@ -107,6 +107,8 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 alias l='ls -logGFh'
 alias la='ls -logGFrah'
 alias c='ccat'
+alias b='bat'
+alias cat='bat'
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
@@ -158,7 +160,7 @@ alias crontab="VIM_CRONTAB=true crontab"
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 #rbenv stuff
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if command -v rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PATH="$HOME/.rbenv/bin:$PATH"
 
 # ____ _  _ _  _
