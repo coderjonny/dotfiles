@@ -1,6 +1,5 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
-source ~/.vimrc
 
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -63,14 +62,12 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/neosnippet'
   Plug 'Shougo/neosnippet-snippets'
   Plug 'ntpeters/vim-better-whitespace'
-" Plug 'janko-m/vim-test'
 " Highlight HEX and RGB color codes and names in their background
   Plug 'chrisbra/Colorizer'
 " Jump to any location specified by two characters
   Plug 'justinmk/vim-sneak'
-" Show Git diff in the sign column
-" Plug 'airblade/vim-gitgutter'
 " vim-startify
   Plug 'mhinz/vim-startify'
-
 call plug#end()
+
+source ~/.vimrc

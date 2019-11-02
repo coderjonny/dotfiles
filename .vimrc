@@ -6,7 +6,6 @@
 " - nvim -O ~/.bash_profile ~/.vimrc.after --startuptime vim.log
 " - vim -O ~/.bash_profile ~/.vimrc.after --startuptime vim.log
 "
-
 " Automatically install missing plugins on startup
   if has('nvim')
       autocmd VimEnter *
@@ -107,8 +106,8 @@
       \   'typescript': ['prettier', 'eslint']
       \}
 
-  " let g:ale_linter_aliases = {'tsx': ['css', 'ale-javascript-eslint']}
-  " let g:ale_linters = {'tsx': ['stylelint', 'ale-javascript-eslint']}
+ let g:ale_linter_aliases = {'tsx': ['css', 'ale-javascript-eslint']}
+ let g:ale_linters = {'tsx': ['stylelint', 'ale-javascript-eslint']}
 
 " Make sure typescript files are set as tsx files
   augroup FiletypeGroup
@@ -117,7 +116,7 @@
   augroup END
 
 " startify
-:set sessionoptions-=blank " don't save empt buffer window like NerdTree
+  :set sessionoptions-=blank " don't save empt buffer window like NerdTree
 " au BufEnter *.* :Startify <C-R>
 
 
@@ -194,35 +193,31 @@
 "    let g:strip_whitespace_on_save=1
 "
 "" startify
-let g:startify_change_to_dir = 1
-let g:startify_session_before_save = [
-        \ 'echo "Cleaning up before saving.."',
-        \ 'silent! NERDTreeTabsClose'
-        \ ]
+  let g:startify_change_to_dir = 1
+  let g:startify_session_before_save = [
+      \ 'echo "Cleaning up before saving.."',
+      \ 'silent! NERDTreeTabsClose'
+      \ ]
 
 
-"" git diff toggle with ()
-map gd :GitGutterLineHighlightsToggle<CR>
+"" git diff toggle with (g + d keys)
+  map gd :GitGutterLineHighlightsToggle<CR>
+  nmap ]c <Plug>GitGutterNextHunk
+  nmap [c <Plug>GitGutterPrevHunk
+  nmap <Leader>hs <Plug>GitGutterStageHunk
+  nmap <Leader>hu <Plug>GitGutterUndoHunk
 
-
-let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'
-map <c-t> :FZF<CR>
-map <c-p> :FZF<CR>
-
-"" Gundo configuration
-"    nmap <F5> :GundoToggle<CR>
-"    imap <F5> <ESC>:GundoToggle<CR>
-"
-" set working dir to open file
-" autocmd BufEnter * lcd %:p:h
+" control + t: ctrlT pops up FZF
+  let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'
+  map <c-t> :FZF<CR>
 
 "" ==========================
 "" extra rules and mappings
 "" ==========================
-set noswapfile
-set number
-set ruler
-syntax on
+  set noswapfile
+  set number
+  set ruler
+  syntax on
 
 
 " Saving sessions to F2 and F3
@@ -319,50 +314,27 @@ endfunction
 " Normal mode: <Leader>t
   map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
-" Inserts the path of the currently edited file into a command
-" Command mode: Ctrl+P
-"  cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-
 " gist-vim defaults
-if has("mac")
-  let g:gist_clip_command = 'pbcopy'
-elseif has("unix")
-  let g:gist_clip_command = 'xclip -selection clipboard'
-endif
-let g:gist_detect_filetype = 1
-let g:gist_open_browser_after_post = 1
+  if has("mac")
+    let g:gist_clip_command = 'pbcopy'
+  elseif has("unix")
+    let g:gist_clip_command = 'xclip -selection clipboard'
+  endif
+  let g:gist_detect_filetype = 1
+  let g:gist_open_browser_after_post = 1
 
 " Use modeline overrides
   set modeline
   set modelines=10
-"
-"" Default color scheme
-" color darkglass
-" set background=dark
-" set termguicolors
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
-" % to bounce from do to end etc.
-" runtime! macros/matchit.vim
+"" Default color scheme
+  color darkglass
+  set background=dark
+  set termguicolors
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Show (partial) command in the status line
   set showcmd
-
-"" Include user's local vim config
-"if filereadable(expand("~/.vimrc.local"))
-"source ~/.vimrc.local
-"endif
-
-" shift + control + t reopens last closed window
-"  nmap <c-s-t> :vs<bar>:b#<CR>  todo: conflicts with control+t
-
-"" Shift tab will open current window in a new tab
-  nnoremap <S-tab> :tab split<CR>
-"" then ZZ to close out
-"" or
-"" c-w-| to have window take over (if using vsplits).
-"" c-w-= to restore.
-"" c-w-_ for horizontal splits
 
 " shows RELATIVENUMBER on side rail
   set relativenumber
@@ -378,27 +350,57 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   nmap <space> :noh<CR>
 
 "" Gif config
-   map  / <Plug>(easymotion-sn)
-   omap / <Plug>(easymotion-tn)
+  map  / <Plug>(easymotion-sn)
+  omap / <Plug>(easymotion-tn)
 
 "" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 "" Without these mappings, `n` & `N` works fine. (These mappings just provide
 "" different highlight method and have some other features )
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
+  map  n <Plug>(easymotion-next)
+  map  N <Plug>(easymotion-prev)
 
 ""Turning off Gdiff off while multiple windows are open
 "" Simple way to turn off Gdiff splitscreen
 "" works only when diff buffer is focused
-if !exists(":Gdiffoff")
-  command Gdiffoff diffoff | q | Gedit
-endif
+  if !exists(":Gdiffoff")
+    command Gdiffoff diffoff | q | Gedit
+  endif
 
 " Make ctrlP load faster and ignore files in .gitignore
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
-" For git-gutter file change refresh
-  set updatetime=100
-
 " Check the git blame
   nmap <Leader>b :Gblame<CR>
+
+" updateTime: default = 4000 (4 seconds)
+  set updatetime=2000
+
+"" Gundo configuration
+"    nmap <F5> :GundoToggle<CR>
+"    imap <F5> <ESC>:GundoToggle<CR>
+"
+" set working dir to open file
+" autocmd BufEnter * lcd %:p:h
+" % to bounce from do to end etc.
+" runtime! macros/matchit.vim
+
+"" Include user's local vim config
+"if filereadable(expand("~/.vimrc.local"))
+"source ~/.vimrc.local
+"endif
+
+" shift + control + t reopens last closed window
+"  nmap <c-s-t> :vs<bar>:b#<CR>  todo: conflicts with control+t
+
+" Inserts the path of the currently edited file into a command
+" Command mode: Ctrl+P
+"  cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+
+
+"" Shift tab will open current window in a new tab
+"   nnoremap <S-tab> :tab split<CR>
+"" then ZZ to close out
+"" or
+"" c-w-| to have window take over (if using vsplits).
+"" c-w-= to restore.
+"" c-w-_ for horizontal splits
