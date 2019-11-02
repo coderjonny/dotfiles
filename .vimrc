@@ -372,8 +372,8 @@ endfunction
 " Check the git blame
   nmap <Leader>b :Gblame<CR>
 
-
-
+" updateTime: default = 4000 (4 seconds)
+  set updatetime=2000
 
 "" Gundo configuration
 "    nmap <F5> :GundoToggle<CR>
