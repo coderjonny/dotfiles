@@ -159,6 +159,10 @@ alias most=most_used_commands
 alias crontab="VIM_CRONTAB=true crontab"
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
+if which ruby >/dev/null && which gem >/dev/null; then
+    PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+fi
+
 #rbenv stuff
 if command -v rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PATH="$HOME/.rbenv/bin:$PATH"

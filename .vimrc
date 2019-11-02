@@ -1,5 +1,3 @@
-" ===================================
-" Jonny's vimrc :)
 "
 " ===================================
 
@@ -71,28 +69,28 @@
   endif
 
 " rip-grep - in vim
-  let g:rg_highlight = 1
+  let g:rg_highlight                    = 1
 
 " deocomplete
-  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#enable_at_startup      = 1
 
 " nerdcommenter
   " Add spaces after comment delimiters by default
-  let g:NERDSpaceDelims = 1
+  let g:NERDSpaceDelims                 = 1
   " Use compact syntax for prettified multi-line comments
-  let g:NERDCompactSexyComs = 1
+  let g:NERDCompactSexyComs             = 1
   " Align line-wise comment delimiters flush left instead of following code indentation
-  let g:NERDDefaultAlign = 'left'
+  let g:NERDDefaultAlign                = 'left'
   " Set a language to use its alternate delimiters by default
-  let g:NERDAltDelims_java = 1
+  let g:NERDAltDelims_java              = 1
   " Add your own custom formats or override the defaults
-  let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+  let g:NERDCustomDelimiters            = { 'c': { 'left': '/**','right': '*/' } }
   " Allow commenting and inverting empty lines (useful when commenting a region)
-  let g:NERDCommentEmptyLines = 1
+  let g:NERDCommentEmptyLines           = 1
   " Enable trimming of trailing whitespace when uncommenting
-  let g:NERDTrimTrailingWhitespace = 1
-  " Enable NERDCommenterToggle to check all selected lines is commented or not 
-  let g:NERDToggleCheckAllLines = 1
+  let g:NERDTrimTrailingWhitespace      = 1
+  " Enable NERDCommenterToggle to check all selected lines is commented or not
+  let g:NERDToggleCheckAllLines         = 1
 
 
 "           _   _   _
@@ -104,6 +102,31 @@
 """"""""""""""""""""""""""""""""""""""
 " Make the cursor blink
   :set guicursor=a:blinkon500
+
+"" Whitespaces, tabs, spaces
+  set nowrap           " Don't wrap lines
+  set linebreak        " Wrap lines at convenient points
+  set tabstop=2
+  set shiftwidth=2
+  set softtabstop=2
+  set expandtab
+  set list listchars=tab:\ \ ,trail:·
+
+  set scrolloff=5 " Keep 5 lines below and above the cursor
+  set cursorline
+
+  autocmd FocusLost * silent! wa " Automatically save file
+
+  " use per-project .vimrc files
+  set exrc
+  set secure
+
+  " autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
+
+  " load the plugin and indent settings for the detected filetype
+  filetype plugin indent on
+
+
 
 "  _ __ ___ _ __ ___   __ _ _ __  ___
 " | '__/ _ \ '_ ` _ \ / _` | '_ \/ __|
@@ -148,15 +171,14 @@ let g:startify_session_before_save = [
         \ ]
 
 
+"" git diff toggle with ()
+map gd :GitGutterLineHighlightsToggle<CR>
 
 
+let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'
+map <c-t> :FZF<CR>
 
 
-
-
-
-"" Command-T configuration
-"    let g:CommandTMaxHeight=20
 "
 "" CTags
 "    map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
@@ -190,29 +212,6 @@ let g:startify_session_before_save = [
 "" Set encoding
 "set encoding=utf8
 "" set guifont=DroidSansMono_Nerd_Font:h11
-"
-"" Whitespaces, tabs, spaces
-"set nowrap           " Don't wrap lines
-"set linebreak        " Wrap lines at convenient points
-"set tabstop=4
-"set shiftwidth=4
-"set softtabstop=4
-"set expandtab
-"set list listchars=tab:\ \ ,trail:·
-"
-"set scrolloff=5 " Keep 5 lines below and above the cursor
-"set cursorline
-"
-"autocmd FocusLost * silent! wa " Automatically save file
-"
-"" use per-project .vimrc files
-"set exrc
-"set secure
-"
-"" autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
-"
-"" load the plugin and indent settings for the detected filetype
-"filetype plugin indent on
 "
 "" Searching
 "set hlsearch

@@ -21,6 +21,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'w0rp/ale' | Plug 'keith/swift.vim'
 " bufexplorer
   Plug 'jlanzarotta/bufexplorer'
+" fzf fuzzy finder
+  Plug '/usr/local/opt/fzf'
 " emmet-vim
   Plug 'mattn/emmet-vim'
 " vim-airline
@@ -37,36 +39,29 @@ call plug#begin('~/.vim/plugged')
   Plug 'jremmen/vim-ripgrep'
 " nerdcommenter
   Plug 'scrooloose/nerdcommenter'
-
 " deoplete
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+  if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+  endif
 
 " plugins for deocomplete
-Plug 'wokalski/autocomplete-flow'
+  Plug 'wokalski/autocomplete-flow'
 " For func argument completion
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-
+  Plug 'Shougo/neosnippet'
+  Plug 'Shougo/neosnippet-snippets'
 " vim-startify
-Plug 'mhinz/vim-startify'
-
-Plug 'ntpeters/vim-better-whitespace'
+  Plug 'mhinz/vim-startify'
+  Plug 'ntpeters/vim-better-whitespace'
 " Plug 'janko-m/vim-test'
-
 " Highlight HEX and RGB color codes and names in their background
-Plug 'chrisbra/Colorizer'
-
+  Plug 'chrisbra/Colorizer'
 " Jump to any location specified by two characters
-Plug 'justinmk/vim-sneak'
-
+  Plug 'justinmk/vim-sneak'
 " Show Git diff in the sign column
 " Plug 'airblade/vim-gitgutter'
 
-" List ends here. Plugins become visible to Vim after this call.
 call plug#end()
