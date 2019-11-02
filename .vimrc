@@ -2,7 +2,6 @@
 " ===================================
 
 " ======= NOTES =======
-"
 " how to benchmark startup time with --startuptime
 " - nvim -O ~/.bash_profile ~/.vimrc.after --startuptime vim.log
 " - vim -O ~/.bash_profile ~/.vimrc.after --startuptime vim.log
@@ -244,7 +243,7 @@ function s:before_quit()
 endfunction
 
 " type 'QQ' to save and quit out of vim quickly
-  map QQ :mksession! ~/vim_session <cr> :conf xa<CR>
+  map QQ :conf xa<CR>
   map Q :conf q<CR>
 
 " Map <leader> key to comma key too
@@ -292,130 +291,114 @@ endfunction
 "" allow backspacing over everything in insert mode
   set backspace=indent,eol,start
 
+" ==========================
+" Bubbling configuration
+" ==========================
+" Bubble single lines UP and DOWN
+  nnoremap <silent> <C-c>  @='"zyy"zp'<CR>
+  vnoremap <silent> <C-c>  @='"zy"zPgv'<CR>
+  nnoremap <silent> <C-j>  @='"zdd"zp'<CR>
+  vnoremap <silent> <C-j>  @='"zx"zp`[V`]'<CR>
+  nnoremap <silent> <C-k>  @='k"zdd"zpk'<CR>
+  vnoremap <silent> <C-k>  @='"zxk"zP`[V`]'<CR>
+" Bubble left and right with h & l
+  nmap <C-l> >>
+  nmap <C-h> <<
+" Bubble multiple lines
+  vmap <C-l> > gv
+  vmap <C-h> < gv
 
+" unindent in insert mode with shift-tab
+  inoremap <S-Tab> <C-D>
 
+" Opens an edit command with the path of the currently edited file filled in
+" Normal mode: <Leader>e
+  map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
+" Opens a tab edit command with the path of the currently edited file filled in
+" Normal mode: <Leader>t
+  map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
+" Inserts the path of the currently edited file into a command
+" Command mode: Ctrl+P
+"  cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
+" gist-vim defaults
+if has("mac")
+  let g:gist_clip_command = 'pbcopy'
+elseif has("unix")
+  let g:gist_clip_command = 'xclip -selection clipboard'
+endif
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
 
-
-
-
-
-
-
-
-"
-"" ==========================
-"" Bubbling configuration using unimpaired mapping
-"" ==========================
-"" Bubble single lines UP and DOWN
-"nmap <C-k> [e
-"nmap <C-j> ]e
-"" Bubble multiple lines with j & k
-"vmap <C-k> [egv
-"vmap <C-j> ]egv
-"
-"" Bubble left and right with h & l
-"nmap <C-l> >>
-"nmap <C-h> <<
-"" Bubble multiple lines
-"vmap <C-l> > gv
-"vmap <C-h> < gv
-"
-"" unindent in insert mode with shift-tab
-"inoremap <S-Tab> <C-D>
-"
-"" Opens an edit command with the path of the currently edited file filled in
-"" Normal mode: <Leader>e
-"map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-"
-"" Opens a tab edit command with the path of the currently edited file filled in
-"" Normal mode: <Leader>t
-"map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
-"
-"" Inserts the path of the currently edited file into a command
-"" Command mode: Ctrl+P
-"cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-"
-"" gist-vim defaults
-"if has("mac")
-"  let g:gist_clip_command = 'pbcopy'
-"elseif has("unix")
-"  let g:gist_clip_command = 'xclip -selection clipboard'
-"endif
-"let g:gist_detect_filetype = 1
-"let g:gist_open_browser_after_post = 1
-"
-"" Use modeline overrides
-"set modeline
-"set modelines=10
+" Use modeline overrides
+  set modeline
+  set modelines=10
 "
 "" Default color scheme
-"" color solarized
-"set background=dark
-"
-" "Turn on jslint errors by default
-"let g:JSLintHighlightErrorLine = 1
-"
-"" MacVIM shift+arrow-keys behavior (required in .vimrc)
-"let macvim_hig_shift_movement = 1
-"
-"" % to bounce from do to end etc.
-"runtime! macros/matchit.vim
-"
-"" Show (partial) command in the status line
-"set showcmd
-"
+" color darkglass
+" set background=dark
+" set termguicolors
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+" % to bounce from do to end etc.
+" runtime! macros/matchit.vim
+
+" Show (partial) command in the status line
+  set showcmd
+
 "" Include user's local vim config
 "if filereadable(expand("~/.vimrc.local"))
 "source ~/.vimrc.local
 "endif
-"
-"" shift + control + t reopens last closed window
-"nmap <c-s-t> :vs<bar>:b#<CR>
-"
+
+" shift + control + t reopens last closed window
+"  nmap <c-s-t> :vs<bar>:b#<CR>  todo: conflicts with control+t
+
 "" Shift tab will open current window in a new tab
-"nnoremap <S-tab> :tab split<CR>
+  nnoremap <S-tab> :tab split<CR>
 "" then ZZ to close out
 "" or
 "" c-w-| to have window take over (if using vsplits).
 "" c-w-= to restore.
 "" c-w-_ for horizontal splits
-"
-"" shows RELATIVENUMBER on side rail
-"" set relativenumber
-"" but set other windows to default
-"" augroup numbertoggle
-"  " autocmd!
-"  " autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-"  " autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-"" augroup END
-"
+
+" shows RELATIVENUMBER on side rail
+  set relativenumber
+
+" but set other windows to default
+  augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+  augroup END
+
 ""space bar unhighlights search
-"nmap <space> :noh<CR>
-"
+  nmap <space> :noh<CR>
+
 "" Gif config
-"map  / <Plug>(easymotion-sn)
-"omap / <Plug>(easymotion-tn)
-"
+   map  / <Plug>(easymotion-sn)
+   omap / <Plug>(easymotion-tn)
+
 "" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 "" Without these mappings, `n` & `N` works fine. (These mappings just provide
 "" different highlight method and have some other features )
-"map  n <Plug>(easymotion-next)
-"map  N <Plug>(easymotion-prev)
-"
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+
 ""Turning off Gdiff off while multiple windows are open
-""" Simple way to turn off Gdiff splitscreen
+"" Simple way to turn off Gdiff splitscreen
 "" works only when diff buffer is focused
-"if !exists(":Gdiffoff")
-"  command Gdiffoff diffoff | q | Gedit
-"endif
-"
-"" make ctrlP load 100x faster
-"let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-"
-"" for git-gutter file change refresh
-"set updatetime=100
-"
-"nmap <Leader>b :Gblame<CR>
+if !exists(":Gdiffoff")
+  command Gdiffoff diffoff | q | Gedit
+endif
+
+" Make ctrlP load faster and ignore files in .gitignore
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+" For git-gutter file change refresh
+  set updatetime=100
+
+" Check the git blame
+  nmap <Leader>b :Gblame<CR>

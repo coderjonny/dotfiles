@@ -23,6 +23,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'jlanzarotta/bufexplorer'
 " fzf fuzzy finder
   Plug '/usr/local/opt/fzf'
+" ctrlP
+  Plug 'ctrlpvim/ctrlp.vim'
 " emmet-vim
   Plug 'mattn/emmet-vim'
 " vim-airline
@@ -42,19 +44,21 @@ call plug#begin('~/.vim/plugged')
 " deoplete
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'roxma/nvim-yarp'
   else
     Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
-
+" plugins for deocomplete
+  Plug 'wokalski/autocomplete-flow'
 " vim-surround
   Plug 'tpope/vim-surround'
 " vim-fugitive
   Plug 'tpope/vim-fugitive'
-
-" plugins for deocomplete
-  Plug 'wokalski/autocomplete-flow'
+" vim-colorschemes
+  Plug 'flazz/vim-colorschemes'
+" vim-easymotion
+  Plug 'easymotion/vim-easymotion'
 " For func argument completion
   Plug 'Shougo/neosnippet'
   Plug 'Shougo/neosnippet-snippets'
