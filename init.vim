@@ -8,10 +8,9 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 " Plugins will be downloaded under the specified directory.
+" And Declare the list of plugins.
 call plug#begin('~/.vim/plugged')
 
-" Declare the list of plugins.
-"""""""""""""""""""""""""""""""""
 " nerdtree & nerdtree-git-plugin
   Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
 " vim-easy-align
@@ -68,6 +67,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'justinmk/vim-sneak'
 " vim-startify
   Plug 'mhinz/vim-startify'
+" vim-multiple-cursors
+  Plug 'terryma/vim-multiple-cursors'
+
 call plug#end()
 
 source ~/.vimrc

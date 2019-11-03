@@ -33,17 +33,28 @@
   let NERDTreeAutoDeleteBuffer          = 1
 
 " ALE <3 ( async linter for es6, flow, js, swift, etc.. )
-  " fix lint errors
-  let g:ale_fixers                      = { 'javascript': ['eslint'] }
-  " fix automatically on save
+" Ale syntax highlighting and fixing linting
+  let g:ale_fixers = {
+    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \   'javascript': ['eslint'],
+    \   'typescript': ['prettier', 'eslint']
+    \}
+  let g:ale_linter_aliases = {'tsx': ['css', 'ale-javascript-eslint']}
+  let g:ale_linters = {'tsx': ['stylelint', 'ale-javascript-eslint']}
+  " Fix automatically on save
   let g:ale_fix_on_save                 = 1
   " Enable completion where available.
   let g:ale_completion_enabled          = 1
-  " customize signs
+  " Customize signs
   let g:ale_sign_error                  = '☃️'
   let g:ale_sign_warning                = '❄️'
-  " display ale in Airline
+  " Display ale in Airline
   let g:airline#extensions#ale#enabled  = 1
+" Make sure typescript files are set as tsx files
+  augroup FiletypeGroup
+    autocmd!
+    au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
+  augroup END
 
 " vim-airline - sexier statusline
   let g:airline_powerline_fonts         = 1
@@ -99,28 +110,13 @@
 " git-gutter
   let g:gitgutter_sign_allow_clobber = 1
 
-" ale syntax highlighting and linting
-  let g:ale_fixers = {
-      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \   'javascript': ['eslint'],
-      \   'typescript': ['prettier', 'eslint']
-      \}
-
- let g:ale_linter_aliases = {'tsx': ['css', 'ale-javascript-eslint']}
- let g:ale_linters = {'tsx': ['stylelint', 'ale-javascript-eslint']}
-
-" Make sure typescript files are set as tsx files
-  augroup FiletypeGroup
-    autocmd!
-    au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
-  augroup END
-
 " startify
   :set sessionoptions-=blank " don't save empt buffer window like NerdTree
 " au BufEnter *.* :Startify <C-R>
 
-
-
+" vim-better-whitespace
+  let g:better_whitespace_enabled=1
+  let g:strip_whitespace_on_save=1
 
 "           _   _   _
 "  ___  ___| |_| |_(_)_ __   __ _ ___
@@ -130,7 +126,7 @@
 "                         |___/
 """"""""""""""""""""""""""""""""""""""
 " Make the cursor blink
-  :set guicursor=a:blinkon500
+  set guicursor=a:blinkon300
 
 "" Whitespaces, tabs, spaces
   set nowrap           " Don't wrap lines
@@ -166,32 +162,19 @@
 
 " Toggle nerdtree with leader key + n
   map <Leader>n :NERDTreeToggle<CR>
-
 " escape out of i mode
   inoremap jj <ESC>
-
 " BufExplorer - quickkly change buffers
   " make tab open BufExplorer
   nnoremap <tab> :BufExplorer<CR>
-
 " vim-easy-align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
   xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
   nmap ga <Plug>(EasyAlign)
-
 " (shift + control + f) to search files with rg
   nmap <c-s-f> :Rg<space>
 
-
-"" neosnippet
-"    let g:neosnippet#enable_completed_snippet = 1
-"
-
-"" vim-better-whitespace
-"    let g:better_whitespace_enabled=1
-"    let g:strip_whitespace_on_save=1
-"
 "" startify
   let g:startify_change_to_dir = 1
   let g:startify_session_before_save = [
@@ -245,7 +228,8 @@ endfunction
   :nmap , <Leader>
   :vmap , <Leader>
 
-set guifont=DroidSansMono_Nerd_Font:h11
+" set guifont=DroidSansMono_Nerd_Font:h11
+" :set guifont=Monaco:h14
 
 "" Searching
   set hlsearch
@@ -404,3 +388,7 @@ endfunction
 "" c-w-| to have window take over (if using vsplits).
 "" c-w-= to restore.
 "" c-w-_ for horizontal splits
+
+"" neosnippet
+"    let g:neosnippet#enable_completed_snippet = 1
+"
