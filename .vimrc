@@ -179,6 +179,9 @@
   set exrc
   set secure
 
+	:setlocal spell spelllang=en_us
+
+
   " autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
 
   " load the plugin and indent settings for the detected filetype
@@ -328,22 +331,22 @@
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
 
-""space bar unhighlights search
+" space bar undo highlights search in normal mode
   nmap <space> :noh<CR>
 
-"" Gif config
+"  Gif config
   map  / <Plug>(easymotion-sn)
   omap / <Plug>(easymotion-tn)
 
-"" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
-"" Without these mappings, `n` & `N` works fine. (These mappings just provide
-"" different highlight method and have some other features )
+"  These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+"  Without these mappings, `n` & `N` works fine. (These mappings just provide
+"  different highlight method and have some other features )
   map  n <Plug>(easymotion-next)
   map  N <Plug>(easymotion-prev)
 
-""Turning off Gdiff off while multiple windows are open
-"" Simple way to turn off Gdiff splitscreen
-"" works only when diff buffer is focused
+" Turning off Gdiff off while multiple windows are open
+"  Simple way to turn off Gdiff splitscreen
+"  works only when diff buffer is focused
   if !exists(":Gdiffoff")
     command Gdiffoff diffoff | q | Gedit
   endif
