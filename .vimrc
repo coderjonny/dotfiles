@@ -109,14 +109,33 @@
 
 " git-gutter
   let g:gitgutter_sign_allow_clobber = 1
+" git diff toggle with (g + d keys)
+  map gd :GitGutterLineHighlightsToggle<CR>
+  nmap ]c <Plug>GitGutterNextHunk
+  nmap [c <Plug>GitGutterPrevHunk
+  nmap <Leader>hs <Plug>(GitGutterStageHunk)
+  nmap <Leader>hu <Plug>(GitGutterUndoHunk)
 
 " startify
   :set sessionoptions-=blank " don't save empt buffer window like NerdTree
 " au BufEnter *.* :Startify <C-R>
+  let g:startify_change_to_dir = 1
+  let g:startify_session_before_save = [
+      \ 'echo "Cleaning up before saving.."',
+      \ 'silent! NERDTreeTabsClose'
+      \ ]
 
 " vim-better-whitespace
   let g:better_whitespace_enabled=1
   let g:strip_whitespace_on_save=1
+
+" lightline
+  set noshowmode " (remove redunant mode info)
+
+
+
+
+
 
 "           _   _   _
 "  ___  ___| |_| |_(_)_ __   __ _ ___
@@ -140,6 +159,20 @@
   set scrolloff=5 " Keep 5 lines below and above the cursor
   set cursorline
 
+  set noswapfile
+  set number
+  set ruler
+  syntax on
+
+" Searching
+  set hlsearch
+  set incsearch
+  set ignorecase
+  set smartcase
+
+" Status bar
+  set laststatus=2
+
   autocmd FocusLost * silent! wa " Automatically save file
 
   " use per-project .vimrc files
@@ -150,6 +183,61 @@
 
   " load the plugin and indent settings for the detected filetype
   filetype plugin indent on
+
+"" Tab completion
+  set wildmode=list:longest,list:full
+  set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
+
+" updateTime: default = 4000 (4 seconds)
+  set updatetime=2000
+
+"" allow backspacing over everything in insert mode
+  set backspace=indent,eol,start
+
+" Use modeline overrides
+  set modeline
+  set modelines=10
+
+"" Default color scheme
+  color darkglass
+  set background=dark
+  set termguicolors
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+" Show (partial) command in the status line
+  set showcmd
+
+" but set other windows to default
+  augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+  augroup END
+
+" Remember last location in file
+  if has("autocmd")
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+      \| exe "normal g'\"" | endif
+  endif
+
+  function s:setupWrapping()
+      set wrap
+      set wrapmargin=2
+      set textwidth=72
+  endfunction
+
+  function s:setupMarkup()
+      call s:setupWrapping()
+      map <buffer> <Leader>p :Hammer<CR>
+  endfunction
+
+" Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
+  au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
+" md, markdown, and mk are markdown and define buffer-local preview
+  au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
+  au BufRead,BufNewFile *.txt call s:setupWrapping()
+
+
 
 
 
@@ -174,51 +262,25 @@
   nmap ga <Plug>(EasyAlign)
 " (shift + control + f) to search files with rg
   nmap <c-s-f> :Rg<space>
-
-"" startify
-  let g:startify_change_to_dir = 1
-  let g:startify_session_before_save = [
-      \ 'echo "Cleaning up before saving.."',
-      \ 'silent! NERDTreeTabsClose'
-      \ ]
-
-
-"" git diff toggle with (g + d keys)
-  map gd :GitGutterLineHighlightsToggle<CR>
-  nmap ]c <Plug>GitGutterNextHunk
-  nmap [c <Plug>GitGutterPrevHunk
-  nmap <Leader>hs <Plug>(GitGutterStageHunk)
-  nmap <Leader>hu <Plug>(GitGutterUndoHunk)
-
 " control + t: ctrlT pops up FZF
   let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'
   map <c-t> :FZF<CR>
-
-"" ==========================
-"" extra rules and mappings
-"" ==========================
-  set noswapfile
-  set number
-  set ruler
-  syntax on
-
-
 " Saving sessions to F2 and F3
   map <F2> :mksession! ~/vim_session <cr> " Quick write session with F2
   map <F3> :source ~/vim_session <cr>     " And load session with F3
 
-function s:load_session()
-  :source ~/vim_session <cr>
-endfunction
+  function s:load_session()
+    :source ~/vim_session <cr>
+  endfunction
 
-function s:save_session()
-  :mksession! ~/vim_session <cr>
-endfunction
+  function s:save_session()
+    :mksession! ~/vim_session <cr>
+  endfunction
 
-function s:before_quit()
-  call s:save_session()
-  :conf xa<CR>
-endfunction
+  function s:before_quit()
+    call s:save_session()
+    :conf xa<CR>
+  endfunction
 
 " type 'QQ' to save and quit out of vim quickly
   map QQ :conf xa<CR>
@@ -228,50 +290,9 @@ endfunction
   :nmap , <Leader>
   :vmap , <Leader>
 
-" set guifont=DroidSansMono_Nerd_Font:h11
-" :set guifont=Monaco:h14
-
-"" Searching
-  set hlsearch
-  set incsearch
-  set ignorecase
-  set smartcase
-
-"" Tab completion
-set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
-
-"" Status bar
-  set laststatus=2
-
-" Remember last location in file
-  if has("autocmd")
-    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-      \| exe "normal g'\"" | endif
-  endif
-
-function s:setupWrapping()
-    set wrap
-    set wrapmargin=2
-    set textwidth=72
-endfunction
-
-function s:setupMarkup()
-    call s:setupWrapping()
-    map <buffer> <Leader>p :Hammer<CR>
-endfunction
-
-" Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
-  au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
-" md, markdown, and mk are markdown and define buffer-local preview
-  au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
-  au BufRead,BufNewFile *.txt call s:setupWrapping()
-
-"" allow backspacing over everything in insert mode
-  set backspace=indent,eol,start
 
 " ==========================
-" Bubbling configuration
+" Bubbling 🧼
 " ==========================
 " Bubble single lines UP and DOWN
   nnoremap <silent> <C-c>  @='"zyy"zp'<CR>
@@ -307,29 +328,6 @@ endfunction
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
 
-" Use modeline overrides
-  set modeline
-  set modelines=10
-
-"" Default color scheme
-  color darkglass
-  set background=dark
-  set termguicolors
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-
-" Show (partial) command in the status line
-  set showcmd
-
-" shows RELATIVENUMBER on side rail
-  set relativenumber
-
-" but set other windows to default
-  augroup numbertoggle
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-  augroup END
-
 ""space bar unhighlights search
   nmap <space> :noh<CR>
 
@@ -356,8 +354,12 @@ endfunction
 " Check the git blame
   nmap <Leader>b :Gblame<CR>
 
-" updateTime: default = 4000 (4 seconds)
-  set updatetime=2000
+
+
+
+
+
+
 
 "" Gundo configuration
 "    nmap <F5> :GundoToggle<CR>

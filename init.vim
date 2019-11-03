@@ -26,7 +26,9 @@ call plug#begin('~/.vim/plugged')
 " emmet-vim
   Plug 'mattn/emmet-vim'
 " vim-airline
-  Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
+" lightline
+  Plug 'itchyny/lightline.vim'
 " vim-bufferline
   Plug 'bling/vim-bufferline'
 " vim-localvimrc
