@@ -179,7 +179,8 @@
   set exrc
   set secure
 
-	:setlocal spell spelllang=en_us
+
+	set spell spelllang=en_us
 
 
   " autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
