@@ -199,7 +199,7 @@
   set modelines=10
 
 "" Default color scheme
-  color darkglass
+  colo seoul256
   set background=dark
   set termguicolors
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1

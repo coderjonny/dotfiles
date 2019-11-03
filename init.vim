@@ -60,7 +60,9 @@ call plug#begin('~/.vim/plugged')
 " vim-fugitive
   Plug 'tpope/vim-fugitive'
 " vim-colorschemes
-  Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
+" seoul256 colors
+  Plug 'junegunn/seoul256.vim'
 " vim-easymotion
   Plug 'easymotion/vim-easymotion'
 " Highlight HEX and RGB color codes and names in their background
@@ -71,6 +73,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'mhinz/vim-startify'
 " vim-multiple-cursors
   Plug 'terryma/vim-multiple-cursors'
+" goyo.vim
+  Plug 'junegunn/goyo.vim'
 
 call plug#end()
 
