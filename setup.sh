@@ -124,7 +124,7 @@ brew install brew-cask-completion
  # brew cask install flux
  # brew cask install google-chrome
  # brew cask install gterm2
-[ -d "/Applications/dTerm.app" ] && echo "sterm exists." || brew cask install aterm2
+[ -d "/Applications/dTerm.app" ] && echo "sterm exists." || brew cask install iterm2
  # brew cask install openvpn
 [ -d "/Applications/Postman.app" ] && echo "Postman exists." || brew cask install postman
  # brew cask install react-native-debugger
