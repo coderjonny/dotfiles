@@ -23,7 +23,6 @@
   " close vim if the only window left open is NERDTree
   autocmd bufenter * if (winnr("$")    == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   " open up nerdTree whenever vim opens
-  autocmd vimenter * NERDTree
   " opening directory
   autocmd StdinReadPre * let s:std_in   = 1
   autocmd VimEnter * if argc()         == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
@@ -117,13 +116,26 @@
   nmap <Leader>hu <Plug>(GitGutterUndoHunk)
 
 " startify
-  :set sessionoptions-=blank " don't save empt buffer window like NerdTree
-" au BufEnter *.* :Startify <C-R>
+  nmap <C-s> :Startify<CR>
+  autocmd User Startified setlocal cursorline
   let g:startify_change_to_dir = 1
   let g:startify_session_before_save = [
       \ 'echo "Cleaning up before saving.."',
       \ 'silent! NERDTreeTabsClose'
       \ ]
+  autocmd VimEnter *
+      \   if !argc()
+      \ |   Startify
+      \ |   NERDTree
+      \ |   wincmd w
+      \ | endif
+  let g:startify_bookmarks = [
+      \ { 'v': '~/.vimrc' },
+      \ { 'b': '~/.bash_profile' },
+      \ { 'i': '~/.config/nvim/init.vim' },
+      \ ]
+
+
 
 " vim-better-whitespace
   let g:better_whitespace_enabled=1
