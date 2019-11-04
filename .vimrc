@@ -190,6 +190,7 @@
 
   " load the plugin and indent settings for the detected filetype
   filetype plugin indent on
+  filetype plugin on
 
 "" Tab completion
   set wildmode=list:longest,list:full
