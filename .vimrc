@@ -174,7 +174,6 @@
   set softtabstop=2
   set expandtab
   set list listchars=tab:\ \ ,trail:·
-  set autoindent
 
   set scrolloff=5 " Keep 5 lines below and above the cursor
   set cursorline
