@@ -75,6 +75,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'terryma/vim-multiple-cursors'
 " goyo.vim
   Plug 'junegunn/goyo.vim'
+" markdown previewer
   Plug 'JamshedVesuna/vim-markdown-preview'
 
 call plug#end()
