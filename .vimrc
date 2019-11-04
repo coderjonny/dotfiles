@@ -32,6 +32,9 @@
   let NERDTreeAutoDeleteBuffer          = 1
 
 " ALE <3 ( async linter for es6, flow, js, swift, etc.. ) syntax highlighting and fixing linting
+  nmap <C-a> :ALENext<CR>
+  nmap <C-x> :ALEDetail<CR>
+  let g:ale_sign_column_always = 1 " sign gutter always open
   let g:ale_fixers = {
     \   '*': ['remove_trailing_lines', 'trim_whitespace'],
     \   'javascript': ['eslint'],
@@ -44,19 +47,13 @@
   " Enable completion where available.
   let g:ale_completion_enabled          = 1
   " Customize signs
-  let g:ale_sign_error                  = '☃️'
-  let g:ale_sign_warning                = '❄️'
-  " Display ale in Airline
-  let g:airline#extensions#ale#enabled  = 1
+  let g:ale_sign_error                  = '🍂'
+  let g:ale_sign_warning                = '🍃'
 " Make sure typescript files are set as tsx files
   augroup FiletypeGroup
     autocmd!
     au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
   augroup END
-
-" vim-airline - sexier statusline
-  let g:airline_powerline_fonts         = 1
-  let g:airline_section_c               = '%F'
 
 " vim-flow - jump to flow errors
   " fucking close that window
@@ -140,6 +137,47 @@
 
 " lightline
   set noshowmode " (remove redunant mode info)
+  function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? 'OK' : 'warnings: ' . all_non_errors . ', errors:' . all_errors
+
+    " printf(
+    "       \   '%dW %dE',
+    "       \   all_non_errors,
+    "       \   all_errors
+    "       \)
+  endfunction
+  let g:lightline = {
+      \ 'colorscheme': 'seoul256',
+      \ 'active': {
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head',
+      \   'linter': 'LinterStatus'
+      \ },
+      \ }
+  let g:lightline.active = {
+        \  'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]],
+        \  'left': [[ 'mode', 'paste' ],
+        \           [ 'gitbranch', 'readonly', 'filename', 'modified' ],
+        \           [ 'linter']]
+        \  }
+  let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ }
+  let g:lightline.component_type = {
+      \     'linter_checking': 'left',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'left',
+      \ }
 
 " markdown
   let vim_markdown_preview_hotkey='<C-m>'
@@ -251,7 +289,7 @@
   endfunction
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
-  au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
+  au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru,Podfile}    set ft=ruby
 " md, markdown, and mk are markdown and define buffer-local preview
   au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
   au BufRead,BufNewFile *.txt call s:setupWrapping()

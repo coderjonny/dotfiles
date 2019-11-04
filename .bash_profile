@@ -276,3 +276,5 @@ alias deeplink='xcrun simctl openurl booted '
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 export PATH="/usr/local/sbin:$PATH"
+
+alias n=nvim

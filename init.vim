@@ -20,7 +20,12 @@ call plug#begin('~/.vim/plugged')
   Plug 'easymotion/vim-easymotion' " vim-easymotion
   Plug 'embear/vim-localvimrc' " vim-localvimrc
   Plug 'flowtype/vim-flow' " vim-flow
+
+  " status-line
   Plug 'itchyny/lightline.vim' " lightline
+  Plug 'maximbaz/lightline-ale' "Ale indicator for the lightline vim plugin
+  " Plug 'ryanoasis/vim-devicons' " adds file type icons to Vim  plugins such as NERDtree, ctrlp, lightline ..etc
+
   Plug 'jlanzarotta/bufexplorer' " bufexplorer
   Plug 'jremmen/vim-ripgrep' " vim-ripgrep
   Plug 'junegunn/goyo.vim' " goyo.vim
