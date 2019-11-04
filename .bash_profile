@@ -159,7 +159,7 @@ alias most=most_used_commands
 alias crontab="VIM_CRONTAB=true crontab"
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
-if which ruby >/dev/null && which gem >/dev/null; then
+if command -v ruby >/dev/null && command -v gem >/dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
@@ -181,7 +181,7 @@ export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 # shellcheck source=/dev/null
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 load-nvmrc() {
     if [[ -f .nvmrc && -r .nvmrc ]]; then
         nvm use

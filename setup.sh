@@ -18,10 +18,15 @@ function install_ccat {
 }
 
 function install_zlua {
-  cd "$HOME" && curl -O https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua
   FILE=$HOME/z.lua
-  [ -f "$FILE" ] && echo "$FILE downloaded."
-  printf "\\n"
+  if [ -f "$FILE" ]
+  then
+    echo "$FILE downloaded."
+  else
+    cd "$HOME" &&
+      curl -O https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua &&
+      printf "\\n installed z.lua script"
+  fi
 }
 
 function install_git {
@@ -103,10 +108,32 @@ command -v figlet >/dev/null 2>&1 || { echo >&2 "figlet missing. Installing.."; 
 command -v hub >/dev/null 2>&1 || { echo >&2 "hub missing. Installing.."; install_hub;}
 command -v fzf >/dev/null 2>&1 || { echo >&2 "fzf missing. Installing.."; install_fzf;}
 command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; install_lua;}
-command -v z >/dev/null 2>&1 || { echo >&2 "z.lua script is missing. downloading.."; install_zlua; }
 command -v exa >/dev/null 2>&1 || { echo >&2 "exa is missing. downloading.."; install_exa; }
 command -v python >/dev/null 2>&1 || { echo >&2 "python is missing. downloading.."; install_python; }
+
+install_zlua;
 install_completions;
+
+brew install brew-cask-completion
+# brew cask applications
+[ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew cask install alfred
+[ -d "/Applications/Android Studio.app" ] && echo "Android Studio exists." || brew cask install android-studio
+ # brew cask install beamer
+ # brew cask install caffeine
+ # brew cask install coconutbattery
+ # brew cask install flux
+ # brew cask install google-chrome
+ # brew cask install gterm2
+[ -d "/Applications/dTerm.app" ] && echo "sterm exists." || brew cask install aterm2
+ # brew cask install openvpn
+[ -d "/Applications/Postman.app" ] && echo "Postman exists." || brew cask install postman
+ # brew cask install react-native-debugger
+ # brew cask install slate
+ # brew cask install slack
+[ -d "/Applications/Spotify.app" ] && echo "Spotify exists." || brew cask install spotify
+ # brew cask install visual-studio-code
+ # brew cask install zoomus
+ # brew cask install zeplin
 
 # link bashrc && bash_profile
 # =============================
@@ -116,8 +143,6 @@ function link_dotfiles {
   cd "$HOME" && cd "$(pwd)/dev/dotfiles" || return;
   ln -sfv "$(pwd)/.bash_profile" "$HOME/.bash_profile";
   ln -sfv "$(pwd)/.bashrc" "$HOME/.bashrc";
-  ln -sfv "$(pwd)/.vimrc.before" "$HOME/.vimrc.before";
-  ln -sfv "$(pwd)/.vimrc.after" "$HOME/.vimrc.after";
   ln -sfv "$(pwd)/.vimrc" "$HOME/.vimrc";
 
   FILE=$HOME/.config/nvim/init.vim
