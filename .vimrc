@@ -19,17 +19,19 @@
 " ===================================
 
 " NERDTree configuration
-  let NERDTreeIgnore                    = ['\.pyc$', '\.rbc$', '\~$']
+  let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
+  let NERDTreeMinimalUI=1 "don't show '?' header
+  let NERDTreeShowHidden=1 " show .dotfiles
+  " Automatically delete the buffer of the file you just deleted with NerdTree:
+  let NERDTreeAutoDeleteBuffer=1
   " close vim if the only window left open is NERDTree
   autocmd bufenter * if (winnr("$")    == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-  " open up nerdTree whenever vim opens
   " opening directory
   autocmd StdinReadPre * let s:std_in   = 1
+  " open up nerdTree whenever vim opens
   autocmd VimEnter * if argc()         == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-  " show dotfiles
-  let NERDTreeShowHidden                = 1
-  " Automatically delete the buffer of the file you just deleted with NerdTree:
-  let NERDTreeAutoDeleteBuffer          = 1
+" Toggle nerdtree with leader key + n
+  map <Leader>n :NERDTreeToggle<CR>
 
 " ALE <3 ( async linter for es6, flow, js, swift, etc.. ) syntax highlighting and fixing linting
   nmap <C-a> :ALENext<CR>
@@ -190,6 +192,26 @@
 " CtrlP load faster and ignore files in .gitignore
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
+" Conquer of Completion (CoC)
+  set cmdheight=1
+" always show signcolumn
+  set signcolumn=yes
+  " Use tab for trigger completion with characters ahead and navigate.
+  " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+  inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  " Use <c-space> to trigger completion.
+  inoremap <silent><expr> <c-space> coc#refresh()
+
 
 "           _   _   _
 "  ___  ___| |_| |_(_)_ __   __ _ ___
@@ -199,7 +221,7 @@
 "                         |___/
 """"""""""""""""""""""""""""""""""""""
 " updateTime: default = 4000(ms) = (4 seconds) no good for async update
-  set updatetime=80
+  set updatetime=100
 
 " Make the cursor blink
   set guicursor=a:blinkon100
@@ -256,10 +278,12 @@
   set modelines=10
 
 "" Default color scheme
-  colo seoul256
-  set background=dark
-  set termguicolors
+  colorscheme seoul256
+  " set background=dark
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  set termguicolors
+" transparent bg
+  hi Normal guibg=NONE ctermbg=NONE
 
 " Show (partial) command in the status line
   set showcmd
@@ -304,8 +328,6 @@
 "                          |_|
 """"""""""""""""""""""""""""""""""""""
 
-" Toggle nerdtree with leader key + n
-  map <Leader>n :NERDTreeToggle<CR>
 " escape out of i mode
   inoremap jj <ESC>
 " BufExplorer - quickkly change buffers
