@@ -31,8 +31,7 @@
   " Automatically delete the buffer of the file you just deleted with NerdTree:
   let NERDTreeAutoDeleteBuffer          = 1
 
-" ALE <3 ( async linter for es6, flow, js, swift, etc.. )
-" Ale syntax highlighting and fixing linting
+" ALE <3 ( async linter for es6, flow, js, swift, etc.. ) syntax highlighting and fixing linting
   let g:ale_fixers = {
     \   '*': ['remove_trailing_lines', 'trim_whitespace'],
     \   'javascript': ['eslint'],
@@ -135,8 +134,6 @@
       \ { 'i': '~/.config/nvim/init.vim' },
       \ ]
 
-
-
 " vim-better-whitespace
   let g:better_whitespace_enabled=1
   let g:strip_whitespace_on_save=1
@@ -149,7 +146,11 @@
   let vim_markdown_preview_github=1
   let vim_markdown_preview_browser='Google Chrome'
 
+" Goyo
+  nmap <C-g> :Goyo<CR>
 
+" CtrlP load faster and ignore files in .gitignore
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 
 "           _   _   _
@@ -159,8 +160,11 @@
 " |___/\___|\__|\__|_|_| |_|\__, |___/
 "                         |___/
 """"""""""""""""""""""""""""""""""""""
+" updateTime: default = 4000(ms) = (4 seconds) no good for async update
+  set updatetime=80
+
 " Make the cursor blink
-  set guicursor=a:blinkon300
+  set guicursor=a:blinkon100
 
 "" Whitespaces, tabs, spaces
   set nowrap           " Don't wrap lines
@@ -194,9 +198,7 @@
   set exrc
   set secure
 
-
-	set spell spelllang=en_us
-
+	set spell spelllang=en_us " underline incorrect spelling
 
   " autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
 
@@ -207,9 +209,6 @@
 "" Tab completion
   set wildmode=list:longest,list:full
   set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
-
-" updateTime: default = 4000 (4 seconds)
-  set updatetime=2000
 
 "" allow backspacing over everything in insert mode
   set backspace=indent,eol,start
@@ -243,7 +242,7 @@
   function s:setupWrapping()
       set wrap
       set wrapmargin=2
-      set textwidth=72
+      set textwidth=80
   endfunction
 
   function s:setupMarkup()
@@ -256,7 +255,6 @@
 " md, markdown, and mk are markdown and define buffer-local preview
   au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
   au BufRead,BufNewFile *.txt call s:setupWrapping()
-
 
 
 
@@ -309,7 +307,6 @@
 " Map <leader> key to comma key too
   :nmap , <Leader>
   :vmap , <Leader>
-
 
 " ==========================
 " Bubbling 🧼
@@ -367,9 +364,6 @@
   if !exists(":Gdiffoff")
     command Gdiffoff diffoff | q | Gedit
   endif
-
-" Make ctrlP load faster and ignore files in .gitignore
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " Check the git blame
   nmap <Leader>b :Gblame<CR>

@@ -39,6 +39,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-sensible' " vim-sensible
   Plug 'tpope/vim-surround' " vim-surround
   Plug 'wokalski/autocomplete-flow' " plugins for deocomplete
+  Plug 'mhinz/vim-signify' " Signify (or just Sy) uses the sign column to indicate added, modified and removed lines in a file that is managed by a version control system (VCS).
 
   " deoplete
   if has('nvim')
