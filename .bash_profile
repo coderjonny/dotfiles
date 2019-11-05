@@ -76,6 +76,15 @@ function update() {
 
 alias saver='open -a ScreenSaverEngine'
 
+# show port info
+# usage: p 8081
+p ()
+{
+  lsof -i tcp:"$1";
+}
+
+alias p=p
+
 # git stuff
 alias gs='git status '
 alias ga='git add '
