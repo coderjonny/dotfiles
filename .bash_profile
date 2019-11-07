@@ -218,9 +218,9 @@ function zo() {
     printf "\\n";
     gs;
 }
+alias z='zo'
 alias zz='z -c'      # restrict matches to subdirs of $PWD
-alias zi='z -i'      # cd with interactive selection
-alias zf='z -I'      # use fzf to select in multiple matches
+alias zi='z -I'      # cd with interactive selection
 alias zb='z -b'      # quickly cd to the parent directory
 
 

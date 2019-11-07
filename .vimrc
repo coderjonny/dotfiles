@@ -14,11 +14,16 @@
         \| endif
   endif
 
-" ===================================
-" Plugin configurations
+"  ____  _
+" |  _ \| |_   _  __ _ ___
+" | |_) | | | | |/ _` / __|
+" |  __/| | |_| | (_| \__ \
+" |_|   |_|\__,_|\__, |___/
+"                |___/
 " ===================================
 
 " NERDTree configuration
+" ---------------------
   let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
   let NERDTreeMinimalUI=1 "don't show '?' header
   let NERDTreeShowHidden=1 " show .dotfiles
@@ -34,6 +39,7 @@
   map <Leader>n :NERDTreeToggle<CR>
 
 " ALE <3 ( async linter for es6, flow, js, swift, etc.. ) syntax highlighting and fixing linting
+" ------------------------
   nmap <C-a> :ALENext<CR>
   nmap <C-x> :ALEDetail<CR>
   let g:ale_sign_column_always = 1 " sign gutter always open
@@ -58,6 +64,7 @@
   augroup END
 
 " vim-flow - jump to flow errors
+" ---------------------------
   " fucking close that window
   let g:flow#autoclose                  = 1
   " and don't even show it cuz I'm using ale
@@ -74,9 +81,11 @@
   endif
 
 " rip-grep - in vim
+" -----------------
   let g:rg_highlight                    = 1
 
 " deocomplete
+" ---------------
   let g:deoplete#enable_at_startup      = 1
   " Enable completion where available.
   " This setting must be set before ALE is loaded.
@@ -141,7 +150,6 @@
   set noshowmode " (remove redunant mode info)
   function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
-
     let l:all_errors = l:counts.error + l:counts.style_error
     let l:all_non_errors = l:counts.total - l:all_errors
 
@@ -181,7 +189,7 @@
       \     'linter_ok': 'left',
       \ }
 
-" markdown
+" Markdown
   let vim_markdown_preview_hotkey='<C-m>'
   let vim_markdown_preview_github=1
   let vim_markdown_preview_browser='Google Chrome'
@@ -212,6 +220,18 @@
   " Use <c-space> to trigger completion.
   inoremap <silent><expr> <c-space> coc#refresh()
 
+" FZF (mapped to ctrlT(control + t))
+" -------------------------
+  let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'
+  map <c-t> :FZF<CR>
+
+" Vim-Clap 👏🏼
+" <C-j>/<C-k>. remap these so it can work in the pop-up and my bubbling key
+" maps don't break it
+  autocmd FileType clap_input inoremap <silent> <buffer> <C-j> <C-R>=clap#handler#navigate_result('down')<CR>
+  autocmd FileType clap_input inoremap <silent> <buffer> <C-k> <C-R>=clap#handler#navigate_result('up')<CR>
+  nmap <c-c> :Clap<CR>
+
 
 "           _   _   _
 "  ___  ___| |_| |_(_)_ __   __ _ ___
@@ -221,7 +241,7 @@
 "                         |___/
 """"""""""""""""""""""""""""""""""""""
 " updateTime: default = 4000(ms) = (4 seconds) no good for async update
-  set updatetime=100
+  set updatetime=1000
 
 " Make the cursor blink
   set guicursor=a:blinkon100
@@ -319,8 +339,6 @@
   au BufRead,BufNewFile *.txt call s:setupWrapping()
 
 
-
-
 "  _ __ ___ _ __ ___   __ _ _ __  ___
 " | '__/ _ \ '_ ` _ \ / _` | '_ \/ __|
 " | | |  __/ | | | | | (_| | |_) \__ \
@@ -340,9 +358,6 @@
   nmap ga <Plug>(EasyAlign)
 " (shift + control + f) to search files with rg
   nmap <c-s-f> :Rg<space>
-" control + t: ctrlT pops up FZF
-  let $FZF_DEFAULT_COMMAND = 'rg --hidden -l ""'
-  map <c-t> :FZF<CR>
 " Saving sessions to F2 and F3
   map <F2> :mksession! ~/vim_session <cr> " Quick write session with F2
   map <F3> :source ~/vim_session <cr>     " And load session with F3
@@ -372,8 +387,6 @@
 " Bubbling 🧼
 " ==========================
 " Bubble single lines UP and DOWN
-  nnoremap <silent> <C-c>  @='"zyy"zp'<CR>
-  vnoremap <silent> <C-c>  @='"zy"zPgv'<CR>
   nnoremap <silent> <C-j>  @='"zdd"zp'<CR>
   vnoremap <silent> <C-j>  @='"zx"zp`[V`]'<CR>
   nnoremap <silent> <C-k>  @='k"zdd"zpk'<CR>
@@ -428,29 +441,18 @@
 " Check the git blame
   nmap <Leader>b :Gblame<CR>
 
+" t reopens last closed window
+  nmap t :vs<bar>:b#<CR>
 
 
 
 
 
-
-
-"" Gundo configuration
-"    nmap <F5> :GundoToggle<CR>
-"    imap <F5> <ESC>:GundoToggle<CR>
-"
 " set working dir to open file
 " autocmd BufEnter * lcd %:p:h
 " % to bounce from do to end etc.
 " runtime! macros/matchit.vim
 
-"" Include user's local vim config
-"if filereadable(expand("~/.vimrc.local"))
-"source ~/.vimrc.local
-"endif
-
-" shift + control + t reopens last closed window
-"  nmap <c-s-t> :vs<bar>:b#<CR>  todo: conflicts with control+t
 
 " Inserts the path of the currently edited file into a command
 " Command mode: Ctrl+P
