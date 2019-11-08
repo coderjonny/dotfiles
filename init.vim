@@ -28,6 +28,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/goyo.vim' " goyo.vim
   Plug 'junegunn/seoul256.vim' " seoul256 colors
   Plug 'junegunn/vim-easy-align' " vim-easy-align
+  Plug 'junegunn/fzf.vim' "fzf addons
   Plug 'justinmk/vim-sneak' " Jump to any location specified by two characters
   Plug 'liuchengxu/vim-clap' "👏 Modern generic interactive finder and dispatcher for Vim and NeoVim
   Plug 'liuchengxu/vista.vim' "🌵 Viewer & Finder for LSP symbols and tags http://liuchengxu.org/vista.vim

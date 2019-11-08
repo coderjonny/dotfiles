@@ -214,7 +214,7 @@ export _ZL_ECHO=1
 function zo() {
     z "$@";
     printf "\\n";
-    exa -lh --git;
+    exa -lhF --git;
     printf "\\n";
     gs;
 }
