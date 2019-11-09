@@ -114,8 +114,8 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 [ -r ~/git-completion ] && . ~/git-completion.bash
 
 # file navigation
-alias l='ls -logGFh'
-alias la='ls -logGFrah'
+alias l='exa -lhF --git'
+alias la='exa -lahF --git'
 alias c='ccat'
 alias b='bat'
 alias cat='bat'
