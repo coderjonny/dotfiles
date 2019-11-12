@@ -11,6 +11,8 @@ endif
 " And Declare the list of plugins.
 call plug#begin('~/.vim/plugged')
 
+  Plug 'neoclide/coc.nvim', {'branch': 'release'} "Intellisense engine for vim8 & neovim, full language server protocol support as VSCode
+
   Plug '/usr/local/opt/fzf' " fzf fuzzy finder
   Plug 'JamshedVesuna/vim-markdown-preview' " markdown previewer
   Plug 'Yggdroot/indentLine' "Indent lines
@@ -27,6 +29,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'jremmen/vim-ripgrep' " vim-ripgrep
   Plug 'junegunn/goyo.vim' " goyo.vim
   Plug 'junegunn/seoul256.vim' " seoul256 colors
+  Plug 'ayu-theme/ayu-vim' "ayu color theme
   Plug 'junegunn/vim-easy-align' " vim-easy-align
   Plug 'junegunn/fzf.vim' "fzf addons
   Plug 'justinmk/vim-sneak' " Jump to any location specified by two characters
@@ -36,10 +39,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'maximbaz/lightline-ale' "Ale indicator for the lightline vim plugin
   Plug 'mhinz/vim-signify' " Signify (or just Sy) uses the sign column to indicate added, modified and removed lines in a file that is managed by a version control system (VCS).
   Plug 'mhinz/vim-startify' " vim-startify
-  Plug 'neoclide/coc.nvim', {'branch': 'release'} "Intellisense engine for vim8 & neovim, full language server protocol support as VSCode
   Plug 'ntpeters/vim-better-whitespace' " Vim Better Whitespace Plugin
   Plug 'scrooloose/nerdcommenter' " nerdcommenter
   Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin' " nerdtree & nerdtree-git-plugin
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'terryma/vim-expand-region' " vim-expand-region
   Plug 'terryma/vim-multiple-cursors' " vim-multiple-cursors
   Plug 'tpope/vim-commentary' " vim-commentary
@@ -49,18 +52,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'wokalski/autocomplete-flow' " plugins for deocomplete
 
   " Plug 'ryanoasis/vim-devicons' " adds file type icons to Vim  plugins such as NERDtree, ctrlp, lightline ..etc
-
-  " " deoplete
-  " if has('nvim')
-  "   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  " else
-  "   Plug 'Shougo/deoplete.nvim'
-  "   Plug 'roxma/nvim-yarp'
-  "   Plug 'roxma/vim-hug-neovim-rpc'
-  " endif
-  " " For func argument completion
-  " Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
-
 
 call plug#end()
 
