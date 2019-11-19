@@ -369,6 +369,10 @@
   let ayucolor="mirage" " for mirage version of theme
   " let ayucolor="dark"   " for dark version of theme
 
+  " Enables 24-bit RGB color in the |TUI|, needed for colorscheme
+  set termguicolors
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
   " Transparent background
   hi Normal guibg=NONE ctermbg=NONE
   " change the color of the pop-up menu
@@ -376,9 +380,6 @@
   " Allows customs :highlight preferences to be set
   syntax enable
 
-  " Enables 24-bit RGB color in the |TUI|, needed for colorscheme
-  set termguicolors
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
   " Workaround some broken plugins which set guicursor indiscriminately.
   autocmd OptionSet guicursor noautocmd set guicursor=

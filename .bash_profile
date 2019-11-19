@@ -264,23 +264,13 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 #     |  |  /  _____  \  |  |\  \----.|  |\   |
 #     |__| /__/     \__\ | _| `._____||__| \__|
 ################################################
-## alias   yy='yarn && yarn bootstrap'
-alias  yyy='yarn reset && yarn && yarn bootstrap'
-
-alias yyi='yarn && yarn bootstrap && yarn ios'
-alias yyo='yarn && yarn bootstrap && yarn ios --app NFLMobile --simulator="iPhone 7 Plus"'
-alias yyof='yarn && yarn bootstrap && yarn ios --app FacemaskReference'
-
-alias  yya='yarn && yarn bootstrap && yarn android'
-alias yya='yarn && yarn bootstrap && yarn android --app NFLMobile'
-alias yyaf='yarn && yarn bootstrap && yarn android --app FacemaskReference'
-
-alias yi='yarn ios --simulator="iPhone 8"'
-
+alias y='yarn'
 alias yy='yarn && cd ios && pod install && ..'
+alias yyy='yarn reset && yarn && yarn bootstrap'
 
 # DEEPLINKING
 alias deeplink='xcrun simctl openurl booted '
+alias d='deeplink'
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
