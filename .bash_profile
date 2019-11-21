@@ -12,11 +12,11 @@
 #  ====================================================
 
 
-
 # use NVIM as default
 export VISUAL=/usr/local/bin/nvim
 export EDITOR="$VISUAL"
 export POSTGREST_HOST=35.203.146.107
+alias n=nvim
 
 #  ___  ____ ____ _  _ ___  ___
 #  |__] |__/ |  | |\/| |__]  |
@@ -276,5 +276,3 @@ alias d='deeplink'
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 export PATH="/usr/local/sbin:$PATH"
-
-alias n=nvim

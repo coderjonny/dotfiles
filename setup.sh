@@ -118,19 +118,18 @@ brew install brew-cask-completion
 # brew cask applications
 [ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew cask install alfred
 [ -d "/Applications/Android Studio.app" ] && echo "Android Studio exists." || brew cask install android-studio
+[ -d "/Applications/dTerm.app" ] && echo "sterm exists." || brew cask install iterm2
  # brew cask install beamer
  # brew cask install caffeine
  # brew cask install coconutbattery
  # brew cask install flux
  # brew cask install google-chrome
  # brew cask install gterm2
-[ -d "/Applications/dTerm.app" ] && echo "sterm exists." || brew cask install iterm2
  # brew cask install openvpn
-[ -d "/Applications/Postman.app" ] && echo "Postman exists." || brew cask install postman
+ # [ -d "/Applications/Postman.app" ] && echo "Postman exists." || brew cask install postman
  # brew cask install react-native-debugger
  # brew cask install slate
  # brew cask install slack
-[ -d "/Applications/Spotify.app" ] && echo "Spotify exists." || brew cask install spotify
  # brew cask install visual-studio-code
  # brew cask install zoomus
  # brew cask install zeplin
