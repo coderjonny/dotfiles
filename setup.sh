@@ -1,4 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
+echo "$BASH_VERSION"
 
 # Check for Homebrew, install if we don't have it
 if test ! "$(command -v brew)"; then
@@ -95,6 +96,18 @@ function install_python {
   brew install python
 }
 
+function check_bash {
+  BASHES="$(which -a bash | wc -l)"
+
+  if [ "$BASHES" -gt 1 ]
+  then
+    echo 'more than 1 bash installed'
+  else
+    echo 'only 1 installed. Installing newer Bash.'
+    brew install bash
+  fi
+}
+
 # check packages ..
 command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Installing.."; install_shellcheck;}
 command -v nvim >/dev/null 2>&1 || { echo >&2 "Neovim missing. Installing.."; install_nvim;}
@@ -110,6 +123,7 @@ command -v fzf >/dev/null 2>&1 || { echo >&2 "fzf missing. Installing.."; instal
 command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; install_lua;}
 command -v exa >/dev/null 2>&1 || { echo >&2 "exa is missing. downloading.."; install_exa; }
 command -v python >/dev/null 2>&1 || { echo >&2 "python is missing. downloading.."; install_python; }
+check_bash;
 
 install_zlua;
 install_completions;

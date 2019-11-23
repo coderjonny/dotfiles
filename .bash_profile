@@ -1,4 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
+echo "$BASH_VERSION"
 
 #  _____  _____  __   _ __   _ __   __ . _______
 #    |   |     | | \  | | \  |   \_/   ' |______

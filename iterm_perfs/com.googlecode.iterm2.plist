@@ -548,12 +548,16 @@
 	</dict>
 	<key>HapticFeedbackForEsc</key>
 	<true/>
+	<key>HideActivityIndicator</key>
+	<false/>
 	<key>HideMenuBarInFullscreen</key>
 	<true/>
 	<key>HideScrollbar</key>
 	<true/>
 	<key>HideTab</key>
 	<true/>
+	<key>HideTabNumber</key>
+	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
 	<key>LoadPrefsFromCustomFolder</key>
@@ -608,7 +612,7 @@
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>0 825 592 584 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>366 -1200 1920 1200 366 -1200 1920 1177 </string>
+	<string>1280 0 1272 1417 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>212 279 570 452 0 0 1680 1027 </string>
 	<key>New Bookmarks</key>
@@ -2110,16 +2114,16 @@
 	<key>NoSyncFrame_SharedPreferences</key>
 	<dict>
 		<key>screenFrame</key>
-		<string>{{0, 0}, {1920, 1200}}</string>
+		<string>{{366, -1200}, {1920, 1200}}</string>
 		<key>topLeft</key>
-		<string>{326, 758}</string>
+		<string>{1004, -156}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
 	<string>4B142B4C-66A0-49E9-AAE7-B272069C0966</string>
 	<key>NoSyncLastTipTime</key>
 	<real>591466322.66759205</real>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>32</integer>
+	<integer>33</integer>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -2830,6 +2834,9 @@
 	</dict>
 	<key>NoSyncSearchHistory2</key>
 	<array>
+		<string>appsflyer</string>
+		<string>appflyer</string>
+		<string>yasrn </string>
 		<string>git inter</string>
 		<string>gitinter</string>
 		<string>giinter</string>
@@ -2837,9 +2844,6 @@
 		<string>inter</string>
 		<string>hidden</string>
 		<string>authoriz</string>
-		<string>bash_com</string>
-		<string>surr</string>
-		<string>nnkjj/jjjj</string>
 	</array>
 	<key>NoSyncTipOfTheDayEligibilityBeganTime</key>
 	<real>589755121.458691</real>
@@ -2858,6 +2862,8 @@
 		<string>0007</string>
 	</array>
 	<key>PMPrintingExpandedStateForPrint2</key>
+	<false/>
+	<key>PerPaneBackgroundImage</key>
 	<false/>
 	<key>PointerActions</key>
 	<dict>
@@ -2911,13 +2917,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2019-11-14T15:25:20Z</date>
+	<date>2019-11-19T00:11:16Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SUUpdateRelaunchingMarker</key>
 	<false/>
 	<key>SeparateStatusBarsPerPane</key>
-	<true/>
+	<false/>
 	<key>ShowFullScreenTabBar</key>
 	<true/>
 	<key>ShowPaneTitles</key>
@@ -2930,8 +2936,12 @@
 	<real>0.33017785904255315</real>
 	<key>StatusBarPosition</key>
 	<integer>0</integer>
+	<key>StretchTabsToFillBar</key>
+	<true/>
 	<key>TabViewType</key>
 	<integer>0</integer>
+	<key>TabsHaveCloseButton</key>
+	<true/>
 	<key>UKCrashReporterLastCrashReportDate</key>
 	<real>1573236608</real>
 	<key>UseBorder</key>
