@@ -21,7 +21,7 @@
 " |_|   |_|\__,_|\__, |___/
 "                |___/
 " ===================================
-
+"
 " NERDTree configuration
 " ---------------------
   let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
@@ -35,8 +35,28 @@
   autocmd StdinReadPre * let s:std_in   = 1
   " open up nerdTree whenever vim opens
   autocmd VimEnter * if argc()         == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-" Toggle nerdtree with leader key + n
-  map <Leader>n :NERDTreeToggle<CR>
+
+" find file in nerdtree with leader key + n
+  map <Leader>n :NERDTreeFind<CR>
+" Toggle nerdtree with leader key + m
+  nmap ,m :NERDTreeToggle<CR>
+
+  " " Check if NERDTree is open or active
+  " function! IsNERDTreeOpen()
+  "   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+  " endfunction
+
+  " " Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+  " " file, and we're not in vimdiff
+  " function! SyncTree()
+  "   if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+  "     NERDTreeFind
+  "     wincmd p
+  "   endif
+  " endfunction
+
+  " " Highlight currently open buffer in NERDTree
+  " autocmd BufEnter * call SyncTree()
 
 " ALE <3 ( async linter for es6, flow, js, swift, etc.. ) syntax highlighting and fixing linting
 " ------------------------
@@ -195,7 +215,7 @@
   let vim_markdown_preview_browser='Google Chrome'
 
 " Goyo
-  nmap <C-g> :Goyo<CR>
+  " nmap <C-g> :Goyo<CR>
 
 " CtrlP load faster and ignore files in .gitignore
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']

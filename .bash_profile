@@ -117,7 +117,7 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 # file navigation
 alias l='exa -lhF --git'
 alias la='exa -lahF --git'
-alias c='ccat'
+alias c='bat'
 alias b='bat'
 alias cat='bat'
 alias ..='cd ..'
@@ -267,6 +267,7 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 ################################################
 alias y='yarn'
 alias yy='yarn && cd ios && pod install && ..'
+alias yyi='yarn && cd ios && pod install && .. && y ios && y start'
 alias yyy='yarn reset && yarn && yarn bootstrap'
 
 # DEEPLINKING

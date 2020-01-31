@@ -14,8 +14,8 @@ function install_nvim {
   brew install neovim
 }
 
-function install_ccat {
-  brew install ccat
+function install_bat {
+  brew install bat
 }
 
 function install_zlua {
@@ -111,7 +111,7 @@ function check_bash {
 # check packages ..
 command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Installing.."; install_shellcheck;}
 command -v nvim >/dev/null 2>&1 || { echo >&2 "Neovim missing. Installing.."; install_nvim;}
-command -v ccat >/dev/null 2>&1 || { echo >&2 "Pretty ccat colors are missing. Installing..🎨"; install_ccat;}
+command -v bat >/dev/null 2>&1 || { echo >&2 "Bat's missing. Installing.. 🦇 🦇 🦇"; install_bat;}
 command -v git --version >/dev/null 2>&1 || { echo >&2 "Git missing. Installing.."; install_git;}
 command -v diff-so-fancy >/dev/null 2>&1 || { echo >&2 "diff-so-fancy missing. Installing.."; install_diff-so-fancy;}
 command -v tree >/dev/null 2>&1 || { echo >&2 "tree missing. Installing.."; install_tree;}
