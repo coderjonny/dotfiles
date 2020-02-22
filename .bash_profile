@@ -268,6 +268,8 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 alias y='yarn'
 alias yy='yarn && cd ios && pod install && ..'
 alias yyi='yarn && cd ios && pod install && .. && y ios && y start'
+alias yyd='yarn && cd ios && pod install && .. && y ios --device && y start'
+alias yya='yarn && y android'
 alias yyy='yarn reset && yarn && yarn bootstrap'
 
 # DEEPLINKING

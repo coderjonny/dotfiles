@@ -607,6 +607,8 @@
 		<key>TB Is Shown</key>
 		<integer>1</integer>
 	</dict>
+	<key>NSWindow Frame SUAutomaticUpdateAlert</key>
+	<string>1018 384 616 174 0 0 1920 1200 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 588 620 392 0 0 1920 1177 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
@@ -615,6 +617,10 @@
 	<string>0 0 1920 1200 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>212 279 570 452 0 0 1680 1027 </string>
+	<key>NeverWarnAboutShortLivedSessions_7C3BF88C-8EF0-4F76-A879-FF2D738CCFC7</key>
+	<true/>
+	<key>NeverWarnAboutShortLivedSessions_7C3BF88C-8EF0-4F76-A879-FF2D738CCFC7_selection</key>
+	<integer>0</integer>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -2108,9 +2114,14 @@
 	<array>
 		<string>3.3.5</string>
 		<string>3.3.4</string>
+		<string>3.3.7</string>
 		<string>3.3.3</string>
 		<string>3.3.6</string>
 	</array>
+	<key>NoSyncConfirmRunOpenFile</key>
+	<true/>
+	<key>NoSyncConfirmRunOpenFile_selection</key>
+	<integer>0</integer>
 	<key>NoSyncFrame_SharedPreferences</key>
 	<dict>
 		<key>screenFrame</key>
@@ -2123,7 +2134,7 @@
 	<key>NoSyncLastTipTime</key>
 	<real>591466322.66759205</real>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>39</integer>
+	<integer>59</integer>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -2490,6 +2501,14 @@
 			</dict>
 			<dict>
 				<key>isTerminal</key>
+				<true/>
+				<key>name</key>
+				<string>currentTab.currentSession.terminalWindowName</string>
+				<key>nonterminalContext</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>isTerminal</key>
 				<false/>
 				<key>name</key>
 				<string>currentTab</string>
@@ -2834,16 +2853,16 @@
 	</dict>
 	<key>NoSyncSearchHistory2</key>
 	<array>
+		<string>zend</string>
+		<string>557</string>
+		<string>55u7</string>
+		<string>_JSObjectGetPrototype</string>
+		<string>initializeAppsFlyer</string>
+		<string>segmentAnonId2</string>
+		<string>done in</string>
+		<string>provider</string>
 		<string>appsflyer</string>
 		<string>appflyer</string>
-		<string>yasrn </string>
-		<string>git inter</string>
-		<string>gitinter</string>
-		<string>giinter</string>
-		<string>ginter</string>
-		<string>inter</string>
-		<string>hidden</string>
-		<string>authoriz</string>
 	</array>
 	<key>NoSyncTipOfTheDayEligibilityBeganTime</key>
 	<real>589755121.458691</real>
@@ -2917,11 +2936,11 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2019-11-23T23:53:59Z</date>
+	<date>2020-02-06T21:03:54Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SUUpdateRelaunchingMarker</key>
-	<false/>
+	<true/>
 	<key>SeparateStatusBarsPerPane</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
@@ -2955,6 +2974,6 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.3.3</string>
+	<string>3.3.7</string>
 </dict>
 </plist>

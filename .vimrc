@@ -358,9 +358,9 @@
   " Search workspace symbols
   nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
   " Do default action for next item.
-  nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+  " nnoremap <silent> <space>j  :<C-u>CocNext<CR>
   " Do default action for previous item.
-  nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+  " nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
   " Resume latest coc list
   nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
@@ -625,6 +625,11 @@
 " Inserts the path of the currently edited file into a command
 " Command mode: Ctrl+P
 "  cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+"
+"
+
+" copy current file path to buffer
+nmap cp :let @" = expand("%")<cr>
 
 
 "" Shift tab will open current window in a new tab
