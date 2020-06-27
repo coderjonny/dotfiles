@@ -279,4 +279,4 @@ alias d='deeplink'
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
-export PATH="/usr/local/sbin:$PATH"
+export PATH="/Users/jonny/Library/Python/3.7/bin:$PATH"
