@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo "$BASH_VERSION"
+echo "Bash: $BASH_VERSION"
 
 # show me the paths
 function paths(){

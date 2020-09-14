@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-echo "$BASH_VERSION"
 
 #  _____  _____  __   _ __   _ __   __ . _______
 #    |   |     | | \  | | \  |   \_/   ' |______
@@ -156,6 +155,9 @@ function s(){
     open "http://localhost:${port}/"
 }
 
+# vtop, better top
+alias vtop="vtop --theme brew"
+
 most_used_commands() {
     history |
     awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' |
@@ -165,7 +167,9 @@ most_used_commands() {
     nl |
     head -n10
 }
+
 alias most=most_used_commands
+alias m=most_used_commands
 
 alias crontab="VIM_CRONTAB=true crontab"
 
