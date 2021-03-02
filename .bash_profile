@@ -75,6 +75,7 @@ function update() {
 }
 
 alias saver='open -a ScreenSaverEngine'
+alias ss='open -a ScreenSaverEngine'
 
 # show port info
 # usage: p 8081
@@ -125,6 +126,8 @@ alias ....='cd ../../../'
 alias mkdir='mkdir -pv'
 alias rm='rm'
 alias e='exa -lh --git'
+
+alias o='open'
 
 alias ~='cd ~'
 alias home='cd ~'

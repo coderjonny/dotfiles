@@ -42,7 +42,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'ntpeters/vim-better-whitespace' " Vim Better Whitespace Plugin
   Plug 'scrooloose/nerdcommenter' " nerdcommenter
   Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin' " nerdtree & nerdtree-git-plugin
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+"  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'terryma/vim-expand-region' " vim-expand-region
   Plug 'terryma/vim-multiple-cursors' " vim-multiple-cursors
   Plug 'tpope/vim-commentary' " vim-commentary
