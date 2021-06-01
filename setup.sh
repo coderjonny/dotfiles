@@ -96,6 +96,10 @@ function install_python {
   brew install python
 }
 
+function install_m_cli {
+  brew install m_cli
+}
+
 function check_bash {
   BASHES="$(which -a bash | wc -l)"
 
@@ -123,6 +127,7 @@ command -v fzf >/dev/null 2>&1 || { echo >&2 "fzf missing. Installing.."; instal
 command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; install_lua;}
 command -v exa >/dev/null 2>&1 || { echo >&2 "exa is missing. downloading.."; install_exa; }
 command -v python >/dev/null 2>&1 || { echo >&2 "python is missing. downloading.."; install_python; }
+command -v m >/dev/null 2>&1 || { echo >&2 "m_cli is missing. downloading.."; install_m_cli; }
 check_bash;
 
 install_zlua;
@@ -130,9 +135,9 @@ install_completions;
 
 brew install brew-cask-completion
 # brew cask applications
-[ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew cask install alfred
-[ -d "/Applications/Android Studio.app" ] && echo "Android Studio exists." || brew cask install android-studio
-[ -d "/Applications/dTerm.app" ] && echo "sterm exists." || brew cask install iterm2
+[ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew install alfred
+[ -d "/Applications/Android Studio.app" ] && echo "Android Studio exists." || brew install android-studio
+[ -d "/Applications/iTerm.app" ] && echo "iterm exists." || brew install iterm2
  # brew cask install beamer
  # brew cask install caffeine
  # brew cask install coconutbattery
@@ -140,12 +145,12 @@ brew install brew-cask-completion
  # brew cask install google-chrome
  # brew cask install gterm2
  # brew cask install openvpn
- # [ -d "/Applications/Postman.app" ] && echo "Postman exists." || brew cask install postman
+ # [ -d "/Applications/Postman.app" ] && echo "Postman exists." || brew install postman
  # brew cask install react-native-debugger
  # brew cask install slate
  # brew cask install slack
- # brew cask install visual-studio-code
  # brew cask install zoomus
+ # brew cask install visual-studio-code
  # brew cask install zeplin
 
 # link bashrc && bash_profile
@@ -182,6 +187,7 @@ link_dotfiles;
 #update system & homebrew
 update;
 
+# print nyancat
 test_imgcat;
 
 figlet -f starwars -c Setup successful!

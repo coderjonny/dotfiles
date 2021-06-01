@@ -18,6 +18,11 @@ export EDITOR="$VISUAL"
 export POSTGREST_HOST=35.203.146.107
 alias n=nvim
 
+if [ -d "/usr/local/opt/ruby/bin" ]; then
+  export PATH=/usr/local/opt/ruby/bin:$PATH
+  export PATH=`gem environment gemdir`/bin:$PATH
+fi
+
 #  ___  ____ ____ _  _ ___  ___
 #  |__] |__/ |  | |\/| |__]  |
 #  |    |  \ |__| |  | |     |
@@ -128,6 +133,7 @@ alias rm='rm'
 alias e='exa -lh --git'
 
 alias o='open'
+alias md='open -a macdown'
 
 alias ~='cd ~'
 alias home='cd ~'
@@ -172,7 +178,6 @@ most_used_commands() {
 }
 
 alias most=most_used_commands
-alias m=most_used_commands
 
 alias crontab="VIM_CRONTAB=true crontab"
 
@@ -180,10 +185,6 @@ export PATH="/usr/local/opt/ruby/bin:$PATH"
 if command -v ruby >/dev/null && command -v gem >/dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
-
-#rbenv stuff
-if command -v rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-export PATH="$HOME/.rbenv/bin:$PATH"
 
 # ____ _  _ _  _
 # |--<  \/  |\/|
