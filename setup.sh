@@ -56,6 +56,7 @@ function install_diff-so-fancy {
 }
 
 function install_completions {
+  printf "\\n install brew bash completions\\n"
   brew install bash-completion
 }
 
@@ -97,7 +98,7 @@ function install_python {
 }
 
 function install_m_cli {
-  brew install m_cli
+  brew install m-cli
 }
 
 function check_bash {
@@ -138,6 +139,7 @@ brew install brew-cask-completion
 [ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew install alfred
 [ -d "/Applications/Android Studio.app" ] && echo "Android Studio exists." || brew install android-studio
 [ -d "/Applications/iTerm.app" ] && echo "iterm exists." || brew install iterm2
+[ -d "/Applications/anki.app" ] && echo "anki exists." || brew install --cask anki
  # brew cask install beamer
  # brew cask install caffeine
  # brew cask install coconutbattery

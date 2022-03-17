@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 echo "Bash: $BASH_VERSION"
 printf "\n"
-echo "Battery status: $(m battery status)"
-printf "\n"
+# echo "Battery status: $(m battery status)"
+# printf "\n"
 
 # show me the paths
 function paths(){

@@ -254,18 +254,6 @@ alias emulator="\$ANDROID_HOME/tools/emulator"
 alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
 alias run-emulator='emulator @$(emulators)'
 
-
-ARC=$HOME/apps/nfl-phabricator/arcanist/resources/shell/bash-completion
-# shellcheck source=/dev/null
-[ -r "$2ARC" ] && . "$ARC"
-
-# Add Visual Studio Code (code)
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-
-# source .bashrc if exists
-# shellcheck source=/dev/null
-[ -r ~/.bashrc ] && . ~/.bashrc
-
 # ____    ____  ___      .______      .__   __.
 # \   \  /   / /   \     |   _  \     |  \ |  |
 #  \   \/   / /  ^  \    |  |_)  |    |   \|  |
@@ -284,7 +272,10 @@ alias yyy='yarn reset && yarn && yarn bootstrap'
 alias deeplink='xcrun simctl openurl booted '
 alias d='deeplink'
 
+# source .bashrc if exists
+# shellcheck source=/dev/null
+[ -r ~/.bashrc ] && . ~/.bashrc
+
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-
-export PATH="/Users/jonny/Library/Python/3.7/bin:$PATH"
+eval "$(/opt/homebrew/bin/brew shellenv)"
