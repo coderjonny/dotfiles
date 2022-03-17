@@ -276,13 +276,10 @@ alias d='deeplink'
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-<<<<<<< HEAD
 eval "$(/opt/homebrew/bin/brew shellenv)"
-=======
 
 export PATH="/Users/jonny/Library/Python/3.7/bin:$PATH"
 
 
 # rbenv
 eval "$(rbenv init -)"
->>>>>>> 7cf18872b7d543c063fcac5ca92bd1ed49a4768b
