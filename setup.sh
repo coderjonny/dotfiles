@@ -145,6 +145,7 @@ command -v m >/dev/null 2>&1 || { echo >&2 "m_cli is missing. downloading.."; in
 check_bash;
 install_zlua;
 install_git_completion;
+install_completions;
 brew install brew-cask-completion;
 
 # brew cask applications
