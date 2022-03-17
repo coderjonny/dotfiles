@@ -62,9 +62,6 @@ set_bash_prompt(){
 
 PROMPT_COMMAND=set_bash_prompt
 
-# bash-completion
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-
 #       _ _
 #  __ _| (_)__ _ ___ ___ ___
 # / _` | | / _` (_-</ -_|_-<
@@ -94,7 +91,7 @@ alias p=p
 # git stuff
 alias gs='git status '
 alias ga='git add '
-alias gb='git branch -v -v'
+alias gb='git branch -vv'
 alias gc='git commit -m'
 alias gd='git diff'
 alias gco='git checkout '
@@ -115,9 +112,10 @@ alias get='git '
 alias gre='git rebase -i'
 alias g-='git checkout -'
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gprune="git remote update origin --prune"
 
 # shellcheck source=/dev/null
-[ -r ~/git-completion ] && . ~/git-completion.bash
+test -f ~/.git-completion.bash && . "$_"
 
 # file navigation
 alias l='exa -lhF --git'
@@ -278,4 +276,13 @@ alias d='deeplink'
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+<<<<<<< HEAD
 eval "$(/opt/homebrew/bin/brew shellenv)"
+=======
+
+export PATH="/Users/jonny/Library/Python/3.7/bin:$PATH"
+
+
+# rbenv
+eval "$(rbenv init -)"
+>>>>>>> 7cf18872b7d543c063fcac5ca92bd1ed49a4768b

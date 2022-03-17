@@ -113,6 +113,18 @@ function check_bash {
   fi
 }
 
+function install_git_completion {
+  FILE=$HOME/.git-completion.bash
+  if [ -f "$FILE" ]
+  then
+    echo "$FILE already downloaded."
+  else
+    cd "$HOME" &&
+      curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+      printf "\\n installed git-completion script"
+  fi
+}
+
 # check packages ..
 command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Installing.."; install_shellcheck;}
 command -v nvim >/dev/null 2>&1 || { echo >&2 "Neovim missing. Installing.."; install_nvim;}
@@ -129,17 +141,20 @@ command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; instal
 command -v exa >/dev/null 2>&1 || { echo >&2 "exa is missing. downloading.."; install_exa; }
 command -v python >/dev/null 2>&1 || { echo >&2 "python is missing. downloading.."; install_python; }
 command -v m >/dev/null 2>&1 || { echo >&2 "m_cli is missing. downloading.."; install_m_cli; }
+
 check_bash;
-
 install_zlua;
-install_completions;
+install_git_completion;
+brew install brew-cask-completion;
 
-brew install brew-cask-completion
 # brew cask applications
-[ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew install alfred
-[ -d "/Applications/Android Studio.app" ] && echo "Android Studio exists." || brew install android-studio
-[ -d "/Applications/iTerm.app" ] && echo "iterm exists." || brew install iterm2
+[ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew install --cask alfred
 [ -d "/Applications/anki.app" ] && echo "anki exists." || brew install --cask anki
+[ -d "/Applications/Android Studio.app" ] && echo "Android Studio exists." || brew install --cask android-studio
+[ -d "/Applications/iTerm.app" ] && echo "iterm exists." || brew install --cask iterm2
+[ -d "/Applications/Slack.app" ] && echo "Slack exists." || brew install --cask slack
+[ -d "/Applications/Slate.app" ] && echo "Slate exists." || brew install --cask slate
+[ -d "/Applications/React\ Native\ Debugger.app" ] && echo "React Native Debugger exists." || brew install --cask react-native-debugger
  # brew cask install beamer
  # brew cask install caffeine
  # brew cask install coconutbattery
@@ -150,7 +165,6 @@ brew install brew-cask-completion
  # [ -d "/Applications/Postman.app" ] && echo "Postman exists." || brew install postman
  # brew cask install react-native-debugger
  # brew cask install slate
- # brew cask install slack
  # brew cask install zoomus
  # brew cask install visual-studio-code
  # brew cask install zeplin
