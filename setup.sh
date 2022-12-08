@@ -7,16 +7,22 @@ if test ! "$(command -v brew)"; then
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-function install_shellcheck {
-  brew install shellcheck
-}
-function install_nvim {
-  brew install neovim
-}
-
-function install_bat {
-  brew install bat
-}
+function install_shellcheck { brew install shellcheck; }
+function install_nvim { brew install neovim; }
+function install_bat { brew install bat; }
+function install_git { brew install git; }
+function install_hub { brew install hub; }
+function install_completions { printf "\\n install brew bash completions\\n"; brew install bash-completion; }
+function install_tree { brew install tree; }
+function install_jq { brew install jq; }
+function install_imgcat { brew tap eddieantonio/eddieantonio; brew install imgcat; }
+function test_imgcat { imgcat nyan-cat.png; }
+function install_figlet { brew install figlet; }
+function install_fzf { brew install fzf; }
+function install_lua { brew install lua; }
+function install_exa { brew install exa; }
+function install_python { brew install python; }
+function install_m_cli { brew install m-cli; }
 
 function install_zlua {
   FILE=$HOME/z.lua
@@ -28,14 +34,6 @@ function install_zlua {
       curl -O https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua &&
       printf "\\n installed z.lua script"
   fi
-}
-
-function install_git {
-  brew install git
-}
-
-function install_hub {
-  brew install hub
 }
 
 function install_diff-so-fancy {
@@ -53,52 +51,6 @@ function install_diff-so-fancy {
   git config --global color.diff.old        "red bold"
   git config --global color.diff.new        "green bold"
   git config --global color.diff.whitespace "red reverse"
-}
-
-function install_completions {
-  printf "\\n install brew bash completions\\n"
-  brew install bash-completion
-}
-
-function install_tree {
-  brew install tree
-}
-
-function install_jq {
-  brew install jq
-}
-
-function install_imgcat {
-  brew tap eddieantonio/eddieantonio
-  brew install imgcat
-}
-
-function test_imgcat {
-  imgcat nyan-cat.png
-}
-
-function install_figlet {
-  brew install figlet
-}
-
-function install_fzf {
-  brew install fzf
-}
-
-function install_lua {
-  brew install lua
-}
-
-function install_exa {
-  brew install exa
-}
-
-function install_python {
-  brew install python
-}
-
-function install_m_cli {
-  brew install m-cli
 }
 
 function check_bash {
@@ -149,13 +101,13 @@ install_completions;
 brew install brew-cask-completion;
 
 # brew cask applications
-[ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew install --cask alfred
-[ -d "/Applications/anki.app" ] && echo "anki exists." || brew install --cask anki
-[ -d "/Applications/Android Studio.app" ] && echo "Android Studio exists." || brew install --cask android-studio
-[ -d "/Applications/iTerm.app" ] && echo "iterm exists." || brew install --cask iterm2
-[ -d "/Applications/Slack.app" ] && echo "Slack exists." || brew install --cask slack
-[ -d "/Applications/Slate.app" ] && echo "Slate exists." || brew install --cask slate
-[ -d "/Applications/React\ Native\ Debugger.app" ] && echo "React Native Debugger exists." || brew install --cask react-native-debugger
+# [ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew install --cask alfred
+# [ -d "/Applications/anki.app" ] && echo "anki exists." || brew install --cask anki
+# [ -d "/Applications/Android Studio.app" ] && echo "Android Studio exists." || brew install --cask android-studio
+# [ -d "/Applications/iTerm.app" ] && echo "iterm exists." || brew install --cask iterm2
+# [ -d "/Applications/Slack.app" ] && echo "Slack exists." || brew install --cask slack
+# [ -d "/Applications/Slate.app" ] && echo "Slate exists." || brew install --cask slate
+# [ -d "/Applications/React\ Native\ Debugger.app" ] && echo "React Native Debugger exists." || brew install --cask react-native-debugger
  # brew cask install beamer
  # brew cask install caffeine
  # brew cask install coconutbattery
@@ -207,4 +159,5 @@ update;
 # print nyancat
 test_imgcat;
 
+# print success
 figlet -f starwars -c Setup successful!

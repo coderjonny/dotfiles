@@ -211,7 +211,7 @@ load-nvmrc() {
 # Automatically calls ls after you cd into a directory
 cd() {
     builtin cd "$@" || return;
-    'load-nvmrc';
+    # 'load-nvmrc';
     l;
 }
 
@@ -276,10 +276,42 @@ alias d='deeplink'
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+# adds brew to path
 eval "$(/opt/homebrew/bin/brew shellenv)"
+# alias oldbrew='arch -x86_64 /usr/local/homebrew/bin/brew'
 
 export PATH="/Users/jonny/Library/Python/3.7/bin:$PATH"
 
 
 # rbenv
 eval "$(rbenv init -)"
+# export PATH="/usr/local/homebrew/bin:$PATH"
+
+
+
+# Simple calculator
+function calc() {
+        local result=""
+        result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
+        #                       └─ default (when `--mathlib` is used) is 20
+        #
+        if [[ "$result" == *.* ]]; then
+                # improve the output for decimal numbers
+                printf '\n     %s\n' "$result" |
+                sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
+                    -e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
+                    -e 's/0*$//;s/\.$//'   # remove trailing zeros
+        else
+                printf '\n     %s\n' "$result"
+        fi
+        printf "\n"
+}
+
+# look up words - with define
+define() {
+  open dict://"${1}"
+}
+dict () {
+  define "$1"
+}

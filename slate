@@ -5,6 +5,12 @@ config defaultToCurrentScreen true
 config nudgePercentOf screenSize
 config resizePercentOf screenSize
 
+# General aliases
+alias sox screenOriginX
+alias soy screenOriginY
+alias ssx screenSizeX
+alias ssy screenSizeY
+
 # Resize Bindings
 bind l:alt       resize +10% +0
 bind h:alt        resize -10% +0
@@ -28,7 +34,7 @@ bind k:ctrl;cmd;shift     push up    bar-resize:screenSizeY/3
 bind j:ctrl;cmd;shift   push down  bar-resize:screenSizeY/3
 
 # Centering
-bind c:ctrl,cmd move screenOriginX+((screenSizeX-windowSizeX)/2);screenOriginY+((screenSizeY-windowSizeY)/2) windowSizeX;windowSizeY
+bind c:ctrl,cmd move ${sox}+((screenSizeX-windowSizeX)/2);screenOriginY+((screenSizeY-windowSizeY)/2) windowSizeX;windowSizeY
 
 # Nudge Bindings
 bind l:shift;alt nudge +10% +0
@@ -55,3 +61,9 @@ bind j:cmd;alt   focus behind
 
 # Window Hints
 bind esc:cmd hint
+
+# Position aliases
+alias fullscreen ${sox};${soy} ${ssx};${ssy}
+
+# Fullscreen Binding
+bind f:ctrl;cmd move ${fullscreen}
