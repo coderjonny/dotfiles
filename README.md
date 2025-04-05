@@ -25,7 +25,7 @@ Plugin manager used: Vim-Plug
         - fzf
         - lua
         - z.lua
-        - exa
+        - eza
         - python
 
   2. Symlinking dotfiles

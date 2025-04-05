@@ -20,7 +20,7 @@ function test_imgcat { imgcat nyan-cat.png; }
 function install_figlet { brew install figlet; }
 function install_fzf { brew install fzf; }
 function install_lua { brew install lua; }
-function install_exa { brew install exa; }
+function install_exa { brew install eza; }
 function install_python { brew install python; }
 function install_m_cli { brew install m-cli; }
 
@@ -90,7 +90,7 @@ command -v figlet >/dev/null 2>&1 || { echo >&2 "figlet missing. Installing.."; 
 command -v hub >/dev/null 2>&1 || { echo >&2 "hub missing. Installing.."; install_hub;}
 command -v fzf >/dev/null 2>&1 || { echo >&2 "fzf missing. Installing.."; install_fzf;}
 command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; install_lua;}
-command -v exa >/dev/null 2>&1 || { echo >&2 "exa is missing. downloading.."; install_exa; }
+command -v eza >/dev/null 2>&1 || { echo >&2 "eza is missing. downloading.."; install_exa; }
 command -v python >/dev/null 2>&1 || { echo >&2 "python is missing. downloading.."; install_python; }
 command -v m >/dev/null 2>&1 || { echo >&2 "m_cli is missing. downloading.."; install_m_cli; }
 

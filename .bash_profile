@@ -18,10 +18,10 @@ export EDITOR="$VISUAL"
 export POSTGREST_HOST=35.203.146.107
 alias n=nvim
 
-if [ -d "/usr/local/opt/ruby/bin" ]; then
-  export PATH=/usr/local/opt/ruby/bin:$PATH
-  export PATH=`gem environment gemdir`/bin:$PATH
-fi
+ if [ -d "/usr/local/opt/ruby/bin" ]; then
+   export PATH=/usr/local/opt/ruby/bin:$PATH
+   export PATH=`gem environment gemdir`/bin:$PATH
+ fi
 
 #  ___  ____ ____ _  _ ___  ___
 #  |__] |__/ |  | |\/| |__]  |
@@ -88,6 +88,10 @@ p ()
 
 alias p=p
 
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+
 # git stuff
 alias gs='git status '
 alias ga='git add '
@@ -118,17 +122,14 @@ alias gprune="git remote update origin --prune"
 test -f ~/.git-completion.bash && . "$_"
 
 # file navigation
-alias l='exa -lhF --git'
-alias la='exa -lahF --git'
+alias l='eza -lhF --git'
+alias la='eza -lahF --git'
 alias c='bat'
 alias b='bat'
 alias cat='bat'
-alias ..='cd ..'
-alias ...='cd ../../'
-alias ....='cd ../../../'
 alias mkdir='mkdir -pv'
 alias rm='rm'
-alias e='exa -lh --git'
+alias e='eza -lh --git'
 
 alias o='open'
 alias md='open -a macdown'
@@ -144,7 +145,7 @@ tree_example() {
 # Open the current directory in Finder
 alias f='open -a Finder ./'
 
-# Less Colors for Man Pages
+# LESS Colors for Man Pages
 export LESS_TERMCAP_mb=$'\e[01;31m'       # begin blinking
 export LESS_TERMCAP_md=$'\e[01;38;5;74m'  # begin bold
 export LESS_TERMCAP_me=$'\e[0m'           # end mode
@@ -194,41 +195,26 @@ fi
 #  __ _ _  _ _  _
 #  | \|  \/  |\/|
 #################
-export NVM_DIR="$HOME/.nvm"
+# export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 # shellcheck source=/dev/null
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-load-nvmrc() {
-    if [[ -f .nvmrc && -r .nvmrc ]]; then
-        nvm use
-    elif [[ $(nvm version) != $(nvm version default)  ]]; then
-        echo "Reverting to nvm default version"
-        nvm use default
-    fi
-}
+# load-nvmrc() {
+#     if [[ -f .nvmrc && -r .nvmrc ]]; then
+#         nvm use
+#     elif [[ $(nvm version) != $(nvm version default)  ]]; then
+#         echo "Reverting to nvm default version"
+#         nvm use default
+#     fi
+# }
 
 # Automatically calls ls after you cd into a directory
-cd() {
-    builtin cd "$@" || return;
-    # 'load-nvmrc';
-    l;
-}
-
-eval "$(lua ~/z.lua --init bash enhanced once fzf)"
-export _ZL_ECHO=1
-
-function zo() {
-    z "$@";
-    printf "\\n";
-    exa -lhF --git;
-    printf "\\n";
-    gs;
-}
-alias z='zo'
-alias zz='z -c'      # restrict matches to subdirs of $PWD
-alias zi='z -I'      # cd with interactive selection
-alias zb='z -b'      # quickly cd to the parent directory
+# cd() {
+#     builtin cd "$@" || return;
+#     # 'load-nvmrc';
+#     l;
+# }
 
 
 #               _         _    _
@@ -247,7 +233,6 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/emulator
 
-export PATH=$PATH:~/apps/nfl-phabricator/arcanist/bin
 alias emulator="\$ANDROID_HOME/tools/emulator"
 alias emulators="\$ANDROID_HOME/tools/emulator -list-avds"
 alias run-emulator='emulator @$(emulators)'
@@ -268,7 +253,6 @@ alias yyy='yarn reset && yarn && yarn bootstrap'
 
 # DEEPLINKING
 alias deeplink='xcrun simctl openurl booted '
-alias d='deeplink'
 
 # source .bashrc if exists
 # shellcheck source=/dev/null
@@ -278,14 +262,14 @@ alias d='deeplink'
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # adds brew to path
-eval "$(/opt/homebrew/bin/brew shellenv)"
+ eval "$(/opt/homebrew/bin/brew shellenv)"
 # alias oldbrew='arch -x86_64 /usr/local/homebrew/bin/brew'
 
-export PATH="/Users/jonny/Library/Python/3.7/bin:$PATH"
+# export PATH="/Users/jonny/Library/Python/3.7/bin:$PATH"
 
 
 # rbenv
-eval "$(rbenv init -)"
+# eval "$(rbenv init -)"
 # export PATH="/usr/local/homebrew/bin:$PATH"
 
 
@@ -312,6 +296,24 @@ function calc() {
 define() {
   open dict://"${1}"
 }
-dict () {
+d () {
   define "$1"
 }
+
+
+
+# Setup z
+eval "$(lua ~/z.lua --init bash enhanced once fzf)"
+export _ZL_ECHO=1
+
+function zo() {
+    z "$@";
+    printf "\\n";
+    eza -lhF --git;
+    printf "\\n";
+    gs;
+}
+alias z='zo'
+alias zz='z -c'      # restrict matches to subdirs of $PWD
+alias zi='z -I'      # cd with interactive selection
+alias zb='z -b'      # quickly cd to the parent directory
