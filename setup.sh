@@ -92,11 +92,12 @@ command -v hub >/dev/null 2>&1 || { echo >&2 "hub missing. Installing.."; instal
 command -v fzf >/dev/null 2>&1 || { echo >&2 "fzf missing. Installing.."; install_fzf;}
 command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; install_lua;}
 command -v eza >/dev/null 2>&1 || { echo >&2 "eza is missing. downloading.."; install_exa; }
-command -v python >/dev/null 2>&1 || { echo >&2 "python is missing. downloading.."; install_python; }
+command -v python3 >/dev/null 2>&1 || { echo >&2 "python3 is missing. downloading.."; install_python; }
 command -v m >/dev/null 2>&1 || { echo >&2 "m_cli is missing. downloading.."; install_m_cli; }
 command -v m >/dev/null 2>&1 || { echo >&2 "mise is missing. downloading.."; install_mise; }
 
 check_bash;
+sudo chsh -s /opt/homebrew/bin/bash
 install_zlua;
 install_git_completion;
 install_completions;
@@ -123,6 +124,7 @@ brew install brew-cask-completion;
  # brew cask install zoomus
  # brew cask install visual-studio-code
  # brew cask install zeplin
+brew install hammerspoon --cask
 
 # link bashrc && bash_profile
 # =============================
@@ -142,6 +144,13 @@ function link_dotfiles {
     mkdir $HOME/.config/nvim/;
     echo "$FILE does not exist, created dir";
     ln -sfv "$(pwd)/init.vim" "$HOME/.config/nvim/init.vim";
+  fi
+
+  FILE=$HOME/.hammerspoon/init.lua
+  if [ -f "$FILE" ]
+  then
+    echo "$FILE exist, symlinking"
+    ln -sfv "$(pwd)/init.lua" "$HOME/.hammerspoon/init.lua";
   fi
 
   printf " done symlinking...";

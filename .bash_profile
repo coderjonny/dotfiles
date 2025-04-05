@@ -10,6 +10,10 @@
 #  |_____] |_____/ |     | |______   |   |      |______
 #  |       |    \_ |_____| |       __|__ |_____ |______
 #  ====================================================
+#
+# source .bashrc if exists
+# shellcheck source=/dev/null
+[ -r ~/.bashrc ] && . ~/.bashrc
 
 
 # use NVIM as default
@@ -17,11 +21,6 @@ export VISUAL=/opt/homebrew/bin/nvim
 export EDITOR="$VISUAL"
 export POSTGREST_HOST=35.203.146.107
 alias n=nvim
-
- if [ -d "/usr/local/opt/ruby/bin" ]; then
-   export PATH=/usr/local/opt/ruby/bin:$PATH
-   export PATH=`gem environment gemdir`/bin:$PATH
- fi
 
 #  ___  ____ ____ _  _ ___  ___
 #  |__] |__/ |  | |\/| |__]  |
@@ -85,8 +84,6 @@ p ()
 {
   lsof -i tcp:"$1";
 }
-
-alias p=p
 
 alias ..='cd ..'
 alias ...='cd ../../'
@@ -180,43 +177,6 @@ alias most=most_used_commands
 
 alias crontab="VIM_CRONTAB=true crontab"
 
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-if command -v ruby >/dev/null && command -v gem >/dev/null; then
-    PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
-fi
-
-# ____ _  _ _  _
-# |--<  \/  |\/|
-#---------------
-# shellcheck source=/dev/null
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-# Load RVM into a shell session *as a function*
-
-#  __ _ _  _ _  _
-#  | \|  \/  |\/|
-#################
-# export NVM_DIR="$HOME/.nvm"
-# shellcheck source=/dev/null
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-# shellcheck source=/dev/null
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-# load-nvmrc() {
-#     if [[ -f .nvmrc && -r .nvmrc ]]; then
-#         nvm use
-#     elif [[ $(nvm version) != $(nvm version default)  ]]; then
-#         echo "Reverting to nvm default version"
-#         nvm use default
-#     fi
-# }
-
-# Automatically calls ls after you cd into a directory
-# cd() {
-#     builtin cd "$@" || return;
-#     # 'load-nvmrc';
-#     l;
-# }
-
-
 #               _         _    _
 #  __ _ _ _  __| |_ _ ___(_)__| |
 # / _` | ' \/ _` | '_/ _ \ / _` |
@@ -254,25 +214,12 @@ alias yyy='yarn reset && yarn && yarn bootstrap'
 # DEEPLINKING
 alias deeplink='xcrun simctl openurl booted '
 
-# source .bashrc if exists
-# shellcheck source=/dev/null
-[ -r ~/.bashrc ] && . ~/.bashrc
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # adds brew to path
  eval "$(/opt/homebrew/bin/brew shellenv)"
-# alias oldbrew='arch -x86_64 /usr/local/homebrew/bin/brew'
-
-# export PATH="/Users/jonny/Library/Python/3.7/bin:$PATH"
-
-
-# rbenv
-# eval "$(rbenv init -)"
-# export PATH="/usr/local/homebrew/bin:$PATH"
-
-
 
 # Simple calculator
 function calc() {
@@ -300,20 +247,28 @@ d () {
   define "$1"
 }
 
-
-
 # Setup z
 eval "$(lua ~/z.lua --init bash enhanced once fzf)"
 export _ZL_ECHO=1
 
-function zo() {
+zo() {
     z "$@";
     printf "\\n";
     eza -lhF --git;
     printf "\\n";
     gs;
 }
-alias z='zo'
-alias zz='z -c'      # restrict matches to subdirs of $PWD
-alias zi='z -I'      # cd with interactive selection
-alias zb='z -b'      # quickly cd to the parent directory
+alias z=zo
+alias zz='z -c'
+alias zi='z -I'
+alias zb='z -b'
+
+eval "$(mise activate bash)"
+
+cd() {
+  builtin cd "$@"  # Execute the original cd command
+  t;
+  if [ $? -eq 0 ]; then
+    ls --color=auto  # Execute ls after successful cd
+  fi
+}
