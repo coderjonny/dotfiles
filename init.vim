@@ -29,7 +29,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'jremmen/vim-ripgrep' " vim-ripgrep
   Plug 'junegunn/goyo.vim' " goyo.vim
   Plug 'junegunn/seoul256.vim' " seoul256 colors
-  Plug 'ayu-theme/ayu-vim' "ayu color theme
+"  Plug 'ayu-theme/ayu-vim' "ayu color theme
   Plug 'junegunn/vim-easy-align' " vim-easy-align
   Plug 'junegunn/fzf.vim' "fzf addons
   Plug 'justinmk/vim-sneak' " Jump to any location specified by two characters

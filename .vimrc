@@ -383,10 +383,9 @@
 " | (_| (_) | | (_) | |  \__ \
 "  \___\___/|_|\___/|_|  |___/
 "-----------------------------
-  colorscheme ayu
-
+  " colorscheme ayu
   " let ayucolor="light"   " for dark version of theme
-  let ayucolor="mirage" " for mirage version of theme
+  " let ayucolor="mirage" " for mirage version of theme
   " let ayucolor="dark"   " for dark version of theme
 
   " Enables 24-bit RGB color in the |TUI|, needed for colorscheme

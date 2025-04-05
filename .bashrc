@@ -33,4 +33,4 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 # end=`date +%s`
 # runtime=$((end-start))
 # printf "Execution time: %s seconds\n" "$runtime"
-eval "$(/Users/jonny/.local/bin/mise activate bash)"
+eval "$(mise activate bash)"

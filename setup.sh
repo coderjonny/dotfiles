@@ -23,6 +23,7 @@ function install_lua { brew install lua; }
 function install_exa { brew install eza; }
 function install_python { brew install python; }
 function install_m_cli { brew install m-cli; }
+function install_mise { brew install mise; }
 
 function install_zlua {
   FILE=$HOME/z.lua
@@ -93,6 +94,7 @@ command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; instal
 command -v eza >/dev/null 2>&1 || { echo >&2 "eza is missing. downloading.."; install_exa; }
 command -v python >/dev/null 2>&1 || { echo >&2 "python is missing. downloading.."; install_python; }
 command -v m >/dev/null 2>&1 || { echo >&2 "m_cli is missing. downloading.."; install_m_cli; }
+command -v m >/dev/null 2>&1 || { echo >&2 "mise is missing. downloading.."; install_mise; }
 
 check_bash;
 install_zlua;
