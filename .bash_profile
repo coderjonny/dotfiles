@@ -13,7 +13,7 @@
 
 
 # use NVIM as default
-export VISUAL=/usr/local/bin/nvim
+export VISUAL=/opt/homebrew/bin/nvim
 export EDITOR="$VISUAL"
 export POSTGREST_HOST=35.203.146.107
 alias n=nvim
