@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+# start=`date +%s`
+
 echo "Bash: $BASH_VERSION"
 printf "\n"
 # echo "Battery status: $(m battery status)"
@@ -18,11 +21,16 @@ function paths(){
 alias git=hub
 
 # heroku autocomplete setup
-HEROKU_AC_BASH_SETUP_PATH=/Users/jonny/Library/Caches/heroku/autocomplete/bash_setup && test -f $HEROKU_AC_BASH_SETUP_PATH && source $HEROKU_AC_BASH_SETUP_PATH;
+# HEROKU_AC_BASH_SETUP_PATH=/Users/jonny/Library/Caches/heroku/autocomplete/bash_setup && test -f $HEROKU_AC_BASH_SETUP_PATH && source $HEROKU_AC_BASH_SETUP_PATH;
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # macOS Catalina is configured to use a different shell warning on macOS.
 export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# end=`date +%s`
+# runtime=$((end-start))
+# printf "Execution time: %s seconds\n" "$runtime"
+eval "$(/Users/jonny/.local/bin/mise activate bash)"
