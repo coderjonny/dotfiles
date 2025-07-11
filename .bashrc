@@ -33,3 +33,8 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 # end=`date +%s`
 # runtime=$((end-start))
 # printf "Execution time: %s seconds\n" "$runtime"
+
+
+export ANDROID_HOME="/Users/`whoami`/Library/Android/sdk"
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools/bin
