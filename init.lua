@@ -21,6 +21,8 @@ function pushHorizontal(x_offset, width_ratio)
 
     f.x = max.x + (max.w * x_offset)
     f.w = max.w * width_ratio
+    f.y = max.y
+    f.h = max.h
 
     win:setFrame(f)
   end
