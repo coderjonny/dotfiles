@@ -4,6 +4,10 @@
 <dict>
 	<key>Default Bookmark Guid</key>
 	<string>5E972E45-A98A-4D78-920A-87B981118307</string>
+	<key>DimBackgroundWindows</key>
+	<false/>
+	<key>DimOnlyText</key>
+	<true/>
 	<key>GlobalKeyMap</key>
 	<dict>
 		<key>0x19-0x60000</key>
@@ -1356,6 +1360,8 @@
 			<string>/Users/jonny</string>
 		</dict>
 	</array>
+	<key>PerPaneBackgroundImage</key>
+	<true/>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -1389,8 +1395,16 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
+	<key>SeparateStatusBarsPerPane</key>
+	<true/>
+	<key>ShowFullScreenTabBar</key>
+	<true/>
+	<key>ShowPaneTitles</key>
+	<false/>
 	<key>SoundForEsc</key>
 	<false/>
+	<key>SplitPaneDimmingAmount</key>
+	<real>0.19786013719512194</real>
 	<key>UseLionStyleFullscreen</key>
 	<false/>
 	<key>VisualIndicatorForEsc</key>

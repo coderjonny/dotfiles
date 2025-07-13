@@ -17,17 +17,16 @@ export EDITOR="$VISUAL"
 export POSTGREST_HOST=35.203.146.107
 
 # Add paths
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-export PATH="$PATH:$HOME/Library/Android/sdk/tools/bin"
-export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
-export PATH="$PATH:$HOME/Library/Android/sdk/tools"
-export PATH="$PATH:$HOME/Library/Android/sdk/emulator"
-export ANDROID_HOME=$HOME/Library/Android/sdk
+# Note: .bashrc, which is sourced above, contains the add_to_path function
+# and handles Android SDK paths.
+add_to_path "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # Initialize tools
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(lua ~/z.lua --init bash enhanced once fzf)"
-eval "$(mise activate bash)"
+if command -v mise &> /dev/null; then
+  eval "$(mise activate bash)"
+fi
 export _ZL_ECHO=1
 
 # ==============================================================================
@@ -182,9 +181,9 @@ alias deeplink='xcrun simctl openurl booted'
 # Enhanced z with file listing and git status
 zo() {
     z "$@"
-    printf "\\n"
+    printf "\n"
     eza -lhF --git
-    printf "\\n"
+    printf "\n"
     gs
 }
 alias z=zo
@@ -227,23 +226,10 @@ d() { define "$1"; }
 
 # Show most used commands
 most_used_commands() {
-    history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | 
+    history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' |
     grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n10
 }
 alias most=most_used_commands
-
-# ==============================================================================
-# STYLING
-# ==============================================================================
-
-# Better colors for man pages
-export LESS_TERMCAP_mb=$'\e[01;31m'
-export LESS_TERMCAP_md=$'\e[01;38;5;74m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[38;5;246m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[04;38;5;146m'
 
 # ==============================================================================
 # CLOUD SDK
