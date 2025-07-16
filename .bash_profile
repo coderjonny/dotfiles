@@ -97,7 +97,7 @@ alias la='eza -lahF --git'
 alias e='eza -lh --git'
 
 # File viewing
-alias c='bat'
+alias c='cursor'
 alias b='bat'
 alias cat='bat'
 
