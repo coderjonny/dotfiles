@@ -33,30 +33,82 @@ export _ZL_ECHO=1
 # PROMPT SETUP
 # ==============================================================================
 
-# Colors
+# Colors optimized for light mode terminals with emoji-inspired palette
 NO_COLOR="\[\033[0m\]"
-LIGHT_GREY="\[\033[37m\]"
-YELLOW="\[\033[33m\]"
-BLUE="\[\033[34m\]"
-RED="\[\033[31m\]"
+FOREST_GREEN="\[\033[38;5;22m\]"    # 🐸🐢🐍 inspired - dark green, readable in light mode
+OCEAN_BLUE="\[\033[38;5;26m\]"      # 🐧🐠🐳🐬 inspired - deep blue
+TIGER_ORANGE="\[\033[38;5;208m\]"   # 🐯🐥 inspired - vibrant orange  
+BEAR_BROWN="\[\033[38;5;94m\]"      # 🐶🐺🐻🐵 inspired - rich brown
+CHERRY_RED="\[\033[38;5;160m\]"     # Error state - deep red
+PURPLE="\[\033[38;5;93m\]"          # Git branches - royal purple
 
-# Mood indicator based on last command exit status
+# Mood indicator based on last command exit status (with fun colors!)
 print_mood() {
-    [ $? -eq 0 ] && printf "%s\n" "$BLUE ^.^ $NO_COLOR" || printf "%s\n" "$RED O.O $NO_COLOR"
+    if [ $? -eq 0 ]; then
+        # Success - happy animals in ocean blue
+        printf "%s\n" "$OCEAN_BLUE ^.^ $NO_COLOR"
+    else
+        # Error - distressed in cherry red  
+        printf "%s\n" "$CHERRY_RED O.O $NO_COLOR"
+    fi
 }
 
-# Git branch in prompt
+# Git branch in prompt with better visibility
 parse_git_branch() {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
-# Random emoji for fun
-emojis=(🐶 🐺 🐱 🐭 🐹 🐰 🐸 🐯 🐨 🐻 🐷 🐮 🐵 🐼 🐧 🐍 🐢 🐙 🐠 🐳 🐬 🐥)
-emoji_rand=${emojis[$RANDOM % 22]}
+# Emoji collections grouped by color families
+brown_animals=(🐶 🐺 🐻 🐵 🦊)           # Brown/tan creatures
+gray_animals=(🐭 🐹 🐰 🐨 🐼 🐧)         # Gray/white creatures  
+colorful_animals=( 🐸 🐷 🐮)        # Vibrant multicolored
+ocean_animals=(🐙 🐠 🐳 🐬)              # Blue ocean life
+golden_animals=(🐥 🐱 🐯)                      # Golden/yellow
 
-# Set prompt
+# Color groups to match emoji families
+emoji_groups=(
+    "brown_animals[@]:$BEAR_BROWN"
+    "gray_animals[@]:$NO_COLOR"
+    "colorful_animals[@]:$TIGER_ORANGE" 
+    "ocean_animals[@]:$OCEAN_BLUE"
+    "golden_animals[@]:$TIGER_ORANGE"
+)
+
+# Function to get random colored emoji and matching color (compatible with older bash)
+get_colored_emoji_and_path_color() {
+    # Safety check for empty emoji_groups array
+    if [ ${#emoji_groups[@]} -eq 0 ]; then
+        printf "🐶:$TIGER_ORANGE"
+        return
+    fi
+    
+    local group_data="${emoji_groups[$RANDOM % ${#emoji_groups[@]}]}"
+    local emoji_array="${group_data%:*}"
+    local color="${group_data#*:}"
+    
+    # Use eval for indirect array access (compatible with older bash)
+    local emoji_list
+    eval "emoji_list=(\"\${${emoji_array}}\")"
+    
+    # Safety check for empty emoji list
+    if [ ${#emoji_list[@]} -eq 0 ]; then
+        printf "🐶:$TIGER_ORANGE"
+        return
+    fi
+    
+    local emoji="${emoji_list[$RANDOM % ${#emoji_list[@]}]}"
+    
+    # Return both emoji with color and the color for path coordination
+    printf "%s%s%s:%s" "$color" "$emoji" "$NO_COLOR" "$color"
+}
+
+# Enhanced prompt with color-coordinated emoji and path
 set_bash_prompt() {
-    PS1="$(print_mood)$YELLOW\w$LIGHT_GREY\$(parse_git_branch)$NO_COLOR $emoji_rand -> "
+    local emoji_and_color="$(get_colored_emoji_and_path_color)"
+    local colored_emoji="${emoji_and_color%:*}"
+    local path_color="${emoji_and_color#*:}"
+    
+    PS1="$(print_mood)${path_color}\w$PURPLE\$(parse_git_branch)$NO_COLOR $colored_emoji $FOREST_GREEN->$NO_COLOR "
 }
 PROMPT_COMMAND=set_bash_prompt
 
@@ -132,9 +184,11 @@ alias ga='git add'
 alias gc='git commit -m'
 alias gco='git checkout'
 alias go='git checkout'
+alias gob='git checkout -b'
 alias g-='git checkout -'
 alias gcp='git cherry-pick'
 alias gre='git rebase -i'
+alias gds='git diff --staged'
 
 # Git push/pull
 alias gp='git push'
@@ -153,8 +207,10 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 alias gk='gitk --all&'
 alias gx='gitx --all'
 
-# Git completion
-test -f ~/.git-completion.bash && . "$_"
+# Git completion  
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
 
 # ==============================================================================
 # DEVELOPMENT ALIASES
