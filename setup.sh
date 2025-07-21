@@ -54,15 +54,41 @@ function install_diff-so-fancy {
   git config --global color.diff.whitespace "red reverse"
 }
 
-function check_bash {
-  BASHES="$(which -a bash | wc -l)"
-
-  if [ "$BASHES" -gt 1 ]
-  then
-    echo 'more than 1 bash installed'
-  else
-    echo 'only 1 installed. Installing newer Bash.'
+function upgrade_bash {
+  echo "🐚 Checking bash versions..."
+  
+  # Show current system bash version
+  echo "System bash: $(/bin/bash --version | head -1)"
+  
+  # Install modern bash via Homebrew
+  if [ ! -f "/opt/homebrew/bin/bash" ]; then
+    echo "📦 Installing modern bash via Homebrew..."
     brew install bash
+  else
+    echo "✅ Modern bash already installed"
+  fi
+  
+  # Show Homebrew bash version
+  if [ -f "/opt/homebrew/bin/bash" ]; then
+    echo "Homebrew bash: $(/opt/homebrew/bin/bash --version | head -1)"
+    
+    # Add Homebrew bash to allowed shells if not already there
+    if ! grep -q "/opt/homebrew/bin/bash" /etc/shells; then
+      echo "🔐 Adding Homebrew bash to /etc/shells (requires sudo)..."
+      echo '/opt/homebrew/bin/bash' | sudo tee -a /etc/shells
+    fi
+    
+    # Change default shell to Homebrew bash
+    echo "🔄 Changing default shell to modern bash..."
+    if sudo chsh -s /opt/homebrew/bin/bash "$USER"; then
+      echo "✅ Default shell changed successfully"
+      echo "🎉 You'll need to restart Terminal/iTerm2 for the change to take effect"
+    else
+      echo "❌ Failed to change default shell"
+    fi
+  else
+    echo "❌ Failed to install modern bash"
+    return 1
   fi
 }
 
@@ -96,8 +122,11 @@ command -v python3 >/dev/null 2>&1 || { echo >&2 "python3 is missing. downloadin
 command -v m >/dev/null 2>&1 || { echo >&2 "m_cli is missing. downloading.."; install_m_cli; }
 command -v m >/dev/null 2>&1 || { echo >&2 "mise is missing. downloading.."; install_mise; }
 
-check_bash;
-sudo chsh -s /opt/homebrew/bin/bash
+upgrade_bash;
+
+# Note: If using iTerm2, you may also want to configure it to use the new bash:
+# iTerm2 → Preferences → Profiles → General → Command → Custom Shell: /opt/homebrew/bin/bash
+
 install_zlua;
 install_git_completion;
 install_completions;

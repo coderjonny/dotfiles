@@ -30,87 +30,123 @@ fi
 export _ZL_ECHO=1
 
 # ==============================================================================
-# PROMPT SETUP
+# PROMPT SETUP - CLEAN & READABLE
 # ==============================================================================
 
-# Colors optimized for light mode terminals with emoji-inspired palette
-NO_COLOR="\[\033[0m\]"
-FOREST_GREEN="\[\033[38;5;22m\]"    # 🐸🐢🐍 inspired - dark green, readable in light mode
-OCEAN_BLUE="\[\033[38;5;26m\]"      # 🐧🐠🐳🐬 inspired - deep blue
-TIGER_ORANGE="\[\033[38;5;208m\]"   # 🐯🐥 inspired - vibrant orange  
-BEAR_BROWN="\[\033[38;5;94m\]"      # 🐶🐺🐻🐵 inspired - rich brown
-CHERRY_RED="\[\033[38;5;160m\]"     # Error state - deep red
-PURPLE="\[\033[38;5;93m\]"          # Git branches - royal purple
+# Color Palette (Light Mode Optimized)
+# ----------------------------------------------------------------------------
+declare -r NO_COLOR="\[\033[0m\]"
+declare -r FOREST_GREEN="\[\033[38;5;22m\]"    # Arrows & success elements
+declare -r OCEAN_BLUE="\[\033[38;5;26m\]"      # Happy mood & ocean animals  
+declare -r TIGER_ORANGE="\[\033[38;5;208m\]"   # Paths & colorful animals
+declare -r BEAR_BROWN="\[\033[38;5;94m\]"      # Brown animals
+declare -r CHERRY_RED="\[\033[38;5;160m\]"     # Error states & sad mood
+declare -r PURPLE="\[\033[38;5;93m\]"          # Git branches
 
-# Mood indicator based on last command exit status (with fun colors!)
-print_mood() {
-    if [ $? -eq 0 ]; then
-        # Success - happy animals in ocean blue
-        printf "%s\n" "$OCEAN_BLUE ^.^ $NO_COLOR"
-    else
-        # Error - distressed in cherry red  
-        printf "%s\n" "$CHERRY_RED O.O $NO_COLOR"
-    fi
-}
+# Emoji Collections (Organized by Color Theme)
+# ----------------------------------------------------------------------------
+declare -ra BROWN_ANIMALS=(🐶 🐺 🐻 🐵 🦊)
+declare -ra GRAY_ANIMALS=(🐭 🐹 🐰 🐨 🐼 🐧) 
+declare -ra COLORFUL_ANIMALS=(🐸 🐷 🐮)
+declare -ra OCEAN_ANIMALS=(🐙 🐠 🐳 🐬)
+declare -ra GOLDEN_ANIMALS=(🐥 🐱 🐯)
 
-# Git branch in prompt with better visibility
-parse_git_branch() {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
+# Mood Indicator Logic
+# ----------------------------------------------------------------------------
+# State tracking for detecting empty commands
+PREVIOUS_HISTORY_NUMBER=0
 
-# Emoji collections grouped by color families
-brown_animals=(🐶 🐺 🐻 🐵 🦊)           # Brown/tan creatures
-gray_animals=(🐭 🐹 🐰 🐨 🐼 🐧)         # Gray/white creatures  
-colorful_animals=( 🐸 🐷 🐮)        # Vibrant multicolored
-ocean_animals=(🐙 🐠 🐳 🐬)              # Blue ocean life
-golden_animals=(🐥 🐱 🐯)                      # Golden/yellow
+# Session-consistent theme variables (set once per shell process)
+SESSION_EMOJI=""
+SESSION_PATH_COLOR=""
 
-# Color groups to match emoji families
-emoji_groups=(
-    "brown_animals[@]:$BEAR_BROWN"
-    "gray_animals[@]:$NO_COLOR"
-    "colorful_animals[@]:$TIGER_ORANGE" 
-    "ocean_animals[@]:$OCEAN_BLUE"
-    "golden_animals[@]:$TIGER_ORANGE"
-)
-
-# Function to get random colored emoji and matching color (compatible with older bash)
-get_colored_emoji_and_path_color() {
-    # Safety check for empty emoji_groups array
-    if [ ${#emoji_groups[@]} -eq 0 ]; then
-        printf "🐶:$TIGER_ORANGE"
+get_mood_indicator() {
+    local command_exit_code=$1
+    local current_history_number=$2
+    
+    # Show happy face if just pressing Enter (no new command in history)
+    if [[ "$current_history_number" == "$PREVIOUS_HISTORY_NUMBER" ]]; then
+        echo "${OCEAN_BLUE} ^.^ ${NO_COLOR}"
         return
     fi
     
-    local group_data="${emoji_groups[$RANDOM % ${#emoji_groups[@]}]}"
-    local emoji_array="${group_data%:*}"
-    local color="${group_data#*:}"
+    # Show mood based on command success/failure
+    if [[ $command_exit_code -eq 0 ]]; then
+        echo "${OCEAN_BLUE} ^.^ ${NO_COLOR}"  # Happy - command succeeded
+    else
+        echo "${CHERRY_RED} O.O ${NO_COLOR}"  # Sad - command failed
+    fi
+}
+
+# Random Emoji Selection
+# ----------------------------------------------------------------------------
+get_random_emoji_from_group() {
+    local group_name="$1"
+    local color="$2"
     
     # Use eval for indirect array access (compatible with older bash)
     local emoji_list
-    eval "emoji_list=(\"\${${emoji_array}}\")"
+    eval "emoji_list=(\"\${${group_name}[@]}\")"
     
-    # Safety check for empty emoji list
-    if [ ${#emoji_list[@]} -eq 0 ]; then
-        printf "🐶:$TIGER_ORANGE"
+    # Safety check
+    if [[ ${#emoji_list[@]} -eq 0 ]]; then
+        echo "${TIGER_ORANGE}🐶${NO_COLOR}"
         return
     fi
     
-    local emoji="${emoji_list[$RANDOM % ${#emoji_list[@]}]}"
-    
-    # Return both emoji with color and the color for path coordination
-    printf "%s%s%s:%s" "$color" "$emoji" "$NO_COLOR" "$color"
+    local random_emoji="${emoji_list[$RANDOM % ${#emoji_list[@]}]}"
+    echo "${color}${random_emoji}${NO_COLOR}"
 }
 
-# Enhanced prompt with color-coordinated emoji and path
-set_bash_prompt() {
-    local emoji_and_color="$(get_colored_emoji_and_path_color)"
-    local colored_emoji="${emoji_and_color%:*}"
-    local path_color="${emoji_and_color#*:}"
+initialize_session_theme() {
+    # Define emoji groups with their matching colors
+    local groups=(
+        "BROWN_ANIMALS:$BEAR_BROWN"
+        "GRAY_ANIMALS:$NO_COLOR" 
+        "COLORFUL_ANIMALS:$TIGER_ORANGE"
+        "OCEAN_ANIMALS:$OCEAN_BLUE"
+        "GOLDEN_ANIMALS:$TIGER_ORANGE"
+    )
     
-    PS1="$(print_mood)${path_color}\w$PURPLE\$(parse_git_branch)$NO_COLOR $colored_emoji $FOREST_GREEN->$NO_COLOR "
+    # Pick random group for this shell session
+    local selected_group="${groups[$RANDOM % ${#groups[@]}]}"
+    local group_name="${selected_group%:*}"
+    local group_color="${selected_group#*:}"
+    
+    # Set session variables (these will persist for the entire shell session)
+    SESSION_EMOJI=$(get_random_emoji_from_group "$group_name" "$group_color")
+    SESSION_PATH_COLOR="$group_color"
 }
-PROMPT_COMMAND=set_bash_prompt
+
+# Initialize theme once when shell starts (not inherited by new processes)
+if [[ -z "$SESSION_EMOJI" || "$BASH_SUBSHELL" == "0" ]]; then
+    initialize_session_theme
+fi
+
+# Git Branch Helper
+# ----------------------------------------------------------------------------
+get_git_branch() {
+    git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
+# Main Prompt Builder
+# ----------------------------------------------------------------------------
+build_bash_prompt() {
+    local last_command_exit_code=$?
+    local current_history_number
+    current_history_number=$(history 1 | awk '{print $1}' 2>/dev/null || echo "0")
+    
+    # Get mood indicator based on command result
+    local mood_face
+    mood_face=$(get_mood_indicator "$last_command_exit_code" "$current_history_number")
+    
+    # Update history tracking
+    PREVIOUS_HISTORY_NUMBER="$current_history_number"
+    
+    # Assemble the prompt using session-consistent theme: [mood] [colored_path] [git_branch] [emoji] [arrow]
+    PS1="${mood_face}${SESSION_PATH_COLOR}\w${PURPLE}\$(get_git_branch)${NO_COLOR} ${SESSION_EMOJI} ${FOREST_GREEN}->${NO_COLOR} "
+}
+PROMPT_COMMAND=build_bash_prompt
 
 # ==============================================================================
 # SYSTEM ALIASES
