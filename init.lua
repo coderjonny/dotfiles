@@ -43,11 +43,11 @@ function pushVertical(y_offset, height_ratio)
     end
 end
 
--- Push Bindings (thirds)
--- ctrl-cmd-h: left third
-hs.hotkey.bind({"ctrl", "cmd"}, "h", pushHorizontal(0, 1/3))
--- ctrl-cmd-l: right third
-hs.hotkey.bind({"ctrl", "cmd"}, "l", pushHorizontal(2/3, 1/3))
+-- Push Bindings (halves)
+-- ctrl-cmd-h: left half
+hs.hotkey.bind({"ctrl", "cmd"}, "h", pushHorizontal(0, 1/2))
+-- ctrl-cmd-l: right half
+hs.hotkey.bind({"ctrl", "cmd"}, "l", pushHorizontal(1/2, 1/2))
 
 -- Push Bindings (halves)
 -- ctrl-cmd-k: top half
@@ -55,11 +55,11 @@ hs.hotkey.bind({"ctrl", "cmd"}, "k", pushVertical(0, 1/2))
 -- ctrl-cmd-j: bottom half
 hs.hotkey.bind({"ctrl", "cmd"}, "j", pushVertical(0.5, 1/2))
 
--- Push Bindings / 3 (with shift)
--- ctrl-cmd-shift-h: left third
-hs.hotkey.bind({"ctrl", "cmd", "shift"}, "h", pushHorizontal(0, 1/3))
--- ctrl-cmd-shift-l: right third
-hs.hotkey.bind({"ctrl", "cmd", "shift"}, "l", pushHorizontal(2/3, 1/3))
+-- Push Bindings / 2 (with shift)
+-- ctrl-cmd-shift-h: left half
+hs.hotkey.bind({"ctrl", "cmd", "shift"}, "h", pushHorizontal(0, 1/2))
+-- ctrl-cmd-shift-l: right half
+hs.hotkey.bind({"ctrl", "cmd", "shift"}, "l", pushHorizontal(1/2, 1/2))
 -- ctrl-cmd-shift-k: top third
 hs.hotkey.bind({"ctrl", "cmd", "shift"}, "k", pushVertical(0, 1/3))
 -- ctrl-cmd-shift-j: bottom third
