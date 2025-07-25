@@ -210,6 +210,15 @@ get_git_status() {
     fi
 }
 
+# Git History Helper
+# ----------------------------------------------------------------------------
+get_git_mini_log() {
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        echo ""
+        git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -3 2>/dev/null
+    fi
+}
+
 # Main Prompt Builder
 # ----------------------------------------------------------------------------
 build_bash_prompt() {
@@ -283,7 +292,7 @@ alias md='open -a macdown'
 
 # Tree view
 alias tree='tree -C'
-alias t='tree -L 2 --filelimit 30 -F --dirsfirst'
+alias t='tree -aLF 1 --dirsfirst'
 tree_example() { echo "t -I 'node_modules|coverage' -L 4 -P 'package.*'"; }
 
 # ==============================================================================
@@ -361,10 +370,11 @@ alias deeplink='xcrun simctl openurl booted'
 # Enhanced z with file listing and git status
 zo() {
     z "$@"
-    printf "\n"
-    eza -lhF --git
+    # eza -lhF --git
+    t
     printf "\n"
     gs
+    get_git_mini_log
 }
 alias z=zo
 alias zz='z -c'
@@ -375,7 +385,10 @@ alias zb='z -b'
 cd() {
     builtin cd "$@"
     t
-    [ $? -eq 0 ] && ls --color=auto
+    # [ $? -eq 0 ] && ls --color=auto
+    # Show mini git log after each prompt
+    gs
+    get_git_mini_log
 }
 
 # ==============================================================================
