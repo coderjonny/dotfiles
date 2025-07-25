@@ -883,31 +883,6 @@ fetch_vocab() {
     echo ""
 }
 
-# ==============================================================================
-# ENHANCED BASH COMPLETION
-# ==============================================================================
-
-# Custom completion function that includes all commands, aliases, and functions
-_comprehensive_completion() {
-    local cur="${COMP_WORDS[COMP_CWORD]}"
-    local prev="${COMP_WORDS[COMP_CWORD-1]}"
-    
-    # Get all available commands, aliases, and functions
-    local commands=($(compgen -c | sort -u))
-    local aliases=($(alias | cut -d'=' -f1 | sed 's/^alias //'))
-    local functions=($(declare -F | awk '{print $3}'))
-    local builtins=($(compgen -b))
-    
-    # Combine all completions
-    local all_completions=("${commands[@]}" "${aliases[@]}" "${functions[@]}" "${builtins[@]}")
-    
-    # Generate completions based on current word
-    COMPREPLY=($(compgen -W "${all_completions[*]}" -- "$cur"))
-    
-    # Also include file/directory completions
-    COMPREPLY+=($(compgen -f -- "$cur"))
-}
-
 # Enhanced command discovery function
 query() {
     local search_term="$1"
@@ -1022,12 +997,6 @@ show_all_commands() {
 alias q=query
 alias w=which_enhanced
 alias all=show_all_commands
-
-# Set up enhanced completion for common commands that don't have it
-# This applies comprehensive completion to commands that typically only complete files
-complete -F _comprehensive_completion ls cat less more head tail grep find
-# Note: Removed 'cd' from the list since it should only complete directories
-
 
 # ==============================================================================
 # ENHANCED HISTORY SHARING
