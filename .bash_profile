@@ -297,6 +297,7 @@ alias got='git'
 alias get='git'
 
 # Git status and info
+alias s='git status'
 alias gs='git status'
 alias gb='git branch -vv'
 alias gr='git remote -v'
@@ -467,7 +468,7 @@ alias most=most_used_commands
 # Show what every letter of the alphabet does
 alphabet_commands() {
     echo ""
-    echo "🔤 Alphabet Command Reference"
+    echo "🔤 Alphabet Commands"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     
     for letter in {a..z}; do
@@ -534,7 +535,8 @@ declare -ra DAILY_TIPS=(
     "🔍 Use 'o <file>' to open any file with default application"
     
     # Git Workflow
-    "🔍 Try 'gs' for git status or 'gl' for beautiful commit history"
+    "🔍 Try 's' or 'gs' for git status - ultra-short for frequent use"
+    "🎨 Use 'gl' for beautiful commit history with graphs and colors"
     "🌿 Use 'gb' to see all branches with tracking info"
     "🔄 Use 'gp' to push or 'gpl' to pull changes"
     "🔧 Use 'gds' to see staged git changes before committing"
@@ -602,8 +604,78 @@ declare -ra DAILY_TIPS=(
     "� Your 'mkdir' automatically creates parent directories (-pv)"
 )
 
+# Vocabulary of the Day
+# ----------------------------------------------------------------------------
+declare -ra DAILY_VOCAB=(
+    # Programming & Tech Terms
+    "📝 Idempotent|adj.|/aɪˈdɛmpətənt/|Producing the same result when applied multiple times (e.g., REST API calls)"
+    "🔄 Polymorphism|noun|/ˌpɒlɪˈmɔːfɪzəm/|The ability of different objects to respond to the same interface in different ways"
+    "⚡ Asynchronous|adj.|/eɪˈsɪŋkrənəs/|Operations that don't block execution while waiting for completion"
+    "🎯 Algorithm|noun|/ˈælɡərɪðəm/|A step-by-step procedure for solving a problem or completing a task"
+    "🏗️ Architecture|noun|/ˈɑːrkɪtektʃər/|The fundamental organization of a system and its components"
+    "📊 Heuristic|noun|/hjʊˈrɪstɪk/|A problem-solving approach using practical methods to find satisfactory solutions"
+    "🔍 Recursion|noun|/rɪˈkɜːrʒən/|A programming technique where a function calls itself to solve smaller subproblems"
+    "⚙️ Concatenate|verb|/kənˈkætəneɪt/|To link or join together in a series (especially strings or arrays)"
+    "🎨 Paradigm|noun|/ˈpærədaɪm/|A fundamental style or approach to programming (e.g., functional, object-oriented)"
+    "🔐 Cryptography|noun|/krɪpˈtɒɡrəfi/|The practice of securing communication through encoding information"
+    
+    # Business & Professional Terms
+    "📈 Synergy|noun|/ˈsɪnərdʒi/|The combined effect is greater than the sum of individual efforts"
+    "🎯 Pragmatic|adj.|/præɡˈmætɪk/|Dealing with practical rather than idealistic considerations"
+    "🔍 Meticulous|adj.|/məˈtɪkjələs/|Showing great attention to detail; very careful and precise"
+    "💡 Innovation|noun|/ˌɪnəˈveɪʃən/|The introduction of new ideas, methods, or products"
+    "🚀 Catalyst|noun|/ˈkætəlɪst/|Something that precipitates or accelerates change or action"
+    "🎨 Aesthetic|noun|/ɛsˈθɛtɪk/|A set of principles concerned with beauty and artistic taste"
+    "📊 Methodology|noun|/ˌmeθəˈdɒlədʒi/|A system of methods used in a particular field of study"
+    "🔄 Iterative|adj.|/ˈɪtəreɪtɪv/|Involving repetition of a process to achieve desired results"
+    "🎭 Eloquent|adj.|/ˈeləkwənt/|Fluent and persuasive in speaking or writing"
+    "🏛️ Infrastructure|noun|/ˈɪnfrəstrʌktʃər/|The basic physical and organizational structures needed for operation"
+    
+    # Advanced Vocabulary
+    "🌟 Serendipity|noun|/ˌserənˈdɪpəti/|The occurrence of fortunate events by chance"
+    "🎯 Perspicacious|adj.|/ˌpɜːrspɪˈkeɪʃəs/|Having keen insight; mentally sharp and discerning"
+    "🔍 Ubiquitous|adj.|/juˈbɪkwətəs/|Present, appearing, or found everywhere"
+    "💫 Ephemeral|adj.|/ɪˈfemərəl/|Lasting for a very short time; transitory"
+    "🎨 Aesthetic|adj.|/ɛsˈθɛtɪk/|Concerned with beauty or the appreciation of beauty"
+    "🌊 Confluence|noun|/ˈkɒnfluəns/|A flowing together; the junction of two rivers or streams"
+    "⚖️ Equanimity|noun|/ˌiːkwəˈnɪməti/|Mental calmness and composure, especially in difficult situations"
+    "🎭 Nuanced|adj.|/ˈnuːɑːnst/|Characterized by subtle shades of expression or meaning"
+    "🔮 Prescient|adj.|/ˈpresiənt/|Having knowledge of events before they take place"
+    "🌅 Quintessential|adj.|/ˌkwɪntɪˈsenʃəl/|Representing the most perfect example of a quality"
+    
+    # Creative & Expressive Terms
+    "🎨 Juxtaposition|noun|/ˌdʒʌkstəpəˈzɪʃən/|The fact of two things being placed close together for contrasting effect"
+    "🌟 Luminous|adj.|/ˈluːmɪnəs/|Giving off light; bright or shining, especially in the dark"
+    "🎵 Mellifluous|adj.|/meˈlɪfluəs/|Sweet or musical; pleasant to hear"
+    "🌊 Undulating|adj.|/ˈʌndjʊleɪtɪŋ/|Moving with a smooth wavelike motion"
+    "✨ Scintillating|adj.|/ˈsɪntɪleɪtɪŋ/|Sparkling or shining brightly; brilliantly and excitingly clever"
+    "🏔️ Sublime|adj.|/səˈblaɪm/|Of such excellence or beauty as to inspire great admiration"
+    "🌺 Resplendent|adj.|/rɪˈsplendənt/|Attractive and impressive through being richly colorful or sumptuous"
+    "🎪 Whimsical|adj.|/ˈwɪmzɪkəl/|Playfully quaint or fanciful, especially in an appealing way"
+    "🌙 Ethereal|adj.|/ɪˈθɪriəl/|Extremely delicate and light in a way that seems not of this world"
+    "🎯 Incisive|adj.|/ɪnˈsaɪsɪv/|Intelligently analytical and clear-thinking"
+    
+    # Fintech & Financial Technology Terms
+    "💰 Arbitrage|noun|/ˈɑːrbɪtrɑːʒ/|The practice of taking advantage of price differences in different markets"
+    "🔗 Blockchain|noun|/ˈblɒktʃeɪn/|A distributed ledger technology that maintains a continuously growing list of records"
+    "💳 Liquidity|noun|/lɪˈkwɪdəti/|The ease with which an asset can be converted into cash without affecting its market price"
+    "📊 Volatility|noun|/ˌvɒləˈtɪləti/|The degree of variation in a trading price series over time"
+    "🚀 Tokenization|noun|/ˈtoʊkənaɪˈzeɪʃən/|The process of converting rights to an asset into a digital token on a blockchain"
+    "🔐 Cryptography|noun|/krɪpˈtɒɡrəfi/|The practice of securing communication through advanced mathematical algorithms"
+    "💎 Decentralized|adj.|/diːˈsentrəlaɪzd/|Operating without a central authority or single point of control"
+    "⚡ Algorithmic|adj.|/ˌælɡəˈrɪðmɪk/|Using mathematical algorithms to make trading or investment decisions"
+    "🎯 Derivatives|noun|/dɪˈrɪvətɪvz/|Financial securities whose value is derived from an underlying asset"
+    "💱 Forex|noun|/ˈfɔːreks/|The foreign exchange market where currencies are traded globally"
+    "📈 Bull Market|noun|/bʊl ˈmɑːrkɪt/|A financial market characterized by rising prices and investor optimism"
+    "📉 Bear Market|noun|/ber ˈmɑːrkɪt/|A financial market characterized by falling prices and investor pessimism"
+    "🔄 DeFi|noun|/ˈdiːfaɪ/|Decentralized Finance - financial services built on blockchain technology"
+    "💸 Yield|noun|/jiːld/|The income return on an investment, typically expressed as an annual percentage"
+    "🏦 Fintech|noun|/ˈfɪntek/|Financial technology that aims to compete with traditional financial methods"
+)
+
 # Tip display mode (daily or random)
 TIP_MODE="random"  # Can be "daily" or "random"
+VOCAB_MODE="daily"  # Can be "daily" or "random"
 
 # Toggle between daily and random tip modes
 random_tip() {
@@ -615,6 +687,18 @@ random_tip() {
         echo "📅 Switched to daily tips! New terminals will show daily tips."
     fi
     show_tip_of_day  # Show a tip immediately
+}
+
+# Toggle between daily and random vocab modes
+random_vocab() {
+    if [[ "$VOCAB_MODE" == "daily" ]]; then
+        VOCAB_MODE="random"
+        echo "🎲 Switched to random vocabulary! New terminals will show random words."
+    else
+        VOCAB_MODE="daily"
+        echo "📅 Switched to daily vocabulary! New terminals will show daily words."
+    fi
+    show_vocab_of_day  # Show a vocab word immediately
 }
 
 show_tip_of_day() {
@@ -643,6 +727,136 @@ show_tip_of_day() {
     echo -e "${orange}│${reset} ${DAILY_TIPS[$tip_index]}"
     echo -e "${orange}└─────────────────────────────────────────────────────┘${reset}"
     echo -e "${orange}💡 Type 'random_tip' to toggle between daily/random tips${reset}"
+    echo ""
+}
+
+show_vocab_of_day() {
+    local day_seed vocab_index
+    
+    if [[ "$VOCAB_MODE" == "random" ]]; then
+        # Use fetch_vocab to get a random word from the web API
+        echo ""
+        echo "🌐 Fetching random vocabulary from the web..."
+        fetch_vocab
+        return
+    else
+        # Use date as seed for consistent vocab per day (offset by 1 day from tips)
+        day_seed=$(( $(date +%j) + 1 ))  # Day of year + 1 offset
+        vocab_index=$((day_seed % ${#DAILY_VOCAB[@]}))
+        
+        # Parse vocabulary entry: "emoji Word|pos|pronunciation|definition"
+        local vocab_entry="${DAILY_VOCAB[$vocab_index]}"
+        local emoji_word="${vocab_entry%%|*}"
+        local rest="${vocab_entry#*|}"
+        local pos="${rest%%|*}"
+        rest="${rest#*|}"
+        local pronunciation="${rest%%|*}"
+        local definition="${rest#*|}"
+        
+        # Define colors for vocabulary display
+        local blue="\033[1;38;5;39m"    # Bright blue for headers
+        local green="\033[1;38;5;46m"   # Bright green for word
+        local yellow="\033[1;38;5;226m" # Bright yellow for pronunciation
+        local cyan="\033[1;38;5;51m"    # Bright cyan for definition
+        local reset="\033[0m"           # Reset color
+        local mode_indicator="📚 Daily"
+        
+        echo ""
+        echo -e "${blue}┌─ ${mode_indicator} Vocabulary ────────────────────────────────┐${reset}"
+        echo -e "${blue}│${reset} ${green}${emoji_word}${reset} ${yellow}(${pos})${reset}"
+        echo -e "${blue}│${reset} ${yellow}${pronunciation}${reset}"
+        echo -e "${blue}│${reset} ${cyan}${definition}${reset}"
+        echo -e "${blue}└─────────────────────────────────────────────────┘${reset}"
+        echo -e "${blue}💡 Type 'random_vocab' to toggle daily/random • 'd word' to define${reset}"
+        echo ""
+    fi
+}
+
+# Function to show vocabulary on demand
+vocab() {
+    if [[ -n "$1" ]]; then
+        # If argument provided, search for that word in our vocabulary list
+        local search_term="$1"
+        echo ""
+        echo "🔍 Searching vocabulary for '$search_term':"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        
+        local found=false
+        for vocab_entry in "${DAILY_VOCAB[@]}"; do
+            if [[ "${vocab_entry,,}" == *"${search_term,,}"* ]]; then
+                local emoji_word="${vocab_entry%%|*}"
+                local rest="${vocab_entry#*|}"
+                local pos="${rest%%|*}"
+                rest="${rest#*|}"
+                local pronunciation="${rest%%|*}"
+                local definition="${rest#*|}"
+                
+                echo "📚 ${emoji_word} (${pos})"
+                echo "🔊 ${pronunciation}"
+                echo "💡 ${definition}"
+                echo ""
+                found=true
+            fi
+        done
+        
+        if [[ "$found" == false ]]; then
+            echo "❌ No vocabulary entries found for '$search_term'"
+            echo "💡 Use 'vocab' alone to see today's word, or 'd $search_term' for dictionary lookup"
+        fi
+        echo ""
+    else
+        # No argument, show vocabulary of the day
+        show_vocab_of_day
+    fi
+}
+
+# Fetch new vocabulary from online APIs
+fetch_vocab() {
+    local word="$1"
+    
+    if [[ -z "$word" ]]; then
+        # Get a random word first
+        echo "🔍 Fetching random word..."
+        word=$(curl -s "https://random-word-api.herokuapp.com/word" | jq -r '.[0]' 2>/dev/null)
+        
+        if [[ -z "$word" || "$word" == "null" ]]; then
+            echo "❌ Could not fetch random word. Try providing a specific word: fetch_vocab <word>"
+            return 1
+        fi
+        
+        echo "🎯 Found word: $word"
+    fi
+    
+    echo ""
+    echo "📚 Fetching definition for '$word'..."
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    
+    # Use Free Dictionary API (no API key required)
+    local response=$(curl -s "https://api.dictionaryapi.dev/api/v2/entries/en/$word")
+    
+    if [[ "$response" == *"No Definitions Found"* ]]; then
+        echo "❌ No definition found for '$word'"
+        return 1
+    fi
+    
+    # Parse the JSON response
+    local word_text=$(echo "$response" | jq -r '.[0].word' 2>/dev/null)
+    local phonetic=$(echo "$response" | jq -r '.[0].phonetic // empty' 2>/dev/null)
+    local part_of_speech=$(echo "$response" | jq -r '.[0].meanings[0].partOfSpeech' 2>/dev/null)
+    local definition=$(echo "$response" | jq -r '.[0].meanings[0].definitions[0].definition' 2>/dev/null)
+    local example=$(echo "$response" | jq -r '.[0].meanings[0].definitions[0].example // empty' 2>/dev/null)
+    
+    # Display the vocabulary entry
+    echo "📝 Word: $word_text"
+    [[ -n "$phonetic" ]] && echo "🔊 Pronunciation: $phonetic"
+    [[ -n "$part_of_speech" ]] && echo "📖 Part of Speech: $part_of_speech"
+    [[ -n "$definition" ]] && echo "💡 Definition: $definition"
+    [[ -n "$example" ]] && echo "💭 Example: $example"
+    
+    echo ""
+    echo "💡 To add this to your vocabulary collection, add this line to DAILY_VOCAB:"
+    local emoji="📝"  # Default emoji, could be made smarter based on word type
+    echo "    \"$emoji $word_text|${part_of_speech:-noun}|${phonetic:-/word/}|$definition\""
     echo ""
 }
 
@@ -793,6 +1007,7 @@ complete -F _comprehensive_completion cd ls cat less more head tail grep find
 # Show tip when starting new shell (not in subshells)
 if [[ -z "$BASH_SUBSHELL" || "$BASH_SUBSHELL" == "0" ]]; then
     show_tip_of_day
+    show_vocab_of_day
     a
 fi
 
