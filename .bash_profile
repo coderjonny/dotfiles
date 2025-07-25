@@ -216,6 +216,8 @@ get_git_status() {
             [[ "$behind" -gt 0 ]] && status+="↓$behind"
         fi
         [[ -n "$status" ]] && echo " $status"
+    else
+        echo "🫧"
     fi
 }
 
