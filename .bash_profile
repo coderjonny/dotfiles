@@ -29,6 +29,14 @@ if command -v mise &> /dev/null; then
 fi
 export _ZL_ECHO=1
 
+# Enhanced fzf key bindings and completion
+if command -v fzf &> /dev/null; then
+    # Ctrl+T - file/directory fuzzy search
+    # Ctrl+R - command history fuzzy search  
+    # Alt+C - cd into directory fuzzy search
+    eval "$(fzf --bash)"
+fi
+
 # ==============================================================================
 # PROMPT SETUP - CLEAN & READABLE
 # ==============================================================================
@@ -232,6 +240,7 @@ PROMPT_COMMAND=build_bash_prompt
 # ==============================================================================
 
 alias n=nvim
+alias e=nvim
 alias saver='open -a ScreenSaverEngine'
 alias ss='open -a ScreenSaverEngine'
 alias myip='curl https://wtfismyip.com/json | jq'
@@ -261,7 +270,6 @@ alias f='open -a Finder ./'
 # File listing (using eza)
 alias l='eza -lhF --git'
 alias la='eza -lahF --git'
-alias e='eza -lh --git'
 
 # File viewing
 alias c='cursor'
@@ -327,17 +335,17 @@ if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 
+# Enhanced bash completion (install with: brew install bash-completion@2)
+if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
+    . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+fi
+
 # ==============================================================================
 # DEVELOPMENT ALIASES
 # ==============================================================================
 
 # Yarn shortcuts
 alias y='yarn'
-alias yy='yarn && cd ios && pod install && ..'
-alias yyi='yarn && cd ios && pod install && .. && y ios && y start'
-alias yyd='yarn && cd ios && pod install && .. && y ios --device && y start'
-alias yya='yarn && y android'
-alias yyy='yarn reset && yarn && yarn bootstrap'
 
 # Android development
 alias emulator="$ANDROID_HOME/tools/emulator"
@@ -426,10 +434,12 @@ dark_mode() {
 }
 
 # Open localhost with port (default 8000)
-s() {
+localhost() {
     local port="${1:-8000}"
     open "http://localhost:${port}/"
 }
+# Localhost shortcut
+alias h=localhost
 
 # Simple calculator
 calc() {
@@ -445,7 +455,7 @@ calc() {
 
 # Dictionary lookup
 define() { open dict://"${1}"; }
-d() { define "$1"; }
+alias d=define
 
 # Show most used commands
 most_used_commands() {
@@ -453,6 +463,47 @@ most_used_commands() {
     grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n10
 }
 alias most=most_used_commands
+
+# Show what every letter of the alphabet does
+alphabet_commands() {
+    echo ""
+    echo "🔤 Alphabet Command Reference"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    
+    for letter in {a..z}; do
+        local cmd_info=""
+        
+        # Check if it's an alias
+        if alias "$letter" &>/dev/null; then
+            cmd_info="$(alias "$letter" | sed "s/alias $letter='//" | sed "s/'$//")"
+            cmd_info="→ $cmd_info (alias)"
+        # Check if it's a function
+        elif declare -F "$letter" &>/dev/null; then
+            cmd_info="→ function (use 'declare -f $letter' to see code)"
+        # Check if it's a built-in command
+        elif type "$letter" &>/dev/null; then
+            local cmd_type=$(type "$letter" 2>/dev/null | head -1)
+            if [[ "$cmd_type" == *"builtin"* ]]; then
+                cmd_info="→ bash builtin"
+            elif [[ "$cmd_type" == *"function"* ]]; then
+                cmd_info="→ function"
+            elif [[ "$cmd_type" == *"/"* ]]; then
+                cmd_info="→ $(echo "$cmd_type" | awk '{print $NF}') (external command)"
+            else
+                cmd_info="→ $cmd_type"
+            fi
+        else
+            cmd_info="→ not defined"
+        fi
+        
+        printf "%-3s %s\n" "$letter:" "$cmd_info"
+    done
+    
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "💡 Use 'alias', 'declare -F', or 'type <command>' for more details"
+    echo ""
+}
+alias a=alphabet_commands
 
 # ==============================================================================
 # CLOUD SDK
@@ -470,41 +521,278 @@ fi
 # Tip of the Day
 # ----------------------------------------------------------------------------
 declare -ra DAILY_TIPS=(
-    "💡 Use 'z <partial_name>' to quickly jump to frequently used directories"
-    "🔍 Try 'gs' for git status or 'gl' for a beautiful git log"
-    "⚡ Use 'y' instead of 'yarn' and 'n' instead of 'nvim' for speed"
-    "🌳 Run 't' to see a clean tree view of your current directory"
-    "🎨 Use 'toggle_colors' to switch between light and dark prompt themes"
-    "📱 Use 'yyi' to install dependencies and start iOS development in one command"
-    "🧮 Type 'calc 2+2*3' for quick calculations in your terminal"
-    "📖 Use 'd word' or 'define word' to look up definitions quickly"
-    "🔄 Run 'most' to see your most used commands"
-    "🌐 Use 's 3000' to open localhost:3000 in your browser"
-    "📊 Try 'vtop' for a beautiful process monitor"
-    "🎲 Use 'roll' or 'new_theme' to get a fresh prompt theme"
-    "📂 Use 'f' to open current directory in Finder"
-    "⬆️ Press Ctrl+R to search through command history"
+    # Navigation & File Operations
+    "� Use 'z <partial_name>' to quickly jump to frequently used directories"
+    "🌳 Run 't' to see a clean tree view (2 levels, 30 files max)"
+    "� Use 'f' to open current directory in Finder"
+    "⬆️ Use '..' '...' '....' to go up 1, 2, or 3 directories"
+    "🏠 Type '~' or 'home' to quickly go to your home directory"
+    "📊 Use 'l' or 'la' for beautiful file listings with git status"
+    "👁️ Use 'b' or 'cat' for syntax-highlighted file viewing with bat"
+    "📝 Use 'c' to open current directory in Cursor editor"
+    "📄 Use 'md' to open markdown files in MacDown"
+    "🔍 Use 'o <file>' to open any file with default application"
+    
+    # Git Workflow
+    "🔍 Try 'gs' for git status or 'gl' for beautiful commit history"
+    "🌿 Use 'gb' to see all branches with tracking info"
+    "🔄 Use 'gp' to push or 'gpl' to pull changes"
     "🔧 Use 'gds' to see staged git changes before committing"
+    "📝 Use 'ga <file>' to add files, 'gc \"message\"' to commit"
+    "🚀 Use 'go <branch>' or 'gco <branch>' to checkout branches"
+    "✨ Use 'gob <name>' to create and checkout new branch"
+    "⏪ Use 'g-' to switch to previous branch quickly"
+    "🍒 Use 'gcp <hash>' for cherry-picking commits"
+    "🔄 Use 'gre' for interactive rebase"
+    "🧹 Use 'gprune' to clean up remote tracking branches"
+    
+    # Development Shortcuts
+    "⚡ Use 'y' instead of 'yarn' and 'n' or 'e' instead of 'nvim' for speed"
+    "📝 Use 'e file.txt' to edit files - short for 'edit' and feels intuitive"
+    "🔗 Use 'deeplink <url>' to test deep links in iOS simulator"
+    "📱 Use 'run-emulator' to start Android emulator"
+    "📋 Use 'emulators' to list available Android virtual devices"
+    
+    # System & Utilities
+    "🎨 Use 'toggle_colors' to switch between light and dark themes"
+    "☀️ Use 'light_mode' or 'dark_mode' to force color schemes"
+    "🧮 Type 'calc 2+2*3' for quick calculations in terminal"
+    "📖 Use 'd word' or 'define word' to look up definitions"
+    "🔄 Run 'most' to see your most used commands"
+    "🌐 Use 'h 3000' or 'localhost 3000' to open localhost:3000 in browser (any port)"
+    "🏠 'h' is perfect for localhost - short, memorable, and intuitive"
+    "📊 Try 'vtop' for beautiful process monitor"
+    "� Use 'myip' to get your public IP address with details"
+    "🔌 Use 'p 8080' to see what's running on port 8080"
+    "💤 Use 'saver' or 'ss' to start screensaver"
+    "🔄 Use 'update' to update macOS and Homebrew packages"
+    
+    # Advanced Navigation
+    "🎯 Use 'zo <dir>' for z + file listing + git status"
+    "📊 Use 'zi' for z with interactive selection"
+    "📚 Use 'zb' to jump to bookmark directory"
+    "🧹 Use 'zz' to clean z database"
+    "🌳 Enhanced 'cd' shows tree view + file listing automatically"
+    
+    # Prompt & Customization
+    "🎲 Your prompt shows random emoji themes per session!"
+    "😊 Prompt mood changes: ^.^ for success, O.O for errors"
+    "🕐 Your prompt shows timestamp, git status, and branch info"
+    "✨ Git status icons: ● (modified), + (staged), ? (untracked)"
+    "📈 Git shows ↑3 (ahead) and ↓2 (behind) remote counts"
+    
+    # Hidden Gems
+    "⬆️ Press Ctrl+R to search through command history"
+    "� Your 'mkdir' automatically creates parent directories (-pv)"
+    "🌲 Use tree with filters: 't -I \"node_modules\" -L 4'"
+    "📝 'crontab' is enhanced to work better with vim"
+    "🔧 Git tab completion is enabled for branches and commands"
+    "💡 Type 'tree_example' to see advanced tree usage examples"
+    "🔤 Use 'a' to see what every letter of the alphabet does as a command"
+
+    # Fun Features
+    "🎲 Use 'random_tip' to get a random tip instead of daily"
+    "🎨 Your terminal auto-detects light/dark mode for colors"
+    "🦁 Your prompt emoji rotates between animal themes!"
+    "⚡ Many commands have shortcuts: 'gi'='git', 'got'='git', 'get'='git'"
+    "⬆️ Press Ctrl+R to search through command history"
+    "🔍 Use Ctrl+T for fuzzy file search while typing - game changer!"
+    "📁 Use Alt+C for fuzzy directory search and instant cd"
+    "🎯 Enhanced tab completion works with git branches, commands, and files"
+    "� Your 'mkdir' automatically creates parent directories (-pv)"
 )
 
+# Tip display mode (daily or random)
+TIP_MODE="random"  # Can be "daily" or "random"
+
+# Toggle between daily and random tip modes
+random_tip() {
+    if [[ "$TIP_MODE" == "daily" ]]; then
+        TIP_MODE="random"
+        echo "🎲 Switched to random tips! New terminals will show random tips."
+    else
+        TIP_MODE="daily"
+        echo "📅 Switched to daily tips! New terminals will show daily tips."
+    fi
+    show_tip_of_day  # Show a tip immediately
+}
+
 show_tip_of_day() {
-    # Use date as seed for consistent tip per day
-    local day_seed=$(date +%j)  # Day of year (1-366)
-    local tip_index=$((day_seed % ${#DAILY_TIPS[@]}))
+    local day_seed tip_index
+    
+    if [[ "$TIP_MODE" == "random" ]]; then
+        # Use random seed for random tips
+        tip_index=$((RANDOM % ${#DAILY_TIPS[@]}))
+    else
+        # Use date as seed for consistent tip per day
+        day_seed=$(date +%j)  # Day of year (1-366)
+        tip_index=$((day_seed % ${#DAILY_TIPS[@]}))
+    fi
     
     # Define colors for regular echo (without prompt brackets)
     local orange="\033[1;38;5;208m"  # Orange color for light mode
     local reset="\033[0m"           # Reset color
+    local mode_indicator="📅 Daily"
+    
+    if [[ "$TIP_MODE" == "random" ]]; then
+        mode_indicator="🎲 Random"
+    fi
     
     echo ""
-    echo -e "${orange}┌─ Tip of the Day ─────────────────────────────────────┐${reset}"
+    echo -e "${orange}┌─ ${mode_indicator} Tip ──────────────────────────────────────┐${reset}"
     echo -e "${orange}│${reset} ${DAILY_TIPS[$tip_index]}"
-    echo -e "${orange}└──────────────────────────────────────────────────────┘${reset}"
+    echo -e "${orange}└─────────────────────────────────────────────────────┘${reset}"
+    echo -e "${orange}💡 Type 'random_tip' to toggle between daily/random tips${reset}"
     echo ""
 }
+
+# ==============================================================================
+# ENHANCED BASH COMPLETION
+# ==============================================================================
+
+# Custom completion function that includes all commands, aliases, and functions
+_comprehensive_completion() {
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local prev="${COMP_WORDS[COMP_CWORD-1]}"
+    
+    # Get all available commands, aliases, and functions
+    local commands=($(compgen -c | sort -u))
+    local aliases=($(alias | cut -d'=' -f1 | sed 's/^alias //'))
+    local functions=($(declare -F | awk '{print $3}'))
+    local builtins=($(compgen -b))
+    
+    # Combine all completions
+    local all_completions=("${commands[@]}" "${aliases[@]}" "${functions[@]}" "${builtins[@]}")
+    
+    # Generate completions based on current word
+    COMPREPLY=($(compgen -W "${all_completions[*]}" -- "$cur"))
+    
+    # Also include file/directory completions
+    COMPREPLY+=($(compgen -f -- "$cur"))
+}
+
+# Enhanced command discovery function
+query() {
+    local search_term="$1"
+    
+    if [[ -z "$search_term" ]]; then
+        echo "Usage: query <search_term>"
+        echo "Examples:"
+        echo "  query git    - Find all git-related commands"
+        echo "  query docker - Find all docker commands"
+        echo "  query node   - Find all node-related tools"
+        return 1
+    fi
+    
+    echo ""
+    echo "🔍 Discovering commands containing '$search_term':"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    
+    # Search in commands
+    echo "📦 Commands in PATH:"
+    compgen -c | grep -i "$search_term" | sort -u | head -20 | sed 's/^/  • /'
+    
+    # Search in aliases
+    echo ""
+    echo "🔗 Your Aliases:"
+    alias | grep -i "$search_term" | sed 's/alias /  • /' | head -10
+    
+    # Search in functions
+    echo ""
+    echo "⚙️  Your Functions:"
+    declare -F | awk '{print $3}' | grep -i "$search_term" | sed 's/^/  • /' | head -10
+    
+    # Search in brew packages
+    if command -v brew &> /dev/null; then
+        echo ""
+        echo "🍺 Homebrew Packages:"
+        brew list | grep -i "$search_term" | sed 's/^/  • /' | head -10
+    fi
+    
+    echo ""
+    echo "💡 Use tab completion after typing '$search_term' to see more options"
+    echo ""
+}
+
+# Quick command existence checker
+exists() {
+    for cmd in "$@"; do
+        if command -v "$cmd" &> /dev/null; then
+            echo "✅ $cmd: $(command -v "$cmd")"
+        else
+            echo "❌ $cmd: not found"
+        fi
+    done
+}
+
+# Enhanced which that shows more info
+which_enhanced() {
+    for cmd in "$@"; do
+        echo "🔍 Analyzing: $cmd"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        
+        # Check if it's an alias
+        if alias "$cmd" &>/dev/null; then
+            echo "📎 Alias: $(alias "$cmd" | sed "s/alias $cmd='//" | sed "s/'$//")"
+        fi
+        
+        # Check if it's a function
+        if declare -F "$cmd" &>/dev/null; then
+            echo "⚙️  Function: Use 'declare -f $cmd' to see code"
+        fi
+        
+        # Check type and location
+        if command -v "$cmd" &> /dev/null; then
+            local cmd_path=$(command -v "$cmd")
+            echo "📍 Location: $cmd_path"
+            
+            # Show file info if it's a real file
+            if [[ -f "$cmd_path" ]]; then
+                echo "📊 File size: $(du -h "$cmd_path" | cut -f1)"
+                echo "📅 Modified: $(stat -f "%Sm" "$cmd_path")"
+                
+                # Show first few lines if it's a script
+                if file "$cmd_path" | grep -q "text"; then
+                    echo "📄 First few lines:"
+                    head -5 "$cmd_path" | sed 's/^/     /'
+                fi
+            fi
+        else
+            echo "❌ Command not found"
+        fi
+        echo ""
+    done
+}
+
+# Function to show all available commands with pagination
+show_all_commands() {
+    echo "🗂️  All Available Commands, Aliases, and Functions:"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    
+    {
+        echo "=== ALIASES ==="
+        alias | sort
+        echo ""
+        echo "=== FUNCTIONS ==="
+        declare -F | awk '{print $3}' | sort
+        echo ""
+        echo "=== COMMANDS IN PATH ==="
+        compgen -c | sort -u
+    } | less
+}
+
+# Aliases for the new functions
+alias q=query
+alias w=which_enhanced
+alias all=show_all_commands
+
+# Set up enhanced completion for common commands that don't have it
+# This applies comprehensive completion to commands that typically only complete files
+complete -F _comprehensive_completion cd ls cat less more head tail grep find
 
 # Show tip when starting new shell (not in subshells)
 if [[ -z "$BASH_SUBSHELL" || "$BASH_SUBSHELL" == "0" ]]; then
     show_tip_of_day
+    a
 fi
 

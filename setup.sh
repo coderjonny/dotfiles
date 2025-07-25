@@ -12,13 +12,17 @@ function install_nvim { brew install neovim; }
 function install_bat { brew install bat; }
 function install_git { brew install git; }
 function install_hub { brew install hub; }
-function install_completions { printf "\\n install brew bash completions\\n"; brew install bash-completion; }
+function install_completions { printf "\\n install brew bash completions\\n"; brew install bash-completion@2; }
 function install_tree { brew install tree; }
 function install_jq { brew install jq; }
 function install_imgcat { brew tap eddieantonio/eddieantonio; brew install imgcat; }
 function test_imgcat { imgcat nyan-cat.png; }
 function install_figlet { brew install figlet; }
-function install_fzf { brew install fzf; }
+function install_fzf { 
+  brew install fzf; 
+  # Install useful key bindings and fuzzy completion:
+  $(brew --prefix)/opt/fzf/install --all;
+}
 function install_lua { brew install lua; }
 function install_exa { brew install eza; }
 function install_python { brew install python; }
@@ -130,7 +134,7 @@ upgrade_bash;
 install_zlua;
 install_git_completion;
 install_completions;
-brew install brew-cask-completion;
+# Note: brew-cask-completion is included in bash-completion@2
 
 # brew cask applications
 # [ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew install --cask alfred
