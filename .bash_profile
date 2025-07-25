@@ -223,7 +223,7 @@ build_bash_prompt() {
     PREVIOUS_HISTORY_NUMBER="$current_history_number"
     
     # Assemble the prompt using session-consistent theme with bold formatting: [timestamp] [mood] [colored_path] [git_branch] [git_status] [emoji] [arrow]
-    PS1="${BOLD}${TIGER_ORANGE}${timestamp}${NO_COLOR} ${mood_face}${SESSION_PATH_COLOR}\w${PURPLE}\$(get_git_branch)${CHERRY_RED}${git_status_icons}${NO_COLOR} ${SESSION_EMOJI} ${FOREST_GREEN}⤷${NO_COLOR} "
+    PS1="${BOLD}${TIGER_ORANGE}${timestamp}${NO_COLOR}${mood_face}${SESSION_PATH_COLOR}\w${PURPLE}\$(get_git_branch)${CHERRY_RED}${git_status_icons}${NO_COLOR} ${SESSION_EMOJI} ${FOREST_GREEN}⤷${NO_COLOR} "
 }
 PROMPT_COMMAND=build_bash_prompt
 
@@ -465,5 +465,46 @@ fi
 
 if [ -f '/Users/jonny/google-cloud-sdk/completion.bash.inc' ]; then
     . '/Users/jonny/google-cloud-sdk/completion.bash.inc'
+fi
+
+# Tip of the Day
+# ----------------------------------------------------------------------------
+declare -ra DAILY_TIPS=(
+    "💡 Use 'z <partial_name>' to quickly jump to frequently used directories"
+    "🔍 Try 'gs' for git status or 'gl' for a beautiful git log"
+    "⚡ Use 'y' instead of 'yarn' and 'n' instead of 'nvim' for speed"
+    "🌳 Run 't' to see a clean tree view of your current directory"
+    "🎨 Use 'toggle_colors' to switch between light and dark prompt themes"
+    "📱 Use 'yyi' to install dependencies and start iOS development in one command"
+    "🧮 Type 'calc 2+2*3' for quick calculations in your terminal"
+    "📖 Use 'd word' or 'define word' to look up definitions quickly"
+    "🔄 Run 'most' to see your most used commands"
+    "🌐 Use 's 3000' to open localhost:3000 in your browser"
+    "📊 Try 'vtop' for a beautiful process monitor"
+    "🎲 Use 'roll' or 'new_theme' to get a fresh prompt theme"
+    "📂 Use 'f' to open current directory in Finder"
+    "⬆️ Press Ctrl+R to search through command history"
+    "🔧 Use 'gds' to see staged git changes before committing"
+)
+
+show_tip_of_day() {
+    # Use date as seed for consistent tip per day
+    local day_seed=$(date +%j)  # Day of year (1-366)
+    local tip_index=$((day_seed % ${#DAILY_TIPS[@]}))
+    
+    # Define colors for regular echo (without prompt brackets)
+    local orange="\033[1;38;5;208m"  # Orange color for light mode
+    local reset="\033[0m"           # Reset color
+    
+    echo ""
+    echo -e "${orange}┌─ Tip of the Day ─────────────────────────────────────┐${reset}"
+    echo -e "${orange}│${reset} ${DAILY_TIPS[$tip_index]}"
+    echo -e "${orange}└──────────────────────────────────────────────────────┘${reset}"
+    echo ""
+}
+
+# Show tip when starting new shell (not in subshells)
+if [[ -z "$BASH_SUBSHELL" || "$BASH_SUBSHELL" == "0" ]]; then
+    show_tip_of_day
 fi
 
