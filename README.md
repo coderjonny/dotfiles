@@ -11,6 +11,8 @@
 
 </div>
 
+<img width="769" height="964" alt="image" src="https://github.com/user-attachments/assets/36ede996-d9e6-444e-a4f2-ef2df00518ac" />
+
 ## ✨ Features
 
 ### 🎯 Intelligent Terminal Environment
