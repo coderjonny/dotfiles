@@ -493,7 +493,7 @@ alphabet_commands() {
                 cmd_info="→ $cmd_type"
             fi
         else
-            cmd_info="→ not defined"
+            cmd_info="→"
         fi
         
         printf "%-3s %s\n" "$letter:" "$cmd_info"
