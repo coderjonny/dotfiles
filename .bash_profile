@@ -908,7 +908,7 @@ _comprehensive_completion() {
     COMPREPLY+=($(compgen -f -- "$cur"))
 }
 
-# Enhanced command discovery function
+# Enhanced command discovery function with man page info
 query() {
     local search_term="$1"
     
@@ -927,27 +927,71 @@ query() {
     
     # Search in commands
     echo "📦 Commands in PATH:"
-    compgen -c | grep -i "$search_term" | sort -u | head -20 | sed 's/^/  • /'
+    local commands_found=false
+    for cmd in $(compgen -c | grep -i "$search_term" | sort -u | head -10); do
+        echo "  • $cmd"
+        commands_found=true
+    done
     
     # Search in aliases
     echo ""
-    echo "🔗 Your Aliases:"
-    alias | grep -i "$search_term" | sed 's/alias /  • /' | head -10
+    echo " Your Aliases:"
+    local aliases_found=false
+    for alias_cmd in $(alias | grep -i "$search_term" | sed 's/alias \([^=]*\)=.*/\1/' | head -5); do
+        echo "  • $alias_cmd"
+        aliases_found=true
+    done
     
     # Search in functions
     echo ""
     echo "⚙️  Your Functions:"
-    declare -F | awk '{print $3}' | grep -i "$search_term" | sed 's/^/  • /' | head -10
+    local functions_found=false
+    for func in $(declare -F | awk '{print $3}' | grep -i "$search_term" | head -5); do
+        echo "  • $func"
+        functions_found=true
+    done
     
     # Search in brew packages
     if command -v brew &> /dev/null; then
         echo ""
-        echo "🍺 Homebrew Packages:"
-        brew list | grep -i "$search_term" | sed 's/^/  • /' | head -10
+        echo " Homebrew Packages:"
+        local brew_found=false
+        for pkg in $(brew list | grep -i "$search_term" | head -5); do
+            echo "  • $pkg"
+            brew_found=true
+        done
+    fi
+    
+    # Show man page information for the first matching command
+    echo ""
+    echo "📖 Man Page Information:"
+    local first_cmd=$(compgen -c | grep -i "^$search_term" | head -1)
+    if [[ -n "$first_cmd" ]] && command -v "$first_cmd" &>/dev/null; then
+        echo "  📋 $first_cmd:"
+        
+        # Try whatis first (more reliable for descriptions)
+        local whatis_desc=$(whatis "$first_cmd" 2>/dev/null | head -1)
+        if [[ -n "$whatis_desc" ]]; then
+            echo "     $whatis_desc"
+        else
+            # Fallback: try to extract from man page
+            local man_desc=$(man "$first_cmd" 2>/dev/null | head -100 | grep -E "^[[:space:]]*[A-Z]" | head -1 | sed 's/^[[:space:]]*//')
+            if [[ -n "$man_desc" ]]; then
+                echo "     $man_desc"
+            else
+                echo "     (No man page description available)"
+            fi
+        fi
+        
+        # Show usage example
+        echo "  💡 Usage: man $first_cmd"
+    else
+        echo "  (No matching command found for man page)"
     fi
     
     echo ""
-    echo "💡 Use tab completion after typing '$search_term' to see more options"
+    echo "💡 Use 'man <command>' for detailed documentation"
+    echo " Use tab completion after typing '$search_term' to see more options"
     echo ""
 }
 
@@ -1019,7 +1063,7 @@ show_all_commands() {
 }
 
 # Aliases for the new functions
-alias q=query
+    alias q=query
 alias w=which_enhanced
 alias all=show_all_commands
 
