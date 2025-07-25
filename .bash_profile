@@ -172,7 +172,16 @@ fi
 # Git Branch Helper
 # ----------------------------------------------------------------------------
 get_git_branch() {
-    git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+    # Sed expression to delete all lines that don't start with '*' (the current branch marker)
+    local filter_current_branch='/^[^*]/d'
+
+    # Sed expression to extract the branch name (e.g., "main") from "* main"
+    # and format it as "(main)". The asterisk is escaped for clarity.
+    local format_branch_name='s/\* \(.*\)/(\1)/'
+
+    # Run sed with the expressions stored in variables. Note the double quotes
+    # to allow the shell to expand the variables.
+    git branch --no-color 2>/dev/null | sed -e "$filter_current_branch" -e "$format_branch_name"
 }
 
 # Git Status Icons
