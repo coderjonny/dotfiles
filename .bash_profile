@@ -33,15 +33,53 @@ export _ZL_ECHO=1
 # PROMPT SETUP - CLEAN & READABLE
 # ==============================================================================
 
-# Color Palette (Light Mode Optimized)
+# Color Palette (Auto-detecting Light/Dark Mode)
 # ----------------------------------------------------------------------------
 declare -r NO_COLOR="\[\033[0m\]"
-declare -r FOREST_GREEN="\[\033[38;5;22m\]"    # Arrows & success elements
-declare -r OCEAN_BLUE="\[\033[38;5;26m\]"      # Happy mood & ocean animals  
-declare -r TIGER_ORANGE="\[\033[38;5;208m\]"   # Paths & colorful animals
-declare -r BEAR_BROWN="\[\033[38;5;94m\]"      # Brown animals
-declare -r CHERRY_RED="\[\033[38;5;160m\]"     # Error states & sad mood
-declare -r PURPLE="\[\033[38;5;93m\]"          # Git branches
+declare -r BOLD="\[\033[1m\]"
+
+# Function to detect if we're in dark mode and set colors accordingly
+set_color_palette() {
+    # Try to detect dark mode via macOS system preferences
+    local is_dark_mode=false
+    
+    # Check if we can detect macOS dark mode
+    if command -v defaults &> /dev/null; then
+        local dark_mode_setting
+        dark_mode_setting=$(defaults read -g AppleInterfaceStyle 2>/dev/null || echo "Light")
+        [[ "$dark_mode_setting" == "Dark" ]] && is_dark_mode=true
+    fi
+    
+    # Alternative: Check iTerm2 background color if available
+    if [[ "$is_dark_mode" == false ]] && [[ -n "$ITERM_SESSION_ID" ]]; then
+        # This is a heuristic - in practice, you might need to configure iTerm2 
+        # to set an environment variable based on the profile
+        if [[ -n "$ITERM_PROFILE" ]] && [[ "$ITERM_PROFILE" =~ [Dd]ark ]]; then
+            is_dark_mode=true
+        fi
+    fi
+    
+    if [[ "$is_dark_mode" == true ]]; then
+        # Lighter colors for dark mode - more visible and softer (with bold)
+        declare -g FOREST_GREEN="\[\033[1;38;5;120m\]"    # Bold bright green for arrows & success
+        declare -g OCEAN_BLUE="\[\033[1;38;5;81m\]"       # Bold cyan-blue for happy mood & ocean animals  
+        declare -g TIGER_ORANGE="\[\033[1;38;5;215m\]"    # Bold light orange for paths & colorful animals
+        declare -g BEAR_BROWN="\[\033[1;38;5;180m\]"      # Bold light brown for brown animals
+        declare -g CHERRY_RED="\[\033[1;38;5;203m\]"      # Bold pink-red for error states & sad mood
+        declare -g PURPLE="\[\033[1;38;5;141m\]"          # Bold light purple for git branches
+    else
+        # Darker colors for light mode (original palette with bold)
+        declare -g FOREST_GREEN="\[\033[1;38;5;22m\]"     # Bold arrows & success elements
+        declare -g OCEAN_BLUE="\[\033[1;38;5;26m\]"       # Bold happy mood & ocean animals  
+        declare -g TIGER_ORANGE="\[\033[1;38;5;208m\]"    # Bold paths & colorful animals
+        declare -g BEAR_BROWN="\[\033[1;38;5;94m\]"       # Bold brown animals
+        declare -g CHERRY_RED="\[\033[1;38;5;160m\]"      # Bold error states & sad mood
+        declare -g PURPLE="\[\033[1;38;5;93m\]"           # Bold git branches
+    fi
+}
+
+# Initialize colors based on current mode
+set_color_palette
 
 # Emoji Collections (Organized by Color Theme)
 # ----------------------------------------------------------------------------
@@ -129,6 +167,41 @@ get_git_branch() {
     git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
+# Git Status Icons
+# ----------------------------------------------------------------------------
+# Icon meanings:
+# ● - Modified/dirty files (uncommitted changes)
+# + - Staged files (ready to commit)
+# ? - Untracked files (not in git)
+# ↑3 - Commits ahead of remote
+# ↓2 - Commits behind remote
+get_git_status() {
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        local status=""
+        # Check for uncommitted changes
+        if ! git diff --quiet 2>/dev/null; then
+            status+="●"  # Modified files
+        fi
+        # Check for staged changes
+        if ! git diff --cached --quiet 2>/dev/null; then
+            status+="+"  # Staged files
+        fi
+        # Check for untracked files
+        if [[ -n $(git ls-files --others --exclude-standard 2>/dev/null) ]]; then
+            status+="?"  # Untracked files
+        fi
+        # Check if ahead/behind remote
+        local ahead_behind=$(git rev-list --left-right --count HEAD...@{upstream} 2>/dev/null)
+        if [[ -n "$ahead_behind" ]]; then
+            local ahead=$(echo "$ahead_behind" | cut -f1)
+            local behind=$(echo "$ahead_behind" | cut -f2)
+            [[ "$ahead" -gt 0 ]] && status+="↑$ahead"
+            [[ "$behind" -gt 0 ]] && status+="↓$behind"
+        fi
+        [[ -n "$status" ]] && echo " $status"
+    fi
+}
+
 # Main Prompt Builder
 # ----------------------------------------------------------------------------
 build_bash_prompt() {
@@ -136,15 +209,21 @@ build_bash_prompt() {
     local current_history_number
     current_history_number=$(history 1 | awk '{print $1}' 2>/dev/null || echo "0")
     
+    # Get current timestamp in macOS format
+    local timestamp=$(date '+%a %b %d %l:%M %p' | sed 's/  / /g')
+    
     # Get mood indicator based on command result
     local mood_face
     mood_face=$(get_mood_indicator "$last_command_exit_code" "$current_history_number")
     
+    # Get git status icons
+    local git_status_icons=$(get_git_status)
+    
     # Update history tracking
     PREVIOUS_HISTORY_NUMBER="$current_history_number"
     
-    # Assemble the prompt using session-consistent theme: [mood] [colored_path] [git_branch] [emoji] [arrow]
-    PS1="${mood_face}${SESSION_PATH_COLOR}\w${PURPLE}\$(get_git_branch)${NO_COLOR} ${SESSION_EMOJI} ${FOREST_GREEN}->${NO_COLOR} "
+    # Assemble the prompt using session-consistent theme with bold formatting: [timestamp] [mood] [colored_path] [git_branch] [git_status] [emoji] [arrow]
+    PS1="${BOLD}${TIGER_ORANGE}${timestamp}${NO_COLOR} ${mood_face}${SESSION_PATH_COLOR}\w${PURPLE}\$(get_git_branch)${CHERRY_RED}${git_status_icons}${NO_COLOR} ${SESSION_EMOJI} ${FOREST_GREEN}⤷${NO_COLOR} "
 }
 PROMPT_COMMAND=build_bash_prompt
 
@@ -294,6 +373,58 @@ cd() {
 # UTILITY FUNCTIONS
 # ==============================================================================
 
+# Toggle between light and dark color palettes
+toggle_colors() {
+    if [[ "${FOREST_GREEN}" == *"120"* ]]; then
+        # Currently in dark mode colors, switch to light
+        echo "Switching to light mode colors..."
+        declare -g FOREST_GREEN="\[\033[38;5;22m\]"     # Arrows & success elements
+        declare -g OCEAN_BLUE="\[\033[38;5;26m\]"       # Happy mood & ocean animals  
+        declare -g TIGER_ORANGE="\[\033[38;5;208m\]"    # Paths & colorful animals
+        declare -g BEAR_BROWN="\[\033[38;5;94m\]"       # Brown animals
+        declare -g CHERRY_RED="\[\033[38;5;160m\]"      # Error states & sad mood
+        declare -g PURPLE="\[\033[38;5;93m\]"           # Git branches
+    else
+        # Currently in light mode colors, switch to dark
+        echo "Switching to dark mode colors..."
+        declare -g FOREST_GREEN="\[\033[38;5;120m\]"    # Bright green for arrows & success
+        declare -g OCEAN_BLUE="\[\033[38;5;81m\]"       # Cyan-blue for happy mood & ocean animals  
+        declare -g TIGER_ORANGE="\[\033[38;5;215m\]"    # Light orange for paths & colorful animals
+        declare -g BEAR_BROWN="\[\033[38;5;180m\]"      # Light brown for brown animals
+        declare -g CHERRY_RED="\[\033[38;5;203m\]"      # Pink-red for error states & sad mood
+        declare -g PURPLE="\[\033[38;5;141m\]"          # Light purple for git branches
+    fi
+    
+    # Reinitialize the session theme with new colors
+    initialize_session_theme
+    
+    # Force prompt refresh
+    PROMPT_COMMAND=build_bash_prompt
+}
+
+# Force light or dark mode
+light_mode() {
+    echo "Forcing light mode colors..."
+    declare -g FOREST_GREEN="\[\033[38;5;22m\]"     
+    declare -g OCEAN_BLUE="\[\033[38;5;26m\]"       
+    declare -g TIGER_ORANGE="\[\033[38;5;208m\]"    
+    declare -g BEAR_BROWN="\[\033[38;5;94m\]"       
+    declare -g CHERRY_RED="\[\033[38;5;160m\]"      
+    declare -g PURPLE="\[\033[38;5;93m\]"           
+    initialize_session_theme
+}
+
+dark_mode() {
+    echo "Forcing dark mode colors..."
+    declare -g FOREST_GREEN="\[\033[38;5;120m\]"    
+    declare -g OCEAN_BLUE="\[\033[38;5;81m\]"       
+    declare -g TIGER_ORANGE="\[\033[38;5;215m\]"    
+    declare -g BEAR_BROWN="\[\033[38;5;180m\]"      
+    declare -g CHERRY_RED="\[\033[38;5;203m\]"      
+    declare -g PURPLE="\[\033[38;5;141m\]"          
+    initialize_session_theme
+}
+
 # Open localhost with port (default 8000)
 s() {
     local port="${1:-8000}"
@@ -335,3 +466,4 @@ fi
 if [ -f '/Users/jonny/google-cloud-sdk/completion.bash.inc' ]; then
     . '/Users/jonny/google-cloud-sdk/completion.bash.inc'
 fi
+
