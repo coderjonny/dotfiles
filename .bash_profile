@@ -7,6 +7,42 @@
 # Source .bashrc if it exists
 [ -r ~/.bashrc ] && . ~/.bashrc
 
+# Bash Cheat Sheet
+# ----------------------------------------------------------------------------
+# -n  # "not empty" (negative logic)
+# -z  # "zero length" (zero logic)
+# -e  # "exists" (file test)
+# -f  # "file" (regular file)
+# -d  # "directory"
+# -r  # "readable"
+# -w  # "writable"
+# -x  # "executable"
+
+# ----------------------------------------------------------------------------
+# String tests
+# ----------------------------------------------------------------------------
+# [[ -n "$var" ]]    # String is NOT empty
+# [[ -z "$var" ]]    # String IS empty
+# [[ "$var" == "value" ]]  # String equals
+# [[ "$var" != "value" ]]  # String not equals
+
+# # File tests
+# [[ -e "file" ]]    # File exists
+# [[ -f "file" ]]    # Regular file exists
+# [[ -d "dir" ]]     # Directory exists
+# [[ -r "file" ]]    # File is readable
+# [[ -w "file" ]]    # File is writable
+# [[ -x "file" ]]    # File is executable
+
+# # Integer tests
+# [[ $num -eq 0 ]]   # Equal
+# [[ $num -ne 0 ]]   # Not equal
+# [[ $num -gt 0 ]]   # Greater than
+# [[ $num -lt 0 ]]   # Less than
+# [[ $num -ge 0 ]]   # Greater or equal
+# [[ $num -le 0 ]]   # Less or equal
+
+
 # ==============================================================================
 # ENVIRONMENT SETUP
 # ==============================================================================
@@ -215,9 +251,12 @@ get_git_status() {
             [[ "$ahead" -gt 0 ]] && status+="↑$ahead"
             [[ "$behind" -gt 0 ]] && status+="↓$behind"
         fi
-        [[ -n "$status" ]] && echo "$status"
-    else
+    fi
+
+    if [[ -z "$status" ]]; then
         echo "🫧"
+    else
+        echo "$status"
     fi
 }
 
@@ -422,10 +461,10 @@ toggle_colors() {
         echo "Switching to dark mode colors..."
         declare -g FOREST_GREEN="\[\033[38;5;120m\]"    # Bright green for arrows & success
         declare -g OCEAN_BLUE="\[\033[38;5;81m\]"       # Cyan-blue for happy mood & ocean animals  
-        declare -g TIGER_ORANGE="\[\033[38;5;215m\]"    # Light orange for paths & colorful animals
-        declare -g BEAR_BROWN="\[\033[38;5;180m\]"      # Light brown for brown animals
-        declare -g CHERRY_RED="\[\033[38;5;203m\]"      # Pink-red for error states & sad mood
-        declare -g PURPLE="\[\033[38;5;141m\]"          # Light purple for git branches
+        declare -g TIGER_ORANGE="\[\033[38;5;215m\]"     # Light orange for paths & colorful animals
+        declare -g BEAR_BROWN="\[\033[38;5;180m\]"       # Light brown for brown animals
+        declare -g CHERRY_RED="\[\033[38;5;203m\]"       # Pink-red for error states & sad mood
+        declare -g PURPLE="\[\033[38;5;141m\]"           # Light purple for git branches
     fi
     
     # Reinitialize the session theme with new colors
@@ -464,7 +503,7 @@ localhost() {
     open "http://localhost:${port}/"
 }
 # Localhost shortcut
-alias h=localhost
+alias host=localhost
 
 # Simple calculator
 calc() {
@@ -1033,5 +1072,83 @@ if [[ -z "$BASH_SUBSHELL" || "$BASH_SUBSHELL" == "0" ]]; then
     show_tip_of_day
     show_vocab_of_day
     a
+fi
+
+# ==============================================================================
+# ENHANCED HISTORY SHARING
+# ==============================================================================
+
+# Enable history sharing across terminals
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+export HISTCONTROL=ignoreboth:erasedups  # Ignore duplicates and commands starting with space
+export HISTTIMEFORMAT="%Y-%m-%d %T "     # Add timestamps to history
+
+# Enhanced history sharing with error handling
+enhanced_history_share() {
+    # Only run if we're in an interactive shell
+    [[ $- == *i* ]] || return
+    
+    # Append current session to history file
+    history -a 2>/dev/null
+    
+    # Clear current session history (prevents duplicates)
+    history -c 2>/dev/null
+    
+    # Read from history file
+    history -r 2>/dev/null
+}
+
+# Add to existing PROMPT_COMMAND (preserve existing)
+if [[ -n "$PROMPT_COMMAND" ]]; then
+    # Check if enhanced_history_share is already in PROMPT_COMMAND
+    if [[ "$PROMPT_COMMAND" != *"enhanced_history_share"* ]]; then
+        export PROMPT_COMMAND="$PROMPT_COMMAND; enhanced_history_share"
+    fi
+else
+    export PROMPT_COMMAND="enhanced_history_share"
+fi
+
+# History search shortcuts
+alias hist='history'
+alias hg='history | grep'
+alias hc='history -c'  # Clear history
+alias hs='history | tail -20'  # Show last 20 commands
+
+# Better history search
+bind '"\e[A": history-search-backward'   # Up arrow searches history
+bind '"\e[B": history-search-forward'    # Down arrow searches history
+
+# Search history with fzf (if available)
+if command -v fzf &> /dev/null; then
+    # Unified fzf history search function
+    __fzf_history__() {
+        local cmd
+        cmd=$(history | fzf --tac --tiebreak=index --height=40% --border --prompt="Search History: " | sed 's/^\s*[0-9]\+\s*//')
+        if [[ -n "$cmd" ]]; then
+            READLINE_LINE="$cmd"
+            READLINE_POINT=${#cmd}
+        fi
+    }
+    
+    # Function to trigger fzf history search from command line
+    fzf_history_search() {
+        local selected_cmd
+        selected_cmd=$(history | fzf --tac --tiebreak=index --height=40% --border --prompt="Search History: " | sed 's/^\s*[0-9]\+\s*//')
+        if [[ -n "$selected_cmd" ]]; then
+            echo "$selected_cmd"
+        fi
+    }
+    
+    # Keyboard shortcuts
+    bind '"\C-r": "\C-x1\e^\er"'      # Ctrl+R with fzf
+    bind -x '"\C-x1": __fzf_history__'
+    bind '"\eh": "h\n"'                # Alt+H to trigger 'h' command
+    
+    # Alias 'h' to trigger fzf history search
+    alias h='fzf_history_search'
+else
+    # Fallback: if fzf not available, show regular history
+    alias h='history'
 fi
 
