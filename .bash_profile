@@ -217,7 +217,7 @@ get_git_status() {
         fi
         [[ -n "$status" ]] && echo "$status"
     else
-        echo " "
+        echo "🫧"
     fi
 }
 
