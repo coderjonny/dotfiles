@@ -1025,7 +1025,8 @@ alias all=show_all_commands
 
 # Set up enhanced completion for common commands that don't have it
 # This applies comprehensive completion to commands that typically only complete files
-complete -F _comprehensive_completion cd ls cat less more head tail grep find
+complete -F _comprehensive_completion ls cat less more head tail grep find
+# Note: Removed 'cd' from the list since it should only complete directories
 
 
 # ==============================================================================
