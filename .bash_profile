@@ -83,11 +83,11 @@ set_color_palette
 
 # Emoji Collections (Organized by Color Theme)
 # ----------------------------------------------------------------------------
-declare -ra BROWN_ANIMALS=(🐶 🐺 🐻 🐵 🦊)
+declare -ra BROWN_ANIMALS=(🐶 🐺 🐻 🐵 🦊 🐴)
 declare -ra GRAY_ANIMALS=(🐭 🐹 🐰 🐨 🐼 🐧) 
 declare -ra COLORFUL_ANIMALS=(🐸 🐷 🐮)
 declare -ra OCEAN_ANIMALS=(🐙 🐠 🐳 🐬)
-declare -ra GOLDEN_ANIMALS=(🐥 🐱 🐯)
+declare -ra GOLDEN_ANIMALS=(🐥 🐱 🐯 🦁)
 
 # Mood Indicator Logic
 # ----------------------------------------------------------------------------
