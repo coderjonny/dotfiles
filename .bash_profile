@@ -251,12 +251,12 @@ get_git_status() {
             [[ "$ahead" -gt 0 ]] && status+="↑$ahead"
             [[ "$behind" -gt 0 ]] && status+="↓$behind"
         fi
-    fi
 
-    if [[ -z "$status" ]]; then
-        echo "🫧"
-    else
-        echo "$status"
+        if [[ -z "$status" ]]; then
+            echo "${FOREST_GREEN}●${NO_COLOR}"
+        else
+            echo "$status"
+        fi
     fi
 }
 
@@ -528,46 +528,6 @@ most_used_commands() {
 }
 alias most=most_used_commands
 
-# Show what every letter of the alphabet does
-alphabet_commands() {
-    echo ""
-    echo "🔤 Alphabet Commands"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    
-    for letter in {a..z}; do
-        local cmd_info=""
-        
-        # Check if it's an alias
-        if alias "$letter" &>/dev/null; then
-            cmd_info="$(alias "$letter" | sed "s/alias $letter='//" | sed "s/'$//")"
-            cmd_info="→ $cmd_info (alias)"
-        # Check if it's a function
-        elif declare -F "$letter" &>/dev/null; then
-            cmd_info="→ function (use 'declare -f $letter' to see code)"
-        # Check if it's a built-in command
-        elif type "$letter" &>/dev/null; then
-            local cmd_type=$(type "$letter" 2>/dev/null | head -1)
-            if [[ "$cmd_type" == *"builtin"* ]]; then
-                cmd_info="→ bash builtin"
-            elif [[ "$cmd_type" == *"function"* ]]; then
-                cmd_info="→ function"
-            elif [[ "$cmd_type" == *"/"* ]]; then
-                cmd_info="→ $(echo "$cmd_type" | awk '{print $NF}') (external command)"
-            else
-                cmd_info="→ $cmd_type"
-            fi
-        else
-            cmd_info="→"
-        fi
-        
-        printf "%-3s %s\n" "$letter:" "$cmd_info"
-    done
-    
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "💡 Use 'alias', 'declare -F', or 'type <command>' for more details"
-    echo ""
-}
-alias a=alphabet_commands
 
 # ==============================================================================
 # CLOUD SDK
@@ -1067,12 +1027,6 @@ alias all=show_all_commands
 # This applies comprehensive completion to commands that typically only complete files
 complete -F _comprehensive_completion cd ls cat less more head tail grep find
 
-# Show tip when starting new shell (not in subshells)
-if [[ -z "$BASH_SUBSHELL" || "$BASH_SUBSHELL" == "0" ]]; then
-    show_tip_of_day
-    show_vocab_of_day
-    a
-fi
 
 # ==============================================================================
 # ENHANCED HISTORY SHARING
@@ -1152,3 +1106,50 @@ else
     alias h='history'
 fi
 
+# Show what every letter of the alphabet does
+alphabet_commands() {
+    echo ""
+    echo "🔤 Alphabet Commands"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    
+    for letter in {a..z}; do
+        local cmd_info=""
+        
+        # Check if it's an alias
+        if alias "$letter" &>/dev/null; then
+            cmd_info="$(alias "$letter" | sed "s/alias $letter='//" | sed "s/'$//")"
+            cmd_info="→ $cmd_info (alias)"
+        # Check if it's a function
+        elif declare -F "$letter" &>/dev/null; then
+            cmd_info="→ function (use 'declare -f $letter' to see code)"
+        # Check if it's a built-in command
+        elif type "$letter" &>/dev/null; then
+            local cmd_type=$(type "$letter" 2>/dev/null | head -1)
+            if [[ "$cmd_type" == *"builtin"* ]]; then
+                cmd_info="→ bash builtin"
+            elif [[ "$cmd_type" == *"function"* ]]; then
+                cmd_info="→ function"
+            elif [[ "$cmd_type" == *"/"* ]]; then
+                cmd_info="→ $(echo "$cmd_type" | awk '{print $NF}') (external command)"
+            else
+                cmd_info="→ $cmd_type"
+            fi
+        else
+            cmd_info="→"
+        fi
+        
+        printf "%-3s %s\n" "$letter:" "$cmd_info"
+    done
+    
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "💡 Use 'alias', 'declare -F', or 'type <command>' for more details"
+    echo ""
+}
+alias a=alphabet_commands
+
+# Show tip when starting new shell (not in subshells)
+if [[ -z "$BASH_SUBSHELL" || "$BASH_SUBSHELL" == "0" ]]; then
+    show_tip_of_day
+    # show_vocab_of_day
+    a
+fi
