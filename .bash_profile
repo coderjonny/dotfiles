@@ -276,8 +276,36 @@ build_bash_prompt() {
     local current_history_number
     current_history_number=$(history 1 | awk '{print $1}' 2>/dev/null || echo "0")
     
-    # Get current timestamp in macOS format
-    local timestamp=$(date '+%a %b %d %l:%M %p' | sed 's/  / /g')
+    # Get current time with clock emojis for each hour
+    local hour_24=$(date '+%H')
+    local hour_12=$(date '+%l' | sed 's/ //g')  # 12-hour format, remove spaces
+    local time_display=$(date '+%l:%M %p' | sed 's/  / /g')
+    local hour_emoji=""
+    local timestamp=""
+    
+    # Special case: lunch emojis for 12pm only (no clock)
+    if [[ "$hour_24" == "12" ]]; then
+        timestamp=" ${time_display} 🍜🧋"
+    else
+        # Clock emoji at front, clean time display
+        case "$hour_12" in
+            1) hour_emoji="🕐" ;;
+            2) hour_emoji="🕑" ;;
+            3) hour_emoji="🕒" ;;
+            4) hour_emoji="🕓" ;;
+            5) hour_emoji="🕔" ;;
+            6) hour_emoji="🕕" ;;
+            7) hour_emoji="🕖" ;;
+            8) hour_emoji="🕗" ;;
+            9) hour_emoji="🕘" ;;
+            10) hour_emoji="🕙" ;;
+            11) hour_emoji="🕚" ;;
+            12) hour_emoji="🕛" ;;  # This will be 12am (midnight)
+            *) hour_emoji="🕐" ;;   # Default fallback
+        esac
+        
+        timestamp="${hour_emoji} ${time_display}"
+    fi
     
     # Get mood indicator based on command result
     local mood_face
@@ -303,6 +331,7 @@ alias e=nvim
 alias saver='open -a ScreenSaverEngine'
 alias ss='open -a ScreenSaverEngine'
 alias myip='curl https://wtfismyip.com/json | jq'
+alias ip='curl https://wtfismyip.com/json | jq'
 alias vtop="vtop --theme brew"
 alias crontab="VIM_CRONTAB=true crontab"
 
@@ -454,7 +483,7 @@ toggle_colors() {
         declare -g OCEAN_BLUE="\[\033[38;5;26m\]"       # Happy mood & ocean animals  
         declare -g TIGER_ORANGE="\[\033[38;5;208m\]"    # Paths & colorful animals
         declare -g BEAR_BROWN="\[\033[38;5;94m\]"       # Brown animals
-        declare -g CHERRY_RED="\[\033[38;5;160m\]"      # Error states & sad mood
+        declare -g CHERRY_RED="\[\033[38;5;160m\]"       # Error states & sad mood
         declare -g PURPLE="\[\033[38;5;93m\]"           # Git branches
     else
         # Currently in light mode colors, switch to dark

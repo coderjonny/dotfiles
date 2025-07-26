@@ -8,7 +8,7 @@ echo "$BASH_VERSION"
 # Check for Homebrew, install if we don't have it
 if test ! "$(command -v brew)"; then
   echo "Installing homebrew..."
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 # ============================================================================
@@ -156,7 +156,7 @@ check_and_install "figlet" "figlet missing. Installing.." "install_figlet" "test
 check_and_install "hub" "hub missing. Installing.." "install_hub"
 check_and_install "fzf" "fzf missing. Installing.." "install_fzf"
 check_and_install "lua" "lua missing. Installing.." "install_lua"
-check_and_install "eza" "eza is missing. downloading.." "install_exa"
+check_and_install "exa" "exa is missing. downloading.." "install_exa"
 check_and_install "python3" "python3 is missing. downloading.." "install_python"
 check_and_install "m" "m_cli is missing. downloading.." "install_m_cli"
 check_and_install "mise" "mise is missing. downloading.." "install_mise"
