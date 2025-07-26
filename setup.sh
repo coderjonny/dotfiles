@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
 echo "$BASH_VERSION"
 
+# ============================================================================
+# HOMEBREW INSTALLATION
+# ============================================================================
+
 # Check for Homebrew, install if we don't have it
 if test ! "$(command -v brew)"; then
   echo "Installing homebrew..."
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
+
+# ============================================================================
+# BREW PACKAGE INSTALLERS
+# ============================================================================
 
 function install_shellcheck { brew install shellcheck; }
 function install_nvim { brew install neovim; }
@@ -15,19 +23,16 @@ function install_hub { brew install hub; }
 function install_completions { printf "\\n install brew bash completions\\n"; brew install bash-completion@2; }
 function install_tree { brew install tree; }
 function install_jq { brew install jq; }
+function install_ripgrep { brew install ripgrep; }
 function install_imgcat { brew tap eddieantonio/eddieantonio; brew install imgcat; }
-function test_imgcat { imgcat nyan-cat.png; }
 function install_figlet { brew install figlet; }
-function install_fzf { 
-  brew install fzf; 
-  # Install useful key bindings and fuzzy completion:
-  $(brew --prefix)/opt/fzf/install --all;
-}
 function install_lua { brew install lua; }
 function install_exa { brew install eza; }
 function install_python { brew install python; }
 function install_m_cli { brew install m-cli; }
 function install_mise { brew install mise; }
+
+# Git delta with configuration
 function install_delta { 
   brew install git-delta
   
@@ -40,18 +45,25 @@ function install_delta {
   git config --global delta.line-numbers true
 }
 
-function install_zlua {
-  FILE=$HOME/z.lua
-  if [ -f "$FILE" ]
-  then
-    echo "$FILE downloaded."
-  else
-    cd "$HOME" &&
-      curl -O https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua &&
-      printf "\\n installed z.lua script"
-  fi
+# FZF with key bindings and completion
+function install_fzf { 
+  brew install fzf; 
+  # Install useful key bindings and fuzzy completion:
+  $(brew --prefix)/opt/fzf/install --all;
 }
 
+# ============================================================================
+# TEST FUNCTIONS
+# ============================================================================
+
+function test_imgcat { imgcat nyan-cat.png; }
+function test_figlet { figlet -f starwars "Test Complete!"; }
+
+# ============================================================================
+# SHELL AND COMPLETION SETUP
+# ============================================================================
+
+# Modern bash installation and configuration
 function upgrade_bash {
   echo "🐚 Checking bash versions..."
   
@@ -90,11 +102,23 @@ function upgrade_bash {
   fi
 }
 
+# Download z.lua for directory jumping
+function install_zlua {
+  local zlua_file=$HOME/z.lua
+  if [ -f "$zlua_file" ]; then
+    echo "$zlua_file downloaded."
+  else
+    cd "$HOME" &&
+      curl -O https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua &&
+      printf "\\n installed z.lua script"
+  fi
+}
+
+# Download git completion script
 function install_git_completion {
-  FILE=$HOME/.git-completion.bash
-  if [ -f "$FILE" ]
-  then
-    echo "$FILE already downloaded."
+  local git_completion_file=$HOME/.git-completion.bash
+  if [ -f "$git_completion_file" ]; then
+    echo "$git_completion_file already downloaded."
   else
     cd "$HOME" &&
       curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
@@ -102,23 +126,46 @@ function install_git_completion {
   fi
 }
 
-# check packages ..
-command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Installing.."; install_shellcheck;}
-command -v nvim >/dev/null 2>&1 || { echo >&2 "Neovim missing. Installing.."; install_nvim;}
-command -v bat >/dev/null 2>&1 || { echo >&2 "Bat's missing. Installing.. 🦇 🦇 🦇"; install_bat;}
-command -v git --version >/dev/null 2>&1 || { echo >&2 "Git missing. Installing.."; install_git;}
-command -v tree >/dev/null 2>&1 || { echo >&2 "tree missing. Installing.."; install_tree;}
-command -v jq >/dev/null 2>&1 || { echo >&2 "jq missing. Installing.."; install_jq;}
-command -v imgcat >/dev/null 2>&1 || { echo >&2 "imgcat missing. Installing.."; install_imgcat; test_imgcat;}
-command -v figlet >/dev/null 2>&1 || { echo >&2 "figlet missing. Installing.."; install_figlet; test_figlet;}
-command -v hub >/dev/null 2>&1 || { echo >&2 "hub missing. Installing.."; install_hub;}
-command -v fzf >/dev/null 2>&1 || { echo >&2 "fzf missing. Installing.."; install_fzf;}
-command -v lua >/dev/null 2>&1 || { echo >&2 "lua missing. Installing.."; install_lua;}
-command -v eza >/dev/null 2>&1 || { echo >&2 "eza is missing. downloading.."; install_exa; }
-command -v python3 >/dev/null 2>&1 || { echo >&2 "python3 is missing. downloading.."; install_python; }
-command -v m >/dev/null 2>&1 || { echo >&2 "m_cli is missing. downloading.."; install_m_cli; }
-command -v m >/dev/null 2>&1 || { echo >&2 "mise is missing. downloading.."; install_mise; }
-command -v delta >/dev/null 2>&1 || { echo >&2 "delta is missing. downloading.."; install_delta; }
+# ============================================================================
+# TOOL INSTALLATION (DRY Helper)
+# ============================================================================
+
+# Helper function to check and install tools (eliminates repetition)
+check_and_install() {
+  local cmd="$1"
+  local message="$2"
+  local installer="$3"
+  local tester="${4:-}"
+  
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo >&2 "$message"
+    "$installer"
+    [ -n "$tester" ] && "$tester"
+  fi
+}
+
+# Install all CLI tools
+check_and_install "shellcheck" "Shellcheck missing. Installing.." "install_shellcheck"
+check_and_install "nvim" "Neovim missing. Installing.." "install_nvim"
+check_and_install "bat" "Bat's missing. Installing.. 🦇 🦇 🦇" "install_bat"
+check_and_install "git" "Git missing. Installing.." "install_git"
+check_and_install "tree" "tree missing. Installing.." "install_tree"
+check_and_install "jq" "jq missing. Installing.." "install_jq"
+check_and_install "imgcat" "imgcat missing. Installing.." "install_imgcat" "test_imgcat"
+check_and_install "figlet" "figlet missing. Installing.." "install_figlet" "test_figlet"
+check_and_install "hub" "hub missing. Installing.." "install_hub"
+check_and_install "fzf" "fzf missing. Installing.." "install_fzf"
+check_and_install "lua" "lua missing. Installing.." "install_lua"
+check_and_install "eza" "eza is missing. downloading.." "install_exa"
+check_and_install "python3" "python3 is missing. downloading.." "install_python"
+check_and_install "m" "m_cli is missing. downloading.." "install_m_cli"
+check_and_install "mise" "mise is missing. downloading.." "install_mise"
+check_and_install "delta" "delta is missing. downloading.." "install_delta"
+check_and_install "rg" "ripgrep is missing. downloading.." "install_ripgrep"
+
+# ============================================================================
+# SYSTEM CONFIGURATION
+# ============================================================================
 
 upgrade_bash;
 
@@ -130,31 +177,21 @@ install_git_completion;
 install_completions;
 # Note: brew-cask-completion is included in bash-completion@2
 
-# brew cask applications
-# [ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew install --cask alfred
-# [ -d "/Applications/anki.app" ] && echo "anki exists." || brew install --cask anki
-# [ -d "/Applications/Android Studio.app" ] && echo "Android Studio exists." || brew install --cask android-studio
-# [ -d "/Applications/iTerm.app" ] && echo "iterm exists." || brew install --cask iterm2
-# [ -d "/Applications/Slack.app" ] && echo "Slack exists." || brew install --cask slack
-# [ -d "/Applications/Slate.app" ] && echo "Slate exists." || brew install --cask slate
-# [ -d "/Applications/React\ Native\ Debugger.app" ] && echo "React Native Debugger exists." || brew install --cask react-native-debugger
- # brew cask install beamer
- # brew cask install caffeine
- # brew cask install coconutbattery
- # brew cask install flux
- # brew cask install google-chrome
- # brew cask install gterm2
- # brew cask install openvpn
- # [ -d "/Applications/Postman.app" ] && echo "Postman exists." || brew install postman
- # brew cask install react-native-debugger
- # brew cask install slate
- # brew cask install zoomus
- # brew cask install visual-studio-code
- # brew cask install zeplin
-brew install hammerspoon --cask
+# ============================================================================
+# APPLICATIONS
+# ============================================================================
 
-# link bashrc && bash_profile
-# =============================
+# brew cask applications
+[ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew install --cask alfred
+[ -d "/Applications/anki.app" ] && echo "anki exists." || brew install --cask anki
+[ -d "/Applications/iTerm.app" ] && echo "iterm exists." || brew install --cask iterm2
+[ -d "/Applications/hammerspoon.app" ] && echo "hammerspoon exists." || brew install --cask hammerspoon
+
+# ============================================================================
+# DOTFILES LINKING
+# ============================================================================
+
+# Link dotfiles to home directory
 function link_dotfiles {
   printf '\n\n Attempting to symlink files in /dev/dotfiles/* ...';
   printf "\\n ♻️ ♻️ ♻️ \\n";
@@ -163,20 +200,18 @@ function link_dotfiles {
   ln -sfv "$(pwd)/.bashrc" "$HOME/.bashrc";
   ln -sfv "$(pwd)/.vimrc" "$HOME/.vimrc";
 
-  FILE=$HOME/.config/nvim/init.vim
-  if [ -f "$FILE" ]
-  then
-    echo "$FILE exist"
+  local nvim_config_file=$HOME/.config/nvim/init.vim
+  if [ -f "$nvim_config_file" ]; then
+    echo "$nvim_config_file exist"
   else
     mkdir $HOME/.config/nvim/;
-    echo "$FILE does not exist, created dir";
+    echo "$nvim_config_file does not exist, created dir";
     ln -sfv "$(pwd)/init.vim" "$HOME/.config/nvim/init.vim";
   fi
 
-  FILE=$HOME/.hammerspoon/init.lua
-  if [ -f "$FILE" ]
-  then
-    echo "$FILE exist, symlinking"
+  local hammerspoon_config_file=$HOME/.hammerspoon/init.lua
+  if [ -f "$hammerspoon_config_file" ]; then
+    echo "$hammerspoon_config_file exist, symlinking"
     ln -sfv "$(pwd)/init.lua" "$HOME/.hammerspoon/init.lua";
   fi
 
@@ -187,15 +222,13 @@ function link_dotfiles {
 
 link_dotfiles;
 
-# Load up new bash profile
-# shellcheck source=/dev/null
-. $HOME/.bash_profile;
-
-#update system & homebrew
-update;
+# ============================================================================
+# FINALIZATION
+# ============================================================================
 
 # print nyancat
 test_imgcat;
 
 # print success
-figlet -f starwars -c Setup successful!
+figlet -c -w 100 -S -f poison "SETUP"
+figlet -c -w 100 -S -f poison "SUCCESSFUL!"
