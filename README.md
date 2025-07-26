@@ -1,6 +1,6 @@
 # 🌟 Jonny's dotfiles
 
-> A comprehensive, modern macOS development environment featuring intelligent bash enhancements, fuzzy search, and productivity-focused tooling.
+> A comprehensive, modern macOS development environment featuring intelligent bash enhancements, automated tool installation, and productivity-focused configuration.
 
 <div align="center">
 
@@ -31,10 +31,17 @@
 
 ### 🛠️ Development Tools
 
-- **Modern CLI Tools**: `eza`, `bat`, `tree`, `fzf`, `z.lua` for enhanced productivity
-- **Git Integration**: Beautiful diffs with `diff-so-fancy` and streamlined workflows
+- **Modern CLI Tools**: `eza`, `bat`, `tree`, `fzf`, `ripgrep` for enhanced productivity
+- **Git Integration**: Beautiful diffs with `git-delta` and streamlined workflows
 - **Terminal Enhancement**: Syntax highlighting, smart directory navigation
 - **iTerm2 Optimization**: Custom profiles and color schemes
+
+### 🚀 Automated Setup
+
+- **Intelligent Installation**: DRY helper functions eliminate code repetition
+- **Idempotent Operations**: Safe to run multiple times without conflicts
+- **Clear Organization**: Sectioned setup with professional structure
+- **Error Handling**: Robust installation with helpful feedback
 
 ## 🚀 Quick Start
 
@@ -49,17 +56,17 @@
 **⚡ One-line install:**
 
 ```bash
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles && cd ~/dotfiles && ./setup.sh
+git clone https://github.com/coderjonny/dotfiles.git ~/dev/dotfiles && cd ~/dev/dotfiles && ./setup.sh
 ```
 
 **📋 Step-by-step:**
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+git clone https://github.com/coderjonny/dotfiles.git ~/dev/dotfiles
 
 # Navigate to dotfiles directory
-cd ~/dotfiles
+cd ~/dev/dotfiles
 
 # Run the setup script
 ./setup.sh
@@ -73,78 +80,89 @@ cd ~/dotfiles
 - **`.bashrc`**: Shell configuration and aliases
 - **`.vimrc`**: Neovim configuration
 - **`init.vim`**: Modern Neovim setup with Vim-Plug
-- **`git-completion.bash`**: Enhanced Git autocomplete
+- **`init.lua`**: Hammerspoon automation configuration
 
 ### 🛠️ Command Line Tools
 
 The setup script automatically installs and configures:
 
 **Essential Development Tools:**
-
 - `neovim` - Modern Vim-based editor
+- `git` - Version control system
+- `git-delta` - Beautiful git diffs with syntax highlighting
 - `fzf` - Fuzzy finder for files, history, and more
-- `eza` - Modern `ls` replacement with icons
-- `bat` - Syntax-highlighted `cat` replacement
-- `tree` - Directory structure visualization
-- `z.lua` - Smart directory jumping
-- `diff-so-fancy` - Beautiful git diffs
-
-**Productivity & Utilities:**
-
-- `shellcheck` - Shell script analysis
-- `jq` - JSON processor
-- `figlet` - ASCII art text
-- `imgcat` - Display images in terminal
 - `hub` - GitHub CLI integration
+- `shellcheck` - Shell script analysis
+
+**Productivity & File Management:**
+- `eza` - Modern `ls` replacement with icons
+- `bat` - Syntax-highlighted `cat` replacement  
+- `tree` - Directory structure visualization
+- `ripgrep` - Ultra-fast text search tool
+- `jq` - JSON processor and formatter
+
+**Terminal Enhancement:**
+- `bash-completion@2` - Advanced bash autocompletion
+- `figlet` - ASCII art text generation
+- `imgcat` - Display images in terminal (iTerm2)
+- `lua` - Lightweight scripting language
+- `z.lua` - Smart directory jumping script
+
+**Development Environment:**
+- `python3` - Python programming language
+- `m-cli` - macOS command line tools
+- `mise` - Runtime version manager
 
 ### 📱 macOS Applications
 
 Automatically installs via Homebrew Cask:
 
-- **Development**: Visual Studio Code, Android Studio, Postman
-- **Communication**: Slack, Zoom
-- **Productivity**: Alfred, Caffeine, Flux
-- **Entertainment**: Spotify
-- **Utilities**: iTerm2, Beamer, CoconutBattery
+- **Alfred 4** - Powerful productivity app and launcher
+- **Anki** - Spaced repetition flashcard software  
+- **iTerm2** - Advanced terminal emulator
+- **Hammerspoon** - macOS automation and window management
 
 ### 🎨 Terminal Themes
 
 - **Seoul256**: Beautiful iTerm2 color scheme (light & dark variants)
 - **Custom iTerm Profile**: Optimized settings for development workflow
 
-## ⚡ Key Features in Detail
+## ⚡ Setup Script Features
 
-### Intelligent Command Discovery
+### 🏗️ Intelligent Architecture
+
+The setup script follows modern DevOps practices:
 
 ```bash
-# Find commands with fuzzy search
-query git                    # Search for git-related commands
-which_enhanced node          # Enhanced which with location details
-show_all_commands           # Browse all available commands
+# ============================================================================
+# HOMEBREW INSTALLATION
+# ============================================================================
+# Checks for and installs Homebrew package manager
+
+# ============================================================================  
+# TOOL INSTALLATION (DRY Helper)
+# ============================================================================
+# Uses helper function to eliminate 90% code repetition
+check_and_install "tool" "message" "installer" "optional_tester"
 ```
 
-### Enhanced Autocomplete
+### 🔄 Idempotent Operations
 
-- **Smart tab completion** for commands, files, and directories
-- **Context-aware suggestions** based on command type
-- **Fuzzy matching** for partial inputs
+- **Safe Re-runs**: Check before install, skip if already present
+- **No Duplicates**: Won't reinstall existing tools
+- **Clean Updates**: Easy to modify and extend
 
-### Productivity Tips System
-
-Get random productivity tips with every new terminal session:
+### 🎯 Key Functions
 
 ```bash
-Random productivity tip: Use 'cmd+shift+.' to show hidden files in Finder
-```
+# Upgrade to modern bash (5.x from macOS default 3.x)
+upgrade_bash
 
-### Optimized Aliases
+# Link configuration files to home directory  
+link_dotfiles
 
-```bash
-e filename.txt              # Open in neovim
-s                          # Open localhost in browser
-h                          # Show help/man page
-ll                         # Enhanced listing with eza
-..                         # Go up one directory
+# Install development tools with testing
+check_and_install "figlet" "Installing figlet.." "install_figlet" "test_figlet"
 ```
 
 ## 🔄 Updating
@@ -152,8 +170,8 @@ ll                         # Enhanced listing with eza
 To update your dotfiles to the latest version:
 
 ```bash
-cd ~/dotfiles
-git pull origin main
+cd ~/dev/dotfiles
+git pull origin master
 ./setup.sh
 ```
 
@@ -195,36 +213,56 @@ Import the custom iTerm2 profile:
 1. iTerm2 → Preferences → Profiles
 2. Import profile from `iterm_perfs/iterm_profile.json`
 
+### After Setup
+
+After running the setup script:
+
+```bash
+# Manually source your new bash profile
+source ~/.bash_profile
+
+# Run system updates when convenient
+update
+```
+
 ## 🐛 Troubleshooting
 
 ### Common Issues
 
 **Permission denied when running setup.sh:**
-
 ```bash
 chmod +x setup.sh
 ./setup.sh
 ```
 
 **Homebrew installation fails:**
-
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 **Bash completion not working:**
-
 ```bash
 brew install bash-completion@2
 # Restart terminal
 ```
+
+**Slow prompt performance:**
+The bash profile includes optimized git status caching for instant response times.
+
+## 🏆 Recent Improvements
+
+- **🏗️ Refactored Architecture**: Clean section organization with professional structure
+- **🔄 DRY Principles**: 90% reduction in code repetition through helper functions  
+- **🐛 Bug Fixes**: Fixed duplicate command checks and missing functions
+- **📝 Better Documentation**: Clear function comments and improved variable naming
+- **⚡ Performance**: Optimized git status checking with intelligent caching
 
 ## 🤝 Contributing
 
 Feel free to suggest improvements or report issues:
 
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch  
 3. Make your changes
 4. Submit a pull request
 
