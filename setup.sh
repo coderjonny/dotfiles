@@ -28,6 +28,17 @@ function install_exa { brew install eza; }
 function install_python { brew install python; }
 function install_m_cli { brew install m-cli; }
 function install_mise { brew install mise; }
+function install_delta { 
+  brew install git-delta
+  
+  # Configure delta for git
+  git config --global core.pager delta
+  git config --global interactive.diffFilter delta --color-only
+  git config --global delta.navigate true
+  git config --global delta.light false
+  git config --global delta.side-by-side true
+  git config --global delta.line-numbers true
+}
 
 function install_zlua {
   FILE=$HOME/z.lua
@@ -39,23 +50,6 @@ function install_zlua {
       curl -O https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua &&
       printf "\\n installed z.lua script"
   fi
-}
-
-function install_diff-so-fancy {
-  brew install diff-so-fancy
-  git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
-  git config --global color.ui true
-  git config --global color.diff-highlight.oldNormal    "red bold"
-  git config --global color.diff-highlight.oldHighlight "red bold 52"
-  git config --global color.diff-highlight.newNormal    "green bold"
-  git config --global color.diff-highlight.newHighlight "green bold 22"
-
-  git config --global color.diff.meta       "yellow"
-  git config --global color.diff.frag       "magenta bold"
-  git config --global color.diff.commit     "yellow bold"
-  git config --global color.diff.old        "red bold"
-  git config --global color.diff.new        "green bold"
-  git config --global color.diff.whitespace "red reverse"
 }
 
 function upgrade_bash {
@@ -113,7 +107,6 @@ command -v shellcheck >/dev/null 2>&1 || { echo >&2 "Shellcheck missing. Install
 command -v nvim >/dev/null 2>&1 || { echo >&2 "Neovim missing. Installing.."; install_nvim;}
 command -v bat >/dev/null 2>&1 || { echo >&2 "Bat's missing. Installing.. 🦇 🦇 🦇"; install_bat;}
 command -v git --version >/dev/null 2>&1 || { echo >&2 "Git missing. Installing.."; install_git;}
-command -v diff-so-fancy >/dev/null 2>&1 || { echo >&2 "diff-so-fancy missing. Installing.."; install_diff-so-fancy;}
 command -v tree >/dev/null 2>&1 || { echo >&2 "tree missing. Installing.."; install_tree;}
 command -v jq >/dev/null 2>&1 || { echo >&2 "jq missing. Installing.."; install_jq;}
 command -v imgcat >/dev/null 2>&1 || { echo >&2 "imgcat missing. Installing.."; install_imgcat; test_imgcat;}
@@ -125,6 +118,7 @@ command -v eza >/dev/null 2>&1 || { echo >&2 "eza is missing. downloading.."; in
 command -v python3 >/dev/null 2>&1 || { echo >&2 "python3 is missing. downloading.."; install_python; }
 command -v m >/dev/null 2>&1 || { echo >&2 "m_cli is missing. downloading.."; install_m_cli; }
 command -v m >/dev/null 2>&1 || { echo >&2 "mise is missing. downloading.."; install_mise; }
+command -v delta >/dev/null 2>&1 || { echo >&2 "delta is missing. downloading.."; install_delta; }
 
 upgrade_bash;
 

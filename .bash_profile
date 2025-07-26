@@ -1063,7 +1063,7 @@ show_all_commands() {
 }
 
 # Aliases for the new functions
-    alias q=query
+alias q=query
 alias w=which_enhanced
 alias all=show_all_commands
 
