@@ -1,4 +1,4 @@
--- Slate.lua - Port of slate window management configuration
+-- Slate.lua - Port of slate window management configuration for Hammerspoon
 
 --[[
   This configuration ports features from the popular Slate window manager.
@@ -129,7 +129,7 @@ hs.hotkey.bind({"ctrl", "alt"}, "j", resizeWindowAnchoredBottomRight(0, -0.1))
 -- ===================================================================
 
 -- ctrl-cmd-c: center third
-hs.hotkey.bind({"ctrl", "cmd"}, "c", pushHorizontal(1/3, 1/3))
+hs.hotkey.bind({"ctrl", "cmd"}, "c", pushHorizontal(1/4, 1/2))
 
 -- ===================================================================
 -- Nudging (moving without resizing)
