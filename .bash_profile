@@ -304,7 +304,7 @@ build_bash_prompt() {
             *) hour_emoji="🕐" ;;   # Default fallback
         esac
         
-        timestamp="${hour_emoji} ${time_display}"
+        timestamp="${hour_emoji}${time_display}"
     fi
     
     # Get mood indicator based on command result

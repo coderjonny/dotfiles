@@ -182,10 +182,10 @@ install_completions;
 # ============================================================================
 
 # brew cask applications
-[ -d "/Applications/Alfred 4.app" ] && echo "Alfred exists." || brew install --cask alfred
-[ -d "/Applications/anki.app" ] && echo "anki exists." || brew install --cask anki
-[ -d "/Applications/iTerm.app" ] && echo "iterm exists." || brew install --cask iterm2
-[ -d "/Applications/hammerspoon.app" ] && echo "hammerspoon exists." || brew install --cask hammerspoon
+[ -d "/Applications/Alfred 5.app" ] && echo "Alfred exists." || brew install --cask alfred
+[ -d "/Applications/Anki.app" ] && echo "Anki exists." || brew install --cask anki
+[ -d "/Applications/iTerm.app" ] && echo "iTerm exists." || brew install --cask iterm2
+[ -d "/Applications/Hammerspoon.app" ] && echo "Hammerspoon exists." || brew install --cask hammerspoon
 
 # ============================================================================
 # DOTFILES LINKING
