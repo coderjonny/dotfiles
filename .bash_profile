@@ -360,7 +360,7 @@ alias l='eza -lhF --git'
 alias la='eza -lahF --git'
 
 # File viewing
-alias c='cursor'
+alias c='bat'
 alias b='bat'
 alias cat='bat'
 
