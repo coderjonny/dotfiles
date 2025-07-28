@@ -27,7 +27,7 @@ function install_ripgrep { brew install ripgrep; }
 function install_imgcat { brew tap eddieantonio/eddieantonio; brew install imgcat; }
 function install_figlet { brew install figlet; }
 function install_lua { brew install lua; }
-function install_exa { brew install eza; }
+function install_eza { brew install eza; }
 function install_python { brew install python; }
 function install_m_cli { brew install m-cli; }
 function install_mise { brew install mise; }
@@ -156,7 +156,7 @@ check_and_install "figlet" "figlet missing. Installing.." "install_figlet" "test
 check_and_install "hub" "hub missing. Installing.." "install_hub"
 check_and_install "fzf" "fzf missing. Installing.." "install_fzf"
 check_and_install "lua" "lua missing. Installing.." "install_lua"
-check_and_install "exa" "exa is missing. downloading.." "install_exa"
+check_and_install "eza" "eza is missing. downloading.." "install_eza"
 check_and_install "python3" "python3 is missing. downloading.." "install_python"
 check_and_install "m" "m_cli is missing. downloading.." "install_m_cli"
 check_and_install "mise" "mise is missing. downloading.." "install_mise"
