@@ -285,7 +285,7 @@ build_bash_prompt() {
 
     # Special case: lunch emojis for 12pm only (no clock)
     if [[ "$hour_24" == "12" ]]; then
-        timestamp="🕛 ${time_display} 🍜🧋"
+        timestamp="🕛 ${time_display} 🥗🧋"
     else
         # Clock emoji at front, clean time display
         case "$hour_12" in
