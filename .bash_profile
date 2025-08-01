@@ -265,7 +265,7 @@ get_git_status() {
 get_git_mini_log() {
     if git rev-parse --git-dir > /dev/null 2>&1; then
         echo ""
-        git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -3 2>/dev/null
+        git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -2 2>/dev/null
     fi
 }
 
