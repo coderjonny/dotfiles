@@ -265,8 +265,108 @@ get_git_status() {
 get_git_mini_log() {
     if git rev-parse --git-dir > /dev/null 2>&1; then
         echo ""
-        git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -2 2>/dev/null
+        git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -1 2>/dev/null
     fi
+}
+
+# Tropical Surf Paradise Circadian-Linear Clock
+# ----------------------------------------------------------------------------
+get_tropical_surf_clock() {
+    local hour_24=$((10#$(date '+%H')))
+    
+    # Build the progress bar - range depends on current time
+    local surf_bar=""
+
+    # For current hour, show time instead of just hour number
+    local current_time
+    current_time=$(date '+%l:%M%p' | sed 's/ //g' | tr '[:upper:]' '[:lower:]')
+    
+    # Get 12-hour format for clock emoji selection
+    local hour_12=$(date '+%l' | sed 's/ //g')
+    
+    # Choose time range based on current hour
+    local time_range
+    if [[ $hour_24 -ge 6 && $hour_24 -le 22 ]]; then
+        # Day hours (6am - 10pm)
+        time_range=(6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22)
+    else
+        # Night hours (10pm - 6am)
+        time_range=(22 23 0 1 2 3 4 5 6)
+    fi
+    
+    for hour in "${time_range[@]}"; do
+        local display_hour=$hour
+        if [[ $hour == 0 ]]; then
+            display_hour=12  # Midnight
+        elif [[ $hour -gt 12 ]]; then
+            display_hour=$((hour-12))
+        fi
+        
+        # Declare each hour's default emoji (declarative approach)
+        local hour_emoji=""
+        case $hour in
+            0|1|2|3|4|5) hour_emoji="🌙" ;; # Crescent moon (midnight-5am)
+            6) hour_emoji="🌅" ;;           # Sunrise
+            7|8|9|10|11) hour_emoji="🌊" ;; # Morning waves (7am-11am)
+            12) hour_emoji="🏖️" ;;          # Lunch break
+            13|14|15|16|17) hour_emoji="🌊" ;; # Afternoon waves (1pm-5pm)
+            18) hour_emoji="🌇" ;;          # Sunset
+            19|20|21|22|23) hour_emoji="🌺" ;; # Evening flowers (7pm-11pm)
+            *) hour_emoji="🌊" ;;           # Default waves
+        esac
+        
+        # Override logic: Past hours become blue dots, current hour becomes surfer
+        local is_past_hour=false
+        
+        # Check if this hour is in the past (handle 24-hour wraparound)
+        if [[ $hour_24 -ge 6 ]]; then
+            # Current time is 6am-11pm: past hours are any hour less than current AND >= 6
+            if [[ $hour -lt $hour_24 && $hour -ge 6 ]]; then
+                is_past_hour=true
+            fi
+        else
+            # Current time is midnight-5am: past hours are 6am-11pm OR hours less than current
+            if [[ $hour -ge 6 ]] || [[ $hour -lt $hour_24 ]]; then
+                is_past_hour=true
+            fi
+        fi
+        
+        if [[ $is_past_hour == true ]]; then
+            hour_emoji="${OCEAN_BLUE}•"  # All past hours become blue dots
+        elif [[ $hour_24 == $hour ]]; then
+            hour_emoji="🏄‍♂️"  # Current hour becomes surfer
+        fi
+        
+        # Add hour markers and handle current hour time display
+        if [[ $hour_emoji == "🏄‍♂️" ]]; then
+            # Get clock emoji for current hour
+            local clock_emoji=""
+            if [[ "$hour_24" == "12" ]]; then
+                clock_emoji="🕛"
+            else
+                case "$hour_12" in
+                    1) clock_emoji="🕐" ;;
+                    2) clock_emoji="🕑" ;;
+                    3) clock_emoji="🕒" ;;
+                    4) clock_emoji="🕓" ;;
+                    5) clock_emoji="🕔" ;;
+                    6) clock_emoji="🕕" ;;
+                    7) clock_emoji="🕖" ;;
+                    8) clock_emoji="🕗" ;;
+                    9) clock_emoji="🕘" ;;
+                    10) clock_emoji="🕙" ;;
+                    11) clock_emoji="🕚" ;;
+                    12) clock_emoji="🕛" ;;  # This will be 12am (midnight)
+                    *) clock_emoji="🕐" ;;   # Default fallback
+                esac
+            fi
+            surf_bar+="[${clock_emoji}${current_time}]${hour_emoji}"
+        else
+            surf_bar+="${display_hour}${hour_emoji}"
+        fi
+    done
+    
+    echo "${surf_bar}"
 }
 
 # Main Prompt Builder
@@ -276,43 +376,17 @@ build_bash_prompt() {
     local current_history_number
     current_history_number=$(history 1 | awk '{print $1}' 2>/dev/null || echo "0")
 
-    # Get current time with clock emojis for each hour
-    local hour_24=$(date '+%H')
-    local hour_12=$(date '+%l' | sed 's/ //g')  # 12-hour format, remove spaces
-    local time_display=$(date '+%l:%M %p' | sed 's/  / /g')
-    local hour_emoji=""
-    local timestamp=""
+    # Get tropical surf clock for testing
+    local surf_clock=$(get_tropical_surf_clock)
 
-    # Special case: lunch emojis for 12pm only (no clock)
-    if [[ "$hour_24" == "12" ]]; then
-        timestamp="🕛 ${time_display} 🥗🧋"
-    else
-        # Clock emoji at front, clean time display
-        case "$hour_12" in
-            1) hour_emoji="🕐" ;;
-            2) hour_emoji="🕑" ;;
-            3) hour_emoji="🕒" ;;
-            4) hour_emoji="🕓" ;;
-            5) hour_emoji="🕔" ;;
-            6) hour_emoji="🕕" ;;
-            7) hour_emoji="🕖" ;;
-            8) hour_emoji="🕗" ;;
-            9) hour_emoji="🕘" ;;
-            10) hour_emoji="🕙" ;;
-            11) hour_emoji="🕚" ;;
-            12) hour_emoji="🕛" ;;  # This will be 12am (midnight)
-            *) hour_emoji="🕐" ;;   # Default fallback
-        esac
-
-        timestamp="${hour_emoji}${time_display}"
-    fi
 
     # Get mood indicator based on command result
     local mood_face
     mood_face=$(get_mood_indicator "$last_command_exit_code" "$current_history_number")
 
     # Get git status icons
-    local git_status_icons=$(get_git_status)
+    local icons
+    icons=$(get_git_status)
 
     # Update history tracking
     PREVIOUS_HISTORY_NUMBER="$current_history_number"
@@ -320,8 +394,20 @@ build_bash_prompt() {
     # Show mini git log above each prompt
     get_git_mini_log
 
-    # Assemble the prompt using session-consistent theme with bold formatting: [timestamp] [mood] [colored_path] [git_branch] [git_status] [emoji] [arrow]
-    PS1="${BOLD}${TIGER_ORANGE}${timestamp}${NO_COLOR}${mood_face}${SESSION_PATH_COLOR}\w${PURPLE}\$(get_git_branch)${CHERRY_RED}${git_status_icons}${NO_COLOR} ${SESSION_EMOJI} ${FOREST_GREEN}⤷${NO_COLOR} "
+    # Assemble the prompt using session-consistent theme with bold formatting
+    # local clock=" ${hour_emoji}"
+    local surf_section="${BOLD}${OCEAN_BLUE}${surf_clock}${NO_COLOR}"
+    local mood_section="${mood_face}"
+    local path_section="${SESSION_PATH_COLOR}\w"
+    local git_section="${PURPLE}\$(get_git_branch)${CHERRY_RED}${icons}${NO_COLOR}"
+    local emoji_section="${SESSION_EMOJI}"
+    local arrow_section="${FOREST_GREEN}⤷${NO_COLOR} "
+    
+    # Option 1: Single line (original)
+    # PS1="${timestamp_section} | ${surf_section} | ${mood_section}${path_section}${git_section} ${emoji_section} ${arrow_section}"
+    
+    # Option 2: Multiline prompt (more readable for complex info)
+    PS1="${surf_section}\n${mood_section}${path_section}${git_section} ${emoji_section} ${arrow_section}"
 }
 PROMPT_COMMAND=build_bash_prompt
 
@@ -399,7 +485,7 @@ alias gd='git diff'
 alias ga='git add'
 alias gc='git commit -m'
 alias gco='git checkout'
-alias go='git checkout'
+# alias go='git checkout' # using go
 alias gob='git checkout -b'
 alias g-='git checkout -'
 alias gcp='git cherry-pick'
