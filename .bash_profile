@@ -509,15 +509,30 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 alias gk='gitk --all&'
 alias gx='gitx --all'
 
-# Git completion
-if [ -f ~/.git-completion.bash ]; then
-    . ~/.git-completion.bash
-fi
 
-# Enhanced bash completion (install with: brew install bash-completion@2)
-if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
-    . "/opt/homebrew/etc/profile.d/bash_completion.sh"
-fi
+# ==============================================================================
+# COMPLETION SETUP
+# ==============================================================================
+
+setCompletion() {
+    # Enhanced bash completion (install with: brew install bash-completion@2)
+    if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
+        . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+    fi
+    
+    # Git completion (sourced after bash-completion to ensure it takes precedence)
+    if [ -f ~/.git-completion.bash ]; then
+        . ~/.git-completion.bash
+    fi
+    
+    # Set up enhanced completion for searching commands (only for specific commands)
+    complete -F _comprehensive_completion w q
+    
+    # Don't override git completion - let git's own completion handle git commands
+}
+
+# Initialize completion
+setCompletion
 
 # ==============================================================================
 # DEVELOPMENT ALIASES
@@ -1185,8 +1200,7 @@ alias q=query
 alias w=which_enhanced
 alias all=show_all_commands
 
-# Set up enhanced completion for searching commands
-complete -F _comprehensive_completion w q
+
 
 # ==============================================================================
 # ENHANCED HISTORY SHARING
