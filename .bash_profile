@@ -273,27 +273,60 @@ get_git_mini_log() {
 # ----------------------------------------------------------------------------
 get_tropical_surf_clock() {
     local hour_24=$((10#$(date '+%H')))
-
-    # Build the progress bar - range depends on current time
-    local surf_bar=""
-
+    
     # For current hour, show time instead of just hour number
     local current_time
     current_time=$(date '+%l:%M%p' | sed 's/ //g' | tr '[:upper:]' '[:lower:]')
-
+    
     # Get 12-hour format for clock emoji selection
     local hour_12=$(date '+%l' | sed 's/ //g')
-
-    # Choose time range based on current hour
+    
+    # Get clock emoji for current hour
+    local clock_emoji=""
+    if [[ "$hour_24" == "12" ]]; then
+        clock_emoji="🕛"
+    else
+        case "$hour_12" in
+            1) clock_emoji="🕐" ;;
+            2) clock_emoji="🕑" ;;
+            3) clock_emoji="🕒" ;;
+            4) clock_emoji="🕓" ;;
+            5) clock_emoji="🕔" ;;
+            6) clock_emoji="🕕" ;;
+            7) clock_emoji="🕖" ;;
+            8) clock_emoji="🕗" ;;
+            9) clock_emoji="🕘" ;;
+            10) clock_emoji="🕙" ;;
+            11) clock_emoji="🕚" ;;
+            12) clock_emoji="🕛" ;;  # This will be 12am (midnight)
+            *) clock_emoji="🕐" ;;   # Default fallback
+        esac
+    fi
+    
+    # Start with current time on the left
+    local surf_bar="[${clock_emoji} ${current_time}]"
+    
+    # Choose time range based on current hour (only future hours)
     local time_range
     if [[ $hour_24 -ge 6 && $hour_24 -le 22 ]]; then
-        # Day hours (6am - 10pm)
-        time_range=(6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22)
+        # Day hours (6am - 10pm) - only show current and future hours
+        time_range=()
+        for h in {6..22}; do
+            if [[ $h -ge $hour_24 ]]; then
+                time_range+=($h)
+            fi
+        done
     else
-        # Night hours (10pm - 6am)
-        time_range=(22 23 0 1 2 3 4 5 6)
+        # Night hours (10pm - 6am) - only show current and future hours
+        time_range=()
+        for h in 22 23 0 1 2 3 4 5 6; do
+            if [[ $h -ge $hour_24 || ($hour_24 -ge 22 && $h -le 6) ]]; then
+                time_range+=($h)
+            fi
+        done
     fi
-
+    
+    # Add future hours with emojis
     for hour in "${time_range[@]}"; do
         local display_hour=$hour
         if [[ $hour == 0 ]]; then
@@ -301,8 +334,8 @@ get_tropical_surf_clock() {
         elif [[ $hour -gt 12 ]]; then
             display_hour=$((hour-12))
         fi
-
-        # Declare each hour's default emoji (declarative approach)
+        
+        # Declare each hour's emoji
         local hour_emoji=""
         case $hour in
             0|1|2|3|4|5) hour_emoji="🌙" ;; # Crescent moon (midnight-5am)
@@ -314,58 +347,15 @@ get_tropical_surf_clock() {
             19|20|21|22|23) hour_emoji="🌺" ;; # Evening flowers (7pm-11pm)
             *) hour_emoji="🌊" ;;           # Default waves
         esac
-
-        # Override logic: Past hours become blue dots, current hour becomes surfer
-        local is_past_hour=false
-
-        # Check if this hour is in the past (handle 24-hour wraparound)
-        if [[ $hour_24 -ge 6 ]]; then
-            # Current time is 6am-11pm: past hours are any hour less than current AND >= 6
-            if [[ $hour -lt $hour_24 && $hour -ge 6 ]]; then
-                is_past_hour=true
-            fi
-        else
-            # Current time is midnight-5am: past hours are 6am-11pm OR hours less than current
-            if [[ $hour -ge 6 ]] || [[ $hour -lt $hour_24 ]]; then
-                is_past_hour=true
-            fi
+        
+        # Current hour becomes surfer, others stay as their emoji
+        if [[ $hour_24 == $hour ]]; then
+            hour_emoji="🏄‍♂️"
         fi
-
-        if [[ $is_past_hour == true ]]; then
-            hour_emoji="${OCEAN_BLUE}•"  # All past hours become blue dots
-        elif [[ $hour_24 == $hour ]]; then
-            hour_emoji="🏄‍♂️"  # Current hour becomes surfer
-        fi
-
-        # Add hour markers and handle current hour time display
-        if [[ $hour_emoji == "🏄‍♂️" ]]; then
-            # Get clock emoji for current hour
-            local clock_emoji=""
-            if [[ "$hour_24" == "12" ]]; then
-                clock_emoji="🕛"
-            else
-                case "$hour_12" in
-                    1) clock_emoji="🕐" ;;
-                    2) clock_emoji="🕑" ;;
-                    3) clock_emoji="🕒" ;;
-                    4) clock_emoji="🕓" ;;
-                    5) clock_emoji="🕔" ;;
-                    6) clock_emoji="🕕" ;;
-                    7) clock_emoji="🕖" ;;
-                    8) clock_emoji="🕗" ;;
-                    9) clock_emoji="🕘" ;;
-                    10) clock_emoji="🕙" ;;
-                    11) clock_emoji="🕚" ;;
-                    12) clock_emoji="🕛" ;;  # This will be 12am (midnight)
-                    *) clock_emoji="🕐" ;;   # Default fallback
-                esac
-            fi
-            surf_bar+=" [${clock_emoji} ${current_time}] ${hour_emoji}"
-        else
-            surf_bar+=" ${display_hour} ${hour_emoji}"
-        fi
+        
+        surf_bar+=" ${hour_emoji}"
     done
-
+    
     echo "${surf_bar}"
 }
 
