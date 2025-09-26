@@ -1239,10 +1239,21 @@ bind '"\e[B": history-search-forward'    # Down arrow searches history
 
 # Search history with fzf (if available)
 if command -v fzf &> /dev/null; then
+    # Helper function to strip history number and timestamp from command
+    _strip_history_prefix() {
+        # Remove: [spaces][number][spaces][date][spaces][time][spaces]
+        sed 's/^[[:space:]]*[0-9]*[[:space:]]*[0-9-]*[[:space:]]*[0-9:]*[[:space:]]*//'
+    }
+
+    # Helper function to get fzf history selection
+    _get_fzf_history_selection() {
+        history | fzf --tac --tiebreak=index --height=40% --border --prompt="Search History: " | _strip_history_prefix
+    }
+
     # Unified fzf history search function
     __fzf_history__() {
         local cmd
-        cmd=$(history | fzf --tac --tiebreak=index --height=40% --border --prompt="Search History: " | sed 's/^\s*[0-9]\+\s*//')
+        cmd=$(_get_fzf_history_selection)
         if [[ -n "$cmd" ]]; then
             READLINE_LINE="$cmd"
             READLINE_POINT=${#cmd}
@@ -1252,7 +1263,7 @@ if command -v fzf &> /dev/null; then
     # Function to trigger fzf history search from command line
     fzf_history_search() {
         local selected_cmd
-        selected_cmd=$(history | fzf --tac --tiebreak=index --height=40% --border --prompt="Search History: " | sed 's/^\s*[0-9]\+\s*//')
+        selected_cmd=$(_get_fzf_history_selection)
         if [[ -n "$selected_cmd" ]]; then
             echo "$selected_cmd"
         fi
