@@ -1328,3 +1328,7 @@ if [[ -z "$BASH_SUBSHELL" || "$BASH_SUBSHELL" == "0" ]]; then
     # show_vocab_of_day
     a
 fi
+export PATH=$PATH:$HOME/.maestro/bin
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home
+export PATH="$PATH:$HOME/.maestro/bin"
+export MAESTRO_CLI_NO_ANALYTICS=1
