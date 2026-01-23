@@ -1371,3 +1371,4 @@ export PATH="/Users/jonny/.antigravity/antigravity/bin:$PATH"
 alias pip="pip3"
 export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
 alias python='python3'
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home
