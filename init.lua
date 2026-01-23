@@ -233,8 +233,8 @@ end
 -- cmd-alt-l/h: focus right/left
 hs.hotkey.bind({"cmd", "alt"}, "l", focusDirection("right"))
 hs.hotkey.bind({"cmd", "alt"}, "h", focusDirection("left"))
--- cmd-alt-k/j: focus behind
 hs.hotkey.bind({"cmd", "alt"}, "k", focusDirection("behind"))
+-- cmd-alt-k/j: focus behind
 hs.hotkey.bind({"cmd", "alt"}, "j", focusDirection("behind"))
 
 

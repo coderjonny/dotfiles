@@ -37,7 +37,7 @@
   autocmd VimEnter * if argc()         == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 
 " find file in nerdtree with leader key + n
-  map <Leader>n :NERDTreeFind<CR>
+  nnoremap <Leader>n :NERDTreeFind<CR>
 " Toggle nerdtree with leader key + m
   nmap ,m :NERDTreeToggle<CR>
 
@@ -72,8 +72,6 @@
   let g:ale_linters = {'tsx': ['stylelint', 'ale-javascript-eslint']}
   " Fix automatically on save
   let g:ale_fix_on_save                 = 1
-  " Enable completion where available.
-  let g:ale_completion_enabled          = 1
   " Customize signs
   let g:ale_sign_error                  = '🍂'
   let g:ale_sign_warning                = '🍃'
@@ -83,19 +81,9 @@
     au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
   augroup END
 
-" vim-flow - REMOVED: CoC handles Flow/TypeScript now
-" ---------------------------
-  " let g:flow#autoclose                  = 1
-  " let g:flow#showquickfix               = 0
-  " let g:flow#errjmp                     = 1
-
 " rip-grep - in vim
 " -----------------
   let g:rg_highlight                    = 1
-
-" deocomplete - REMOVED: using CoC for completion instead
-" ---------------
-  " let g:deoplete#enable_at_startup      = 1
 
 " ALE completion disabled - CoC handles this better
   let g:ale_completion_enabled = 0
@@ -119,14 +107,14 @@
   " Enable NERDCommenterToggle to check all selected lines is commented or not
   let g:NERDToggleCheckAllLines         = 1
 
-" git-gutter
-  let g:gitgutter_sign_allow_clobber = 1
-" git diff toggle with (g + d keys)
-  map gs :GitGutterLineHighlightsToggle<CR>
-  nmap ]c <Plug>GitGutterNextHunk
-  nmap [c <Plug>GitGutterPrevHunk
-  nmap <Leader>hs <Plug>(GitGutterStageHunk)
-  nmap <Leader>hu <Plug>(GitGutterUndoHunk)
+" gitsigns.nvim (GitLens-like features)
+" Keymaps are set in the Lua config below
+" ]c / [c - next/prev hunk
+" ,hs - stage hunk
+" ,hu - undo stage hunk
+" ,hp - preview hunk
+" ,tb - toggle inline blame (GitLens-style)
+" ,hd - diff this file
 
 " startify
   nmap <C-s> :Startify<CR>
@@ -203,9 +191,6 @@
 " Goyo
   nmap <C-g> :Goyo<CR>
 
-" CtrlP load faster and ignore files in .gitignore
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-
 " Conquer of Completion (CoC)
   let g:coc_global_extensions = [
         \ 'coc-snippets',
@@ -215,9 +200,6 @@
         \ 'coc-prettier',
         \ 'coc-json',
         \ ]
-
-  " Use K to show documentation in preview window
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
 
   " if hidden is not set, TextEdit might fail.
   set hidden
@@ -332,23 +314,19 @@
   " Add status line support, for integration with other plugin, checkout `:h coc-status`
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-  " Using CocList
+  " Using CocList (prefix: ,c)
   " Show all diagnostics
-  nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+  nnoremap <silent> <leader>ca  :<C-u>CocList diagnostics<cr>
   " Manage extensions
-  nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+  nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
   " Show commands
-  nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+  nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
   " Find symbol of current document
-  nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+  nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
   " Search workspace symbols
-  nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-  " Do default action for next item.
-  " nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-  " Do default action for previous item.
-  " nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+  nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
   " Resume latest coc list
-  nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+  nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
 
 
 " FZF (mapped to ctrlT(control + t))
@@ -447,13 +425,15 @@
   set exrc
   set secure
 
-	set spell spelllang=en_us " underline incorrect spelling
+  set nospell " turn off spellcheck
+  " set spell spelllang=en_us " underline incorrect spelling
+  " Only enable spell check for non-code files"
+  " autocmd FileType markdown,text,gitcommit setlocal spell spelllang=en_us
 
   " autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
 
   " load the plugin and indent settings for the detected filetype
   filetype plugin indent on
-  filetype plugin on
 
 "" Tab completion
   set wildmode=list:longest,list:full
@@ -471,11 +451,11 @@
   set showcmd
 
 " but set other windows to default
-  augroup numbertoggle
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-  augroup END
+"  augroup numbertoggle
+"    autocmd!
+"    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+"    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+"  augroup END
 
 " Remember last location in file
   if has("autocmd")
@@ -491,7 +471,6 @@
 
   function s:setupMarkup()
       call s:setupWrapping()
-      map <buffer> <Leader>p :Hammer<CR>
   endfunction
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
@@ -521,25 +500,12 @@
 " (shift + control + f) to search files with rg
   nmap <c-s-f> :Rg<space>
 " Saving sessions to F2 and F3
-  map <F2> :mksession! ~/vim_session <cr> " Quick write session with F2
-  map <F3> :source ~/vim_session <cr>     " And load session with F3
-
-  function s:load_session()
-    :source ~/vim_session <cr>
-  endfunction
-
-  function s:save_session()
-    :mksession! ~/vim_session <cr>
-  endfunction
-
-  function s:before_quit()
-    call s:save_session()
-    :conf xa<CR>
-  endfunction
+  nnoremap <F2> :mksession! ~/vim_session <cr> " Quick write session with F2
+  nnoremap <F3> :source ~/vim_session <cr>     " And load session with F3
 
 " type 'QQ' to save and quit out of vim quickly
-  map QQ :conf xa<CR>
-  map Q :conf q<CR>
+  nnoremap QQ :conf xa<CR>
+  nnoremap Q :conf q<CR>
 
 " Map <leader> key to comma key too
   :nmap , <Leader>
@@ -565,33 +531,24 @@
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
-  map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+  nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " Opens a tab edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>t
-  map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
-
-" gist-vim defaults
-  if has("mac")
-    let g:gist_clip_command = 'pbcopy'
-  elseif has("unix")
-    let g:gist_clip_command = 'xclip -selection clipboard'
-  endif
-  let g:gist_detect_filetype = 1
-  let g:gist_open_browser_after_post = 1
+  nnoremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " space bar undo highlights search in normal mode
   nmap <space> :noh<CR>
 
-"  Gif config
-  map  / <Plug>(easymotion-sn)
+"  EasyMotion config
+  nmap / <Plug>(easymotion-sn)
   omap / <Plug>(easymotion-tn)
 
 "  These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 "  Without these mappings, `n` & `N` works fine. (These mappings just provide
 "  different highlight method and have some other features )
-  map  n <Plug>(easymotion-next)
-  map  N <Plug>(easymotion-prev)
+  nmap n <Plug>(easymotion-next)
+  nmap N <Plug>(easymotion-prev)
 
 " Turning off Gdiff off while multiple windows are open
 "  Simple way to turn off Gdiff splitscreen
@@ -683,5 +640,86 @@ if ok then
       },
     },
   }
+end
+
+-- ==========================
+-- Gitsigns Configuration (GitLens-like)
+-- ==========================
+local gitsigns_ok, gitsigns = pcall(require, 'gitsigns')
+if gitsigns_ok then
+  gitsigns.setup {
+    signs = {
+      add          = { text = '│' },
+      change       = { text = '│' },
+      delete       = { text = '_' },
+      topdelete    = { text = '‾' },
+      changedelete = { text = '~' },
+    },
+    -- GitLens-like inline blame
+    current_line_blame = true,
+    current_line_blame_opts = {
+      virt_text = true,
+      virt_text_pos = 'eol',
+      delay = 300,
+    },
+    current_line_blame_formatter = '<author>, <author_time:%R> • <summary>',
+    on_attach = function(bufnr)
+      local gs = package.loaded.gitsigns
+
+      local function map(mode, l, r, opts)
+        opts = opts or {}
+        opts.buffer = bufnr
+        vim.keymap.set(mode, l, r, opts)
+      end
+
+      -- Navigation
+      map('n', ']c', function()
+        if vim.wo.diff then return ']c' end
+        vim.schedule(function() gs.next_hunk() end)
+        return '<Ignore>'
+      end, {expr=true, desc='Next hunk'})
+
+      map('n', '[c', function()
+        if vim.wo.diff then return '[c' end
+        vim.schedule(function() gs.prev_hunk() end)
+        return '<Ignore>'
+      end, {expr=true, desc='Previous hunk'})
+
+      -- Actions
+      map('n', '<leader>hs', gs.stage_hunk, {desc='Stage hunk'})
+      map('n', '<leader>hr', gs.reset_hunk, {desc='Reset hunk'})
+      map('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, {desc='Stage hunk'})
+      map('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, {desc='Reset hunk'})
+      map('n', '<leader>hS', gs.stage_buffer, {desc='Stage buffer'})
+      map('n', '<leader>hu', gs.undo_stage_hunk, {desc='Undo stage hunk'})
+      map('n', '<leader>hR', gs.reset_buffer, {desc='Reset buffer'})
+      map('n', '<leader>hp', gs.preview_hunk, {desc='Preview hunk'})
+      map('n', '<leader>hb', function() gs.blame_line{full=true} end, {desc='Blame line (full)'})
+      map('n', '<leader>tb', gs.toggle_current_line_blame, {desc='Toggle inline blame'})
+      map('n', '<leader>hd', gs.diffthis, {desc='Diff this'})
+      map('n', '<leader>hD', function() gs.diffthis('~') end, {desc='Diff this ~'})
+      map('n', '<leader>td', gs.toggle_deleted, {desc='Toggle deleted'})
+    end
+  }
+end
+
+-- ==========================
+-- Diffview Configuration
+-- ==========================
+local diffview_ok, diffview = pcall(require, 'diffview')
+if diffview_ok then
+  diffview.setup {
+    enhanced_diff_hl = true,
+    view = {
+      merge_tool = {
+        layout = "diff3_mixed",
+      },
+    },
+  }
+  -- Keymaps for diffview
+  vim.keymap.set('n', '<leader>gd', ':DiffviewOpen<CR>', {desc='Open diff view'})
+  vim.keymap.set('n', '<leader>gh', ':DiffviewFileHistory %<CR>', {desc='File history'})
+  vim.keymap.set('n', '<leader>gH', ':DiffviewFileHistory<CR>', {desc='Repo history'})
+  vim.keymap.set('n', '<leader>gc', ':DiffviewClose<CR>', {desc='Close diff view'})
 end
 EOF

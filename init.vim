@@ -37,7 +37,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'liuchengxu/vista.vim' "🌵 Viewer & Finder for LSP symbols and tags http://liuchengxu.org/vista.vim
   Plug 'mattn/emmet-vim' " emmet-vim
   Plug 'maximbaz/lightline-ale' "Ale indicator for the lightline vim plugin
-  Plug 'mhinz/vim-signify' " Signify (or just Sy) uses the sign column to indicate added, modified and removed lines in a file that is managed by a version control system (VCS).
+  " Plug 'mhinz/vim-signify' " REMOVED: replaced by gitsigns.nvim (more features, GitLens-like)
+  Plug 'nvim-lua/plenary.nvim' " Required dependency for gitsigns and diffview
+  Plug 'lewis6991/gitsigns.nvim' " Git signs + inline blame (GitLens-like)
+  Plug 'sindrets/diffview.nvim' " Git diff viewer and file history
   Plug 'mhinz/vim-startify' " vim-startify
   Plug 'ntpeters/vim-better-whitespace' " Vim Better Whitespace Plugin
   Plug 'scrooloose/nerdcommenter' " nerdcommenter
