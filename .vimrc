@@ -383,21 +383,29 @@
 " | (_| (_) | | (_) | |  \__ \
 "  \___\___/|_|\___/|_|  |___/
 "-----------------------------
-  " colorscheme ayu
-  " let ayucolor="light"   " for dark version of theme
-  " let ayucolor="mirage" " for mirage version of theme
-  " let ayucolor="dark"   " for dark version of theme
-
-  " Enables 24-bit RGB color in the |TUI|, needed for colorscheme
+  
+  " Let nvim inherit colors directly from iTerm2
+  " This ensures perfect color harmony with your terminal
+  set background=light
+  " Don't set a colorscheme - let iTerm2 colors shine through
+  colorscheme seoul256
+  
+  " Terminal color support
   set termguicolors
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-
-  " Transparent background
-  hi Normal guibg=NONE ctermbg=NONE
-  " change the color of the pop-up menu
-  " highlight Pmenu ctermfg=15 ctermbg=black guifg=#ffffff guibg=black
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  
+  " Let iTerm2 handle all colors - no overrides needed
+  " This creates perfect harmony between terminal and editor
+  
   " Allows customs :highlight preferences to be set
   syntax enable
+  
+  " Commands to switch background (nvim will inherit iTerm2 colors)
+  command! LightBg set background=light | echo "🌅 Light background (using iTerm2 colors)"
+  command! DarkBg set background=dark | echo "🌙 Dark background (using iTerm2 colors)"
+  command! ToggleBg if &background == 'light' | DarkBg | else | LightBg | endif
 
 
   " Workaround some broken plugins which set guicursor indiscriminately.
@@ -410,7 +418,8 @@
   set guicursor+=i-ci:ver30-iCursor-blinkwait300-blinkon200-blinkoff150
 
   " Easily spot the cursor: highlights the screen line of the cursor
-  set cursorline
+  " Disable cursor line highlighting as it's causing readability issues
+  set nocursorline
 
 
 

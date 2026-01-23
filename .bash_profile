@@ -52,6 +52,26 @@ export VISUAL=/opt/homebrew/bin/nvim
 export EDITOR="$VISUAL"
 export POSTGREST_HOST=35.203.146.107
 
+# Terminal color support
+export TERM=xterm-256color
+
+# Auto-detect theme based on time of day
+auto_detect_theme() {
+    local hour=$(date +%H)
+    if [[ $hour -ge 6 && $hour -le 18 ]]; then
+        # Day time (6 AM - 6 PM) - use light mode
+        export VIM_THEME_MODE="light"
+        echo "🌅 Day mode: Using light theme"
+    else
+        # Night time (6 PM - 6 AM) - use dark mode
+        export VIM_THEME_MODE="dark"
+        echo "🌙 Night mode: Using dark theme"
+    fi
+}
+
+# Initialize theme detection
+auto_detect_theme
+
 # Add paths
 # Note: .bashrc, which is sourced above, contains the add_to_path function
 # and handles Android SDK paths.
@@ -273,14 +293,14 @@ get_git_mini_log() {
 # ----------------------------------------------------------------------------
 get_tropical_surf_clock() {
     local hour_24=$((10#$(date '+%H')))
-    
+
     # For current hour, show time instead of just hour number
     local current_time
     current_time=$(date '+%l:%M%p' | sed 's/ //g' | tr '[:upper:]' '[:lower:]')
-    
+
     # Get 12-hour format for clock emoji selection
     local hour_12=$(date '+%l' | sed 's/ //g')
-    
+
     # Get clock emoji for current hour
     local clock_emoji=""
     if [[ "$hour_24" == "12" ]]; then
@@ -302,10 +322,10 @@ get_tropical_surf_clock() {
             *) clock_emoji="🕐" ;;   # Default fallback
         esac
     fi
-    
+
     # Start with current time on the left
     local surf_bar="[${clock_emoji} ${current_time}]"
-    
+
     # Choose time range based on current hour (only future hours)
     local time_range
     if [[ $hour_24 -ge 6 && $hour_24 -le 22 ]]; then
@@ -325,7 +345,7 @@ get_tropical_surf_clock() {
             fi
         done
     fi
-    
+
     # Add future hours with emojis
     for hour in "${time_range[@]}"; do
         local display_hour=$hour
@@ -334,7 +354,7 @@ get_tropical_surf_clock() {
         elif [[ $hour -gt 12 ]]; then
             display_hour=$((hour-12))
         fi
-        
+
         # Declare each hour's emoji
         local hour_emoji=""
         case $hour in
@@ -347,15 +367,15 @@ get_tropical_surf_clock() {
             19|20|21|22|23) hour_emoji="🌺" ;; # Evening flowers (7pm-11pm)
             *) hour_emoji="🌊" ;;           # Default waves
         esac
-        
+
         # Current hour becomes surfer, others stay as their emoji
         if [[ $hour_24 == $hour ]]; then
             hour_emoji="🏄‍♂️"
         fi
-        
+
         surf_bar+=" ${hour_emoji}"
     done
-    
+
     echo "${surf_bar}"
 }
 
@@ -509,15 +529,15 @@ setCompletion() {
     if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
         . "/opt/homebrew/etc/profile.d/bash_completion.sh"
     fi
-    
+
     # Git completion (sourced after bash-completion to ensure it takes precedence)
     if [ -f ~/.git-completion.bash ]; then
         . ~/.git-completion.bash
     fi
-    
+
     # Set up enhanced completion for searching commands (only for specific commands)
     complete -F _comprehensive_completion w q
-    
+
     # Don't override git completion - let git's own completion handle git commands
 }
 
@@ -532,8 +552,6 @@ setCompletion
 alias y='yarn'
 
 # Android development
-alias emulator="$ANDROID_HOME/tools/emulator"
-alias emulators="$ANDROID_HOME/tools/emulator -list-avds"
 alias run-emulator='emulator @$(emulators)'
 alias deeplink='xcrun simctl openurl booted'
 
@@ -601,6 +619,7 @@ toggle_colors() {
 # Force light or dark mode
 light_mode() {
     echo "Forcing light mode colors..."
+    export VIM_THEME_MODE="light"
     declare -g FOREST_GREEN="\[\033[38;5;22m\]"
     declare -g OCEAN_BLUE="\[\033[38;5;26m\]"
     declare -g TIGER_ORANGE="\[\033[38;5;208m\]"
@@ -612,6 +631,7 @@ light_mode() {
 
 dark_mode() {
     echo "Forcing dark mode colors..."
+    export VIM_THEME_MODE="dark"
     declare -g FOREST_GREEN="\[\033[38;5;120m\]"
     declare -g OCEAN_BLUE="\[\033[38;5;81m\]"
     declare -g TIGER_ORANGE="\[\033[38;5;215m\]"
@@ -619,6 +639,16 @@ dark_mode() {
     declare -g CHERRY_RED="\[\033[38;5;203m\]"
     declare -g PURPLE="\[\033[38;5;141m\]"
     initialize_session_theme
+}
+
+# Toggle between light and dark themes (including vim)
+toggle_theme() {
+    if [[ "$VIM_THEME_MODE" == "light" ]]; then
+        dark_mode
+    else
+        light_mode
+    fi
+    echo "💡 Restart nvim to apply theme changes, or use :source ~/.vimrc in vim"
 }
 
 # Open localhost with port (default 8000)
@@ -1328,3 +1358,16 @@ if [[ -z "$BASH_SUBSHELL" || "$BASH_SUBSHELL" == "0" ]]; then
     # show_vocab_of_day
     a
 fi
+
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator        # Correct location
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$HOME/.maestro/bin
+
+# Added by Antigravity
+export PATH="/Users/jonny/.antigravity/antigravity/bin:$PATH"
+
+alias pip="pip3"
+export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
+alias python='python3'

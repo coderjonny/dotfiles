@@ -13,7 +13,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'neoclide/coc.nvim', {'branch': 'release'} "Intellisense engine for vim8 & neovim, full language server protocol support as VSCode
 
-  Plug '/usr/local/opt/fzf' " fzf fuzzy finder
+  Plug '/opt/homebrew/opt/fzf' " fzf fuzzy finder
   Plug 'JamshedVesuna/vim-markdown-preview' " markdown previewer
   Plug 'Yggdroot/indentLine' "Indent lines
   Plug 'airblade/vim-rooter' "Changes Vim working directory to project root.
