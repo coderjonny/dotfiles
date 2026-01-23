@@ -83,37 +83,23 @@
     au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
   augroup END
 
-" vim-flow - jump to flow errors
+" vim-flow - REMOVED: CoC handles Flow/TypeScript now
 " ---------------------------
-  " fucking close that window
-  let g:flow#autoclose                  = 1
-  " and don't even show it cuz I'm using ale
-  let g:flow#showquickfix               = 0
-  " jump to that error
-  let g:flow#errjmp                     = 1
-  "Use locally installed flow
-  let local_flow                        = finddir('node_modules', '.;') . '/.bin/flow'
-  if matchstr(local_flow, "^\/\\w")    == ''
-      let local_flow                    = getcwd() . "/" . local_flow
-  endif
-  if executable(local_flow)
-    let g:flow#flowpath                 = local_flow
-  endif
+  " let g:flow#autoclose                  = 1
+  " let g:flow#showquickfix               = 0
+  " let g:flow#errjmp                     = 1
 
 " rip-grep - in vim
 " -----------------
   let g:rg_highlight                    = 1
 
-" deocomplete
+" deocomplete - REMOVED: using CoC for completion instead
 " ---------------
-  let g:deoplete#enable_at_startup      = 1
-  " Enable completion where available.
-  " This setting must be set before ALE is loaded.
-  "
-  " You should not turn this setting on if you wish to use ALE as a completion
-  " source for other completion plugins, like Deoplete.
-  let g:ale_completion_enabled = 1
-  let g:ale_completion_tsserver_autoimport = 1
+  " let g:deoplete#enable_at_startup      = 1
+
+" ALE completion disabled - CoC handles this better
+  let g:ale_completion_enabled = 0
+  let g:ale_completion_tsserver_autoimport = 0
 
 " nerdcommenter
   " Add spaces after comment delimiters by default
@@ -167,7 +153,7 @@
   let g:strip_whitespace_on_save=1
 
 " lightline
-  set noshowmode " (remove redunant mode info)
+  set noshowmode " (remove redundant mode info)
   function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_errors = l:counts.error + l:counts.style_error
@@ -215,7 +201,7 @@
   let vim_markdown_preview_browser='Google Chrome'
 
 " Goyo
-  " nmap <C-g> :Goyo<CR>
+  nmap <C-g> :Goyo<CR>
 
 " CtrlP load faster and ignore files in .gitignore
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
@@ -383,25 +369,25 @@
 " | (_| (_) | | (_) | |  \__ \
 "  \___\___/|_|\___/|_|  |___/
 "-----------------------------
-  
+
   " Let nvim inherit colors directly from iTerm2
   " This ensures perfect color harmony with your terminal
   set background=light
   " Don't set a colorscheme - let iTerm2 colors shine through
   colorscheme seoul256
-  
+
   " Terminal color support
   set termguicolors
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  
+
   " Let iTerm2 handle all colors - no overrides needed
   " This creates perfect harmony between terminal and editor
-  
+
   " Allows customs :highlight preferences to be set
   syntax enable
-  
+
   " Commands to switch background (nvim will inherit iTerm2 colors)
   command! LightBg set background=light | echo "🌅 Light background (using iTerm2 colors)"
   command! DarkBg set background=dark | echo "🌙 Dark background (using iTerm2 colors)"
@@ -650,4 +636,52 @@ nmap cp :let @" = expand("%")<cr>
 
 "" neosnippet
 "    let g:neosnippet#enable_completed_snippet = 1
-"
+
+
+
+
+" ==========================
+" Treesitter Configuration
+" ==========================
+" Better syntax highlighting and code understanding
+" Wrapped in pcall to gracefully handle when plugin isn't installed yet
+lua << EOF
+local ok, treesitter = pcall(require, 'nvim-treesitter.configs')
+if ok then
+  treesitter.setup {
+    ensure_installed = {
+      "javascript",
+      "typescript",
+      "tsx",
+      "lua",
+      "vim",
+      "vimdoc",
+      "json",
+      "html",
+      "css",
+      "markdown",
+      "markdown_inline",
+      "bash",
+      "yaml",
+      "python",
+    },
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
+    indent = {
+      enable = true,
+    },
+    -- Incremental selection: press Enter to expand selection, Backspace to shrink
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<CR>",
+        node_incremental = "<CR>",
+        node_decremental = "<BS>",
+        scope_incremental = "<TAB>",
+      },
+    },
+  }
+end
+EOF

@@ -19,11 +19,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'airblade/vim-rooter' "Changes Vim working directory to project root.
   Plug 'bling/vim-bufferline' " vim-bufferline
   Plug 'chrisbra/Colorizer' " Highlight HEX/RGB color codes/names
-  Plug 'ctrlpvim/ctrlp.vim' " ctrlP
+  " Plug 'ctrlpvim/ctrlp.vim' " ctrlP - REMOVED: redundant with fzf
   Plug 'dense-analysis/ale' " ale
   Plug 'easymotion/vim-easymotion' " vim-easymotion
   Plug 'embear/vim-localvimrc' " vim-localvimrc
-  Plug 'flowtype/vim-flow' " vim-flow
+  " Plug 'flowtype/vim-flow' " vim-flow - REMOVED: CoC handles this
   Plug 'itchyny/lightline.vim' " Lightline status-line
   Plug 'jlanzarotta/bufexplorer' " bufexplorer
   Plug 'jremmen/vim-ripgrep' " vim-ripgrep
@@ -44,15 +44,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin' " nerdtree & nerdtree-git-plugin
 "  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'terryma/vim-expand-region' " vim-expand-region
-  Plug 'terryma/vim-multiple-cursors' " vim-multiple-cursors
+  " Plug 'terryma/vim-multiple-cursors' " REMOVED: deprecated, use mg979/vim-visual-multi
   Plug 'tpope/vim-commentary' " vim-commentary
   Plug 'tpope/vim-fugitive' " vim-fugitive
   Plug 'tpope/vim-sensible' " vim-sensible
   Plug 'tpope/vim-surround' " vim-surround
-  Plug 'wokalski/autocomplete-flow' " plugins for deocomplete
+  " Plug 'wokalski/autocomplete-flow' " REMOVED: outdated deoplete plugin, CoC handles this
   Plug 'ggml-org/llama.vim' "Vim plugin for LLM-assisted code/text completion
-
   " Plug 'ryanoasis/vim-devicons' " adds file type icons to Vim  plugins such as NERDtree, ctrlp, lightline ..etc
+  "
+  " 2026 new plugins
+  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' } "markdown
+  Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'} "parser for syntax highlight
 
 call plug#end()
 
