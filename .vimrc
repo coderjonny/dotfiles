@@ -489,9 +489,6 @@
 
 " escape out of i mode
   inoremap jj <ESC>
-" BufExplorer - quickkly change buffers
-  " make tab open BufExplorer
-  nnoremap <tab> :BufExplorer<CR>
 " vim-easy-align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
   xmap ga <Plug>(EasyAlign)
@@ -723,3 +720,8 @@ if diffview_ok then
   vim.keymap.set('n', '<leader>gc', ':DiffviewClose<CR>', {desc='Close diff view'})
 end
 EOF
+
+
+" BufExplorer - quickkly change buffers
+  " make tab open BufExplorer
+  nnoremap <tab> :BufExplorer<CR>

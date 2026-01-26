@@ -53,7 +53,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-sensible' " vim-sensible
   Plug 'tpope/vim-surround' " vim-surround
   " Plug 'wokalski/autocomplete-flow' " REMOVED: outdated deoplete plugin, CoC handles this
-  Plug 'ggml-org/llama.vim' "Vim plugin for LLM-assisted code/text completion
+  " Plug 'ggml-org/llama.vim' "Vim plugin for LLM-assisted code/text completion
   " Plug 'ryanoasis/vim-devicons' " adds file type icons to Vim  plugins such as NERDtree, ctrlp, lightline ..etc
   "
   " 2026 new plugins
