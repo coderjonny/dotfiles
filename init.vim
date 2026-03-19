@@ -29,7 +29,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'jremmen/vim-ripgrep' " vim-ripgrep
   Plug 'junegunn/goyo.vim' " goyo.vim
   Plug 'junegunn/seoul256.vim' " seoul256 colors
-"  Plug 'ayu-theme/ayu-vim' "ayu color theme
   Plug 'junegunn/vim-easy-align' " vim-easy-align
   Plug 'junegunn/fzf.vim' "fzf addons
   Plug 'justinmk/vim-sneak' " Jump to any location specified by two characters
@@ -59,6 +58,10 @@ call plug#begin('~/.vim/plugged')
   " 2026 new plugins
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' } "markdown
   Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'} "parser for syntax highlight
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'NLKNguyen/papercolor-theme' " PaperColor - high contrast light/dark theme
+  Plug 'ActivityWatch/aw-watcher-vim'
+
 
 call plug#end()
 

@@ -156,7 +156,7 @@
     "       \)
   endfunction
   let g:lightline = {
-      \ 'colorscheme': 'seoul256',
+      \ 'colorscheme': 'PaperColor',
       \ 'active': {
       \ },
       \ 'component_function': {
@@ -348,11 +348,12 @@
 "  \___\___/|_|\___/|_|  |___/
 "-----------------------------
 
-  " Let nvim inherit colors directly from iTerm2
-  " This ensures perfect color harmony with your terminal
-  set background=light
-  " Don't set a colorscheme - let iTerm2 colors shine through
-  colorscheme seoul256
+  " PaperColor theme - high contrast light mode
+  " set background=light
+  " Try to load PaperColor immediately (if plugin already in runtimepath)
+  silent! colorscheme PaperColor
+  " Ensure it loads after all plugins initialize (backup for first-time installs)
+  autocmd VimEnter * ++once silent! colorscheme PaperColor
 
   " Terminal color support
   set termguicolors
@@ -366,9 +367,9 @@
   " Allows customs :highlight preferences to be set
   syntax enable
 
-  " Commands to switch background (nvim will inherit iTerm2 colors)
-  command! LightBg set background=light | echo "🌅 Light background (using iTerm2 colors)"
-  command! DarkBg set background=dark | echo "🌙 Dark background (using iTerm2 colors)"
+  " Commands to switch background with PaperColor
+  command! Light set background=light | colorscheme PaperColor | echo "Light background (PaperColor)"
+  command! Dark set background=dark | colorscheme slate | echo "Dark background (slate)"
   command! ToggleBg if &background == 'light' | DarkBg | else | LightBg | endif
 
 
@@ -725,3 +726,71 @@ EOF
 " BufExplorer - quickkly change buffers
   " make tab open BufExplorer
   nnoremap <tab> :BufExplorer<CR>
+
+" esaping terminal window easier with esc key
+  tnoremap <Esc> <C-\><C-n>
+
+" ==========================
+" Floating Terminal Toggle
+" ==========================
+" Toggle persistent floating terminal with Ctrl+\
+" Automatically enters insert mode on open
+" Reuses same terminal session across toggles
+lua << EOF
+local term_buf = nil
+local term_win = nil
+
+local function toggle_terminal()
+  -- If terminal window is visible, hide it
+  if term_win and vim.api.nvim_win_is_valid(term_win) then
+    vim.api.nvim_win_hide(term_win)
+    term_win = nil
+    return
+  end
+
+  -- Create terminal buffer if it doesn't exist
+  if not term_buf or not vim.api.nvim_buf_is_valid(term_buf) then
+    term_buf = vim.api.nvim_create_buf(false, true) -- nofile, scratch buffer
+    vim.api.nvim_buf_call(term_buf, function()
+      -- Start bash as a login shell to source ~/.bash_profile
+      -- The -l flag makes bash read ~/.bash_profile
+      local shell_cmd = vim.o.shell == 'bash' and 'bash -l' or vim.o.shell
+      vim.fn.termopen(shell_cmd, {
+        on_exit = function()
+          -- Clean up when terminal exits
+          term_buf = nil
+          term_win = nil
+        end
+      })
+    end)
+  end
+
+  -- Calculate floating window size (80% of editor)
+  local width = math.floor(vim.o.columns * 0.8)
+  local height = math.floor(vim.o.lines * 0.8)
+  local row = math.floor((vim.o.lines - height) / 2)
+  local col = math.floor((vim.o.columns - width) / 2)
+
+  -- Open floating window
+  term_win = vim.api.nvim_open_win(term_buf, true, {
+    relative = 'editor',
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    style = 'minimal',
+    border = 'rounded'
+  })
+
+  -- Enter insert mode automatically
+  vim.cmd('startinsert')
+end
+
+-- Expose function globally
+_G.toggle_terminal = toggle_terminal
+EOF
+
+" Keymap: Ctrl+\ to toggle terminal
+nnoremap <silent> <C-\> :lua toggle_terminal()<CR>
+" Also allow toggling from within terminal
+tnoremap <silent> <C-\> <C-\><C-n>:lua toggle_terminal()<CR>

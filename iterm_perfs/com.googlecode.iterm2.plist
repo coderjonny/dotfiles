@@ -24,16 +24,6 @@
 	<integer>128000</integer>
 	<key>AitermURL</key>
 	<string>https://api.openai.com/v1/responses</string>
-	<key>AppleAntiAliasingThreshold</key>
-	<integer>1</integer>
-	<key>ApplePressAndHoldEnabled</key>
-	<false/>
-	<key>AppleScrollAnimationEnabled</key>
-	<integer>0</integer>
-	<key>AppleSmoothFixedFontsSizeThreshold</key>
-	<integer>1</integer>
-	<key>AppleWindowTabbingMode</key>
-	<string>manual</string>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>seoulbones_light</key>
@@ -453,6 +443,19 @@
 			<integer>0</integer>
 			<key>Escaping</key>
 			<integer>1</integer>
+			<key>Text</key>
+			<string></string>
+			<key>Version</key>
+			<integer>2</integer>
+		</dict>
+		<key>0x70-0x100000-0x23</key>
+		<dict>
+			<key>Action</key>
+			<integer>13</integer>
+			<key>Apply Mode</key>
+			<integer>0</integer>
+			<key>Escaping</key>
+			<integer>2</integer>
 			<key>Text</key>
 			<string></string>
 			<key>Version</key>
@@ -1751,9 +1754,9 @@
 	<key>SoundForEsc</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.15082524271844658</real>
+	<real>0.10279600273058248</real>
 	<key>TabStyleWithAutomaticOption</key>
-	<integer>4</integer>
+	<integer>1</integer>
 	<key>UseLionStyleFullscreen</key>
 	<true/>
 	<key>VisualIndicatorForEsc</key>

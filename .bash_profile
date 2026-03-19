@@ -441,10 +441,7 @@ update() {
     brew update && brew upgrade && brew cleanup
 }
 
-# Port check - usage: p 8081
-p() { lsof -i tcp:"$1"; }
-
-# ==============================================================================
+  # ==============================================================================
 # NAVIGATION ALIASES
 # ==============================================================================
 
@@ -518,6 +515,9 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 # Git GUI
 alias gk='gitk --all&'
 alias gx='gitx --all'
+
+# Graphite
+alias gts='gt sync'
 
 
 # ==============================================================================
@@ -677,7 +677,7 @@ alias d=define
 
 # Show most used commands
 most_used_commands() {
-    history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' |
+    history | awk '{CMD[$4]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' |
     grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n10
 }
 alias most=most_used_commands
@@ -1227,8 +1227,8 @@ alias all=show_all_commands
 # ==============================================================================
 
 # Enable history sharing across terminals
-export HISTSIZE=10000
-export HISTFILESIZE=20000
+export HISTSIZE=5000
+export HISTFILESIZE=10000
 export HISTCONTROL=ignoreboth:erasedups  # Ignore duplicates and commands starting with space
 export HISTTIMEFORMAT="%Y-%m-%d %T "     # Add timestamps to history
 
@@ -1248,14 +1248,14 @@ enhanced_history_share() {
 }
 
 # Add to existing PROMPT_COMMAND (preserve existing)
-if [[ -n "$PROMPT_COMMAND" ]]; then
+# if [[ -n "$PROMPT_COMMAND" ]]; then
     # Check if enhanced_history_share is already in PROMPT_COMMAND
-    if [[ "$PROMPT_COMMAND" != *"enhanced_history_share"* ]]; then
-        export PROMPT_COMMAND="$PROMPT_COMMAND; enhanced_history_share"
-    fi
-else
-    export PROMPT_COMMAND="enhanced_history_share"
-fi
+    # if [[ "$PROMPT_COMMAND" != *"enhanced_history_share"* ]]; then
+        # export PROMPT_COMMAND="$PROMPT_COMMAND; enhanced_history_share"
+    # fi
+# else
+#     export PROMPT_COMMAND="enhanced_history_share"
+# fi
 
 # History search shortcuts
 alias hist='history'
@@ -1371,4 +1371,9 @@ export PATH="/Users/jonny/.antigravity/antigravity/bin:$PATH"
 alias pip="pip3"
 export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
 alias python='python3'
-export JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home
+# export JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+
+# pnpm alias
+alias p=pnpm
+alias pn=pnpm
