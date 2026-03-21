@@ -56,17 +56,17 @@
 **⚡ One-line install:**
 
 ```bash
-git clone https://github.com/coderjonny/dotfiles.git ~/dev/dotfiles && cd ~/dev/dotfiles && ./setup.sh
+git clone https://github.com/coderjonny/dotfiles.git ~/.dotfiles && cd ~/.dotfiles && ./setup.sh
 ```
 
 **📋 Step-by-step:**
 
 ```bash
 # Clone the repository
-git clone https://github.com/coderjonny/dotfiles.git ~/dev/dotfiles
+git clone https://github.com/coderjonny/dotfiles.git ~/.dotfiles
 
 # Navigate to dotfiles directory
-cd ~/dev/dotfiles
+cd ~/.dotfiles
 
 # Run the setup script
 ./setup.sh
@@ -170,7 +170,7 @@ check_and_install "figlet" "Installing figlet.." "install_figlet" "test_figlet"
 To update your dotfiles to the latest version:
 
 ```bash
-cd ~/dev/dotfiles
+cd ~/.dotfiles
 git pull origin master
 ./setup.sh
 ```

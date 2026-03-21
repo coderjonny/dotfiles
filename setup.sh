@@ -169,8 +169,8 @@ check_and_install "rg" "ripgrep is missing. downloading.." "install_ripgrep"
 
 upgrade_bash;
 
-# Note: If using iTerm2, you may also want to configure it to use the new bash:
-# iTerm2 → Preferences → Profiles → General → Command → Custom Shell: /opt/homebrew/bin/bash
+# Note: If using cmux, you may also want to configure it to use the new bash:
+# cmux → Settings → Shell → Custom Shell: /opt/homebrew/bin/bash
 
 install_zlua;
 install_git_completion;
@@ -184,7 +184,7 @@ install_completions;
 # brew cask applications
 [ -d "/Applications/Alfred 5.app" ] && echo "Alfred exists." || brew install --cask alfred
 [ -d "/Applications/Anki.app" ] && echo "Anki exists." || brew install --cask anki
-[ -d "/Applications/iTerm.app" ] && echo "iTerm exists." || brew install --cask iterm2
+[ -d "/Applications/cmux.app" ] && echo "cmux exists." || brew install --cask cmux
 [ -d "/Applications/Hammerspoon.app" ] && echo "Hammerspoon exists." || brew install --cask hammerspoon
 
 # ============================================================================
@@ -193,9 +193,9 @@ install_completions;
 
 # Link dotfiles to home directory
 function link_dotfiles {
-  printf '\n\n Attempting to symlink files in /dev/dotfiles/* ...';
+  printf '\n\n Attempting to symlink files in ~/.dotfiles/* ...';
   printf "\\n ♻️ ♻️ ♻️ \\n";
-  cd "$HOME" && cd "$(pwd)/dev/dotfiles" || return;
+  cd "$HOME/.dotfiles" || return;
   ln -sfv "$(pwd)/.bash_profile" "$HOME/.bash_profile";
   ln -sfv "$(pwd)/.bashrc" "$HOME/.bashrc";
   ln -sfv "$(pwd)/.vimrc" "$HOME/.vimrc";
