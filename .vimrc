@@ -720,6 +720,22 @@ if diffview_ok then
   vim.keymap.set('n', '<leader>gH', ':DiffviewFileHistory<CR>', {desc='Repo history'})
   vim.keymap.set('n', '<leader>gc', ':DiffviewClose<CR>', {desc='Close diff view'})
 end
+
+-- ==========================
+-- Telescope Configuration
+-- ==========================
+local telescope_ok, telescope = pcall(require, 'telescope')
+if telescope_ok then
+  telescope.setup {
+    defaults = {
+      file_ignore_patterns = { "node_modules", ".git/" },
+    },
+  }
+  local builtin = require('telescope.builtin')
+  vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = 'Find files' })
+  vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Live grep' })
+  vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find buffers' })
+end
 EOF
 
 
