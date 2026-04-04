@@ -60,6 +60,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'} "parser for syntax highlight
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'NLKNguyen/papercolor-theme' " PaperColor - high contrast light/dark theme
+  Plug 'tanchihpin0517/cursorhold-timeout.nvim'
+  " Plug 'folke/snacks.nvim' " REMOVED: was only needed by claudecode.nvim
+  " Plug 'coder/claudecode.nvim' " REMOVED: too many bugs
   " Plug 'ActivityWatch/aw-watcher-vim'
 
 
