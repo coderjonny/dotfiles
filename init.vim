@@ -60,7 +60,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'} "parser for syntax highlight
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'NLKNguyen/papercolor-theme' " PaperColor - high contrast light/dark theme
-  Plug 'ActivityWatch/aw-watcher-vim'
+  " Plug 'ActivityWatch/aw-watcher-vim'
 
 
 call plug#end()

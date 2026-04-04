@@ -75,10 +75,10 @@
   " Customize signs
   let g:ale_sign_error                  = '🍂'
   let g:ale_sign_warning                = '🍃'
-" Make sure typescript files are set as tsx files
+" Make sure tsx files get the correct filetype for treesitter
   augroup FiletypeGroup
     autocmd!
-    au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
+    au BufNewFile,BufRead *.tsx set filetype=typescriptreact
   augroup END
 
 " rip-grep - in vim
